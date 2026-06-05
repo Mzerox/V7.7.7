@@ -3,14 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>营销系统 · 达人管理需求原型</title>
+  <title>达人管理需求改动原型</title>
   <link rel="stylesheet" href="antd.css" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-thumb { background: #d9d9d9; border-radius: 3px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       background: #f0f2f5;
@@ -18,10 +14,7 @@
       font-size: 14px;
     }
 
-    /* ===== Layout ===== */
-    .app-layout { display: flex; flex-direction: column; min-height: 100vh; }
-
-    /* Top Nav */
+    /* ===== 顶部导航 ===== */
     .top-nav {
       height: 48px;
       background: #fff;
@@ -44,13 +37,8 @@
     }
     .top-nav .nav-item:hover { color: #1890ff; }
     .top-nav .nav-item.active { color: #1890ff; border-bottom-color: #1890ff; font-weight: 500; }
-    .top-nav .nav-item .anticon { margin-right: 6px; }
-    .top-nav .right-area { margin-left: auto; display: flex; align-items: center; gap: 16px; color: rgba(0,0,0,0.45); font-size: 13px; }
 
-    /* Main area */
-    .main-area { display: flex; flex: 1; }
-
-    /* Sidebar */
+    /* ===== 侧边栏 ===== */
     .sidebar {
       width: 232px;
       background: #fff;
@@ -67,1068 +55,956 @@
     .sidebar .menu-item:hover { color: #1890ff; background: #f5f5f5; }
     .sidebar .menu-item.active { color: #1890ff; background: #e6f7ff; border-right-color: #1890ff; font-weight: 500; }
 
-    /* Content */
+    /* ===== 主布局 ===== */
+    .app-layout { display: flex; flex-direction: column; min-height: 100vh; }
+    .main-area { display: flex; flex: 1; }
     .content-area { flex: 1; padding: 24px; min-width: 0; overflow-x: auto; }
 
-    /* Page Header */
+    /* ===== 页面头部 ===== */
     .page-header { margin-bottom: 16px; }
     .page-header h2 { font-size: 20px; font-weight: 600; color: rgba(0,0,0,0.85); margin-bottom: 4px; }
     .page-header .breadcrumb { font-size: 13px; color: rgba(0,0,0,0.45); }
     .page-header .breadcrumb span { color: rgba(0,0,0,0.65); }
 
-    /* Requirement Banner */
-    .req-banner {
-      background: linear-gradient(135deg, #e6f7ff 0%, #f6ffed 100%);
-      border: 1px solid #91d5ff;
-      border-radius: 6px;
-      padding: 16px 20px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
+    /* ===== 需求导航 ===== */
+    .req-tabs {
+      display: flex; gap: 0; margin-bottom: 16px; background: #fff; padding: 4px; border-radius: 2px;
     }
-    .req-banner .req-icon { font-size: 20px; line-height: 1.4; }
-    .req-banner .req-text { font-size: 13px; line-height: 1.6; color: rgba(0,0,0,0.65); flex: 1; }
-    .req-banner .req-text strong { color: rgba(0,0,0,0.85); }
+    .req-tab {
+      padding: 8px 20px; cursor: pointer; font-size: 13px; color: rgba(0,0,0,0.65);
+      border-radius: 2px; transition: all 0.2s; border: none; background: none;
+    }
+    .req-tab:hover { color: #1890ff; background: #f5f5f5; }
+    .req-tab.active { color: #fff; background: #1890ff; font-weight: 500; }
 
-    /* Content Card (ant-card clone) */
-    .ant-card-custom {
-      background: #fff;
-      border-radius: 2px;
-      margin-bottom: 16px;
+    /* ===== 内容卡片 ===== */
+    .page-card {
+      background: #fff; border-radius: 2px; margin-bottom: 16px;
     }
-    .ant-card-custom .card-head {
-      padding: 0 24px;
-      border-bottom: 1px solid #f0f0f0;
-      min-height: 48px;
-      display: flex;
-      align-items: center;
+    .page-card .card-head {
+      padding: 0 24px; border-bottom: 1px solid #f0f0f0;
+      min-height: 48px; display: flex; align-items: center;
     }
-    .ant-card-custom .card-head .head-title { font-size: 16px; font-weight: 500; color: rgba(0,0,0,0.85); }
-    .ant-card-custom .card-head .head-extra { margin-left: auto; font-size: 12px; color: rgba(0,0,0,0.45); }
-    .ant-card-custom .card-body { padding: 24px; }
+    .page-card .card-head .head-title { font-size: 16px; font-weight: 500; color: rgba(0,0,0,0.85); }
+    .page-card .card-body { padding: 24px; }
 
-    /* Prototype highlight */
-    .proto-highlight {
-      background: #fffbe6;
-      border: 1px solid #ffe58f;
-      border-radius: 4px;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      font-size: 13px;
+    /* ===== 改动点标识 ===== */
+    .change-badge {
+      display: inline-block; background: #ff4d4f; color: #fff;
+      font-size: 10px; font-weight: 700; padding: 0 6px; border-radius: 8px; line-height: 16px; margin-left: 8px;
     }
-    .proto-highlight .title { font-weight: 600; color: #d48806; margin-bottom: 4px; }
-    .proto-highlight .desc { color: rgba(0,0,0,0.65); }
+    .change-area {
+      background: #fffbe6; border: 1px solid #ffe58f; border-radius: 4px; padding: 16px; margin-bottom: 16px;
+    }
+    .change-area .change-title { font-weight: 600; color: #d48806; margin-bottom: 8px; font-size: 14px; }
+    .change-area .change-desc { color: rgba(0,0,0,0.65); font-size: 13px; margin-bottom: 12px; }
 
-    /* Tag - mimic ant design tag */
-    .ant-tag-custom {
+    /* ===== 代码diff ===== */
+    .code-diff {
+      background: #f6f8fa; border: 1px solid #e8e8e8; border-radius: 4px; padding: 16px; margin-bottom: 12px; font-family: 'SF Mono', 'Monaco', 'Menlo', monospace; font-size: 12px; line-height: 1.8; overflow-x: auto;
+    }
+    .code-diff .diff-new { background: #e6ffed; }
+    .code-diff .diff-del { background: #ffeef0; }
+    .code-diff .diff-info { color: rgba(0,0,0,0.45); }
+    .code-diff .line-num { color: rgba(0,0,0,0.25); min-width: 32px; display: inline-block; text-align: right; margin-right: 12px; user-select: none; }
+
+    /* ===== 修改前后对比 ===== */
+    .compare-wrap { display: flex; gap: 16px; margin-bottom: 16px; }
+    .compare-box { flex: 1; border: 1px solid #f0f0f0; border-radius: 4px; overflow: hidden; }
+    .compare-box .compare-head { padding: 8px 12px; font-size: 12px; font-weight: 600; border-bottom: 1px solid #f0f0f0; }
+    .compare-box .compare-head.before { background: #fff2f0; color: #cf1322; }
+    .compare-box .compare-head.after { background: #f6ffed; color: #389e0d; }
+    .compare-box .compare-body { padding: 16px; }
+
+    /* ===== 模拟表格 ===== */
+    .mock-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .mock-table th {
+      background: #fafafa; padding: 8px 12px; text-align: left; font-weight: 600;
+      font-size: 12px; color: rgba(0,0,0,0.85); border-bottom: 1px solid #e8e8e8;
+    }
+    .mock-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; }
+    .mock-table tr:hover td { background: #e6f7ff; }
+    .mock-table .highlight-col { background: #fffbe6; }
+
+    /* ===== 标签 ===== */
+    .tag-custom {
       display: inline-flex; align-items: center; gap: 4px;
       padding: 2px 8px; border-radius: 2px; font-size: 12px; line-height: 20px; border: 1px solid;
     }
-    .ant-tag-custom.geekblue {
-      color: #1d39c4; background: #f0f5ff; border-color: #d6e4ff;
-    }
-    .ant-tag-custom.green {
-      color: #389e0d; background: #f6ffed; border-color: #b7eb8f;
-    }
-    .ant-tag-custom.orange {
-      color: #d46b08; background: #fff7e6; border-color: #ffd591;
-    }
-    .ant-tag-custom.volcano {
-      color: #cf1322; background: #fff2f0; border-color: #ffccc7;
-    }
-    .ant-tag-custom.purple {
-      color: #531dab; background: #f9f0ff; border-color: #d3adf7;
-    }
-    .ant-tag-custom.cyan {
-      color: #08979c; background: #e6fffb; border-color: #87e8de;
-    }
+    .tag-custom.geekblue { color: #1d39c4; background: #f0f5ff; border-color: #d6e4ff; }
+    .tag-custom.green { color: #389e0d; background: #f6ffed; border-color: #b7eb8f; }
+    .tag-custom.orange { color: #d46b08; background: #fff7e6; border-color: #ffd591; }
+    .tag-custom.red { color: #cf1322; background: #fff2f0; border-color: #ffccc7; }
+    .tag-custom.default { color: rgba(0,0,0,0.65); background: #fafafa; border-color: #d9d9d9; }
 
-    /* Badge dot for progress */
-    .status-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; }
-    .status-dot.success { background: #52c41a; }
-    .status-dot.processing { background: #1890ff; }
-    .status-dot.warning { background: #faad14; }
-    .status-dot.default { background: #d9d9d9; }
+    /* ===== 进度条 ===== */
+    .progress-wrap { display: inline-flex; align-items: center; gap: 8px; }
+    .progress-bar { width: 120px; background: #f5f5f5; border-radius: 100px; height: 8px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 100px; transition: width 0.3s; }
+    .progress-text { font-size: 12px; color: rgba(0,0,0,0.45); white-space: nowrap; }
 
-    /* Progress bar - ant progress */
-    .ant-progress-custom {
-      display: inline-flex; align-items: center; gap: 8px; width: 100%;
+    /* ===== 搜索栏模拟 ===== */
+    .search-bar {
+      display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+      padding: 16px; background: #fafafa; border-bottom: 1px solid #f0f0f0;
     }
-    .ant-progress-custom .progress-outer {
-      flex: 1; background: #f5f5f5; border-radius: 100px; height: 8px; overflow: hidden;
-    }
-    .ant-progress-custom .progress-inner {
-      height: 100%; border-radius: 100px; transition: width 0.3s;
-    }
-    .ant-progress-custom .progress-text { font-size: 12px; color: rgba(0,0,0,0.45); white-space: nowrap; min-width: 32px; }
+    .search-bar .ant-input-affix-wrapper { width: 200px; }
+    .search-bar .ant-btn { margin-right: 0; }
 
-    /* Highlight new feature */
-    .feature-new {
-      position: relative;
+    /* ===== 弹窗模拟 ===== */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1050; display: flex; align-items: flex-start; justify-content: center; padding-top: 120px;
     }
-    .feature-new::before {
-      content: 'NEW';
-      position: absolute; top: -8px; right: -8px;
-      background: #ff4d4f; color: #fff; font-size: 10px; font-weight: 700;
-      padding: 0 6px; border-radius: 8px; line-height: 16px; z-index: 1;
+    .modal-box {
+      background: #fff; border-radius: 2px; width: 640px; max-height: 70vh;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; flex-direction: column;
     }
+    .modal-box .modal-head { padding: 16px 24px; border-bottom: 1px solid #f0f0f0; font-size: 16px; font-weight: 500; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .modal-box .modal-body { padding: 24px; overflow: auto; flex: 1; }
+    .modal-box .modal-foot { padding: 12px 24px; border-top: 1px solid #f0f0f0; text-align: right; display: flex; gap: 8px; justify-content: flex-end; flex-shrink: 0; }
 
-    /* URL parse result */
-    .parse-result { background: #f6ffed; border: 1px solid #b7eb8f; border-radius: 4px; padding: 16px; margin-top: 12px; }
-    .parse-result .row { display: flex; margin-bottom: 8px; align-items: center; }
-    .parse-result .row:last-child { margin-bottom: 0; }
-    .parse-result .label { font-size: 13px; color: rgba(0,0,0,0.45); min-width: 80px; }
-    .parse-result .value { font-weight: 500; font-size: 14px; }
+    /* ===== 模拟Radio.Group ===== */
+    .radio-group-custom { display: inline-flex; gap: 0; border: 1px solid #d9d9d9; border-radius: 2px; overflow: hidden; }
+    .radio-group-custom .radio-btn {
+      padding: 4px 16px; font-size: 13px; cursor: pointer; border-right: 1px solid #d9d9d9;
+      background: #fff; color: rgba(0,0,0,0.65); transition: all 0.2s;
+    }
+    .radio-group-custom .radio-btn:last-child { border-right: none; }
+    .radio-group-custom .radio-btn.active { background: #1890ff; color: #fff; border-color: #1890ff; }
 
-    /* Platform icon */
+    /* ===== 弹窗内表单 ===== */
+    .form-item-row { display: flex; margin-bottom: 16px; align-items: flex-start; }
+    .form-item-row .form-label { width: 100px; text-align: right; padding-right: 12px; line-height: 32px; font-size: 13px; color: rgba(0,0,0,0.85); flex-shrink: 0; }
+    .form-item-row .form-label .required { color: #ff4d4f; margin-right: 4px; }
+    .form-item-row .form-control { flex: 1; }
+
+    /* ===== 概况信息 ===== */
+    .stats-grid { display: flex; gap: 16px; margin-bottom: 16px; }
+    .stat-item {
+      flex: 1; border: 1px solid #f0f0f0; border-radius: 4px; padding: 16px; text-align: center;
+    }
+    .stat-item .num { font-size: 28px; font-weight: 700; color: #1890ff; }
+    .stat-item .label { font-size: 12px; color: rgba(0,0,0,0.45); margin-top: 4px; }
+
+    /* ===== 平台标签 ===== */
     .platform-tag {
       display: inline-flex; align-items: center; gap: 4px;
       padding: 1px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; height: 22px;
     }
-    .platform-tag.ig {
-      background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af);
-      color: #fff; border: none;
+    .platform-tag.ig { background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af); color: #fff; }
+    .platform-tag.yt { background: #ff0000; color: #fff; }
+    .platform-tag.tt { background: #222; color: #fff; }
+
+    /* ===== DmCascader 模拟 ===== */
+    .dm-cascader { display: flex; align-items: center; gap: 4px; padding: 4px 12px; border: 1px solid #d9d9d9; border-radius: 2px; cursor: pointer; background: #fff; min-height: 32px; }
+    .dm-cascader:hover { border-color: #1890ff; }
+
+    /* ===== Tab ===== */
+    .ant-tabs-bar {
+      border-bottom: 1px solid #f0f0f0; padding: 0 8px; display: flex; background: #fff;
     }
-    .platform-tag.yt { background: #ff0000; color: #fff; border: none; }
-    .platform-tag.tt { background: #222; color: #fff; border: none; }
-
-    /* Form inline */
-    .ant-form-inline-custom { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
-    .ant-form-inline-custom .ant-form-item { margin-bottom: 0; }
-
-    /* Info row */
-    .info-row { display: flex; padding: 8px 0; border-bottom: 1px dashed #f0f0f0; }
-    .info-row .label { min-width: 100px; font-size: 13px; color: rgba(0,0,0,0.45); }
-    .info-row .value { font-size: 14px; }
-
-    /* Modal-like box */
-    .modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-    .modal-box { background: #fff; border-radius: 2px; min-width: 520px; max-width: 90vw; max-height: 80vh; overflow: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-    .modal-box .modal-head { padding: 16px 24px; border-bottom: 1px solid #f0f0f0; font-size: 16px; font-weight: 500; display: flex; align-items: center; justify-content: space-between; }
-    .modal-box .modal-head .close-btn { cursor: pointer; color: rgba(0,0,0,0.45); font-size: 16px; }
-    .modal-box .modal-head .close-btn:hover { color: rgba(0,0,0,0.85); }
-    .modal-box .modal-body { padding: 24px; }
-    .modal-box .modal-foot { padding: 12px 24px; border-top: 1px solid #f0f0f0; text-align: right; display: flex; gap: 8px; justify-content: flex-end; }
-
-    /* Quick test buttons */
-    .test-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
-    .test-btns .label { font-size: 12px; color: rgba(0,0,0,0.45); }
-
-    /* No owner badge */
-    .no-owner { color: #ff4d4f; font-weight: 500; }
-
-    /* Handover flow */
-    .handover-flow { display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: #fafafa; border-radius: 4px; margin-bottom: 16px; border: 1px solid #f0f0f0; }
-    .handover-flow .flow-item { text-align: center; }
-    .handover-flow .flow-item .label { font-size: 12px; color: rgba(0,0,0,0.45); }
-    .handover-flow .flow-item .value { font-size: 14px; font-weight: 500; margin-top: 2px; }
-    .handover-flow .flow-arrow { color: #d9d9d9; font-size: 18px; }
-
-    /* Stats row */
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
-    .stat-item { background: #fafafa; border: 1px solid #f0f0f0; border-radius: 4px; padding: 16px; text-align: center; }
-    .stat-item .num { font-size: 28px; font-weight: 700; color: #1890ff; }
-    .stat-item .label { font-size: 12px; color: rgba(0,0,0,0.45); margin-top: 4px; }
-
-    /* Description text */
-    .desc-text { font-size: 13px; line-height: 1.8; color: rgba(0,0,0,0.45); margin-bottom: 12px; }
-
-    /* Pattern table */
-    .pattern-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
-    .pattern-table th { background: #fafafa; padding: 8px 12px; text-align: left; font-weight: 600; font-size: 12px; color: rgba(0,0,0,0.85); border-bottom: 1px solid #e8e8e8; }
-    .pattern-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
-    .pattern-table tr:last-child td { border-bottom: none; }
-    .pattern-table code { background: #fafafa; padding: 1px 6px; border-radius: 2px; font-size: 12px; border: 1px solid #f0f0f0; }
-
-    /* Tab style */
-    .ant-tabs-custom { display: flex; border-bottom: 1px solid #f0f0f0; margin-bottom: 16px; }
-    .ant-tabs-custom .tab-item { padding: 12px 20px; cursor: pointer; font-size: 14px; color: rgba(0,0,0,0.65); border-bottom: 2px solid transparent; transition: all 0.3s; margin-bottom: -1px; }
-    .ant-tabs-custom .tab-item:hover { color: #1890ff; }
-    .ant-tabs-custom .tab-item.active { color: #1890ff; border-bottom-color: #1890ff; font-weight: 500; }
-
-    /* Hoverable table row */
-    .tr-hoverable { cursor: pointer; }
-    .tr-hoverable:hover td { background: #e6f7ff !important; }
-
-    /* Legend */
-    .demo-legend { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; padding: 8px 12px; background: #fafafa; border-radius: 4px; font-size: 12px; }
-    .demo-legend .legend-item { display: flex; align-items: center; gap: 4px; }
-    .demo-legend .legend-dot { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
-    .demo-legend .legend-dot.blue { background: #e6f7ff; border: 1px solid #91d5ff; }
-    .demo-legend .legend-dot.green { background: #f6ffed; border: 1px solid #b7eb8f; }
-    .demo-legend .legend-dot.orange { background: #fff7e6; border: 1px solid #ffd591; }
-
-    @media (max-width: 1200px) {
-      .sidebar { display: none; }
+    .ant-tabs-bar .tab-item {
+      padding: 8px 16px; cursor: pointer; font-size: 13px; color: rgba(0,0,0,0.65);
+      border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.3s;
     }
+    .ant-tabs-bar .tab-item:hover { color: #1890ff; }
+    .ant-tabs-bar .tab-item.active { color: #1890ff; border-bottom-color: #1890ff; }
+
+    /* ===== 工具类 ===== */
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mb-8 { margin-bottom: 8px; }
+    .mb-16 { margin-bottom: 16px; }
+    .flex-center { display: flex; align-items: center; gap: 8px; }
+    .text-muted { color: rgba(0,0,0,0.45); font-size: 12px; }
+    .text-danger { color: #ff4d4f; }
+    .text-success { color: #52c41a; }
+
+    /* ===== 需求1 - URL格式表 ===== */
+    .url-pattern-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .url-pattern-table th { background: #fafafa; padding: 6px 10px; text-align: left; font-weight: 600; color: rgba(0,0,0,0.85); border-bottom: 1px solid #e8e8e8; }
+    .url-pattern-table td { padding: 6px 10px; border-bottom: 1px solid #f0f0f0; }
+    .url-pattern-table code { background: #f6f8fa; padding: 1px 4px; border-radius: 2px; font-size: 11px; border: 1px solid #e8e8e8; }
+
+    /* NEW标签 */
+    .new-badge {
+      display: inline-block; background: #ff4d4f; color: #fff; font-size: 10px; font-weight: 700;
+      padding: 0 6px; border-radius: 8px; line-height: 16px; margin-left: 6px; vertical-align: middle;
+    }
+
+    /* 预览Alert */
+    .alert-tip {
+      padding: 8px 16px; border-radius: 4px; font-size: 13px; margin-bottom: 16px;
+    }
+    .alert-tip.info { background: #e6f7ff; border: 1px solid #91d5ff; color: rgba(0,0,0,0.65); }
+    .alert-tip.success { background: #f6ffed; border: 1px solid #b7eb8f; color: rgba(0,0,0,0.65); }
+    .alert-tip.warning { background: #fffbe6; border: 1px solid #ffe58f; color: rgba(0,0,0,0.65); }
   </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script src="react.js"></script>
-  <script src="react-dom.js"></script>
-  <script>
-    const { useState, useRef, useEffect, Fragment, createElement: h } = React;
+<div id="root"></div>
+<script src="react.js"></script>
+<script src="react-dom.js"></script>
+<script>
+const { useState, useRef, useEffect, Fragment, createElement: h } = React;
 
-    // ---------- Icon components (inline SVG) ----------
-    const Icon = ({ type, style = {} }) => {
-      const icons = {
-        'user': 'M12 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM4 22a8 8 0 0 1 16 0H4z',
-        'flag': 'M4 21V3l16 7-16 7z',
-        'bar-chart': 'M4 20V8m6 12v-8m6 8v-4m6 4V4',
-        'audit': 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5',
-        'project': 'M3 3h18v18H3V3zm2 2v14h14V5H5zm2 2h10v2H7V7zm0 4h10v2H7v-2zm0 4h6v2H7v-2z',
-        'search': 'M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z',
-        'swap': 'M16 3L5 12l11 9',
-        'link': 'M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71',
-        'notification': 'M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0',
-        'check': 'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z',
-        'close': 'M18 6L6 18M6 6l12 12',
-        'right': 'M9 6l6 6-6 6',
-        'down': 'M6 9l6 6 6-6',
-        'more': 'M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm-2 4a2 2 0 1 1 4 0 2 2 0 0 1-4 0z',
-        'setting': 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-13v2m0 16v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42',
-        'left': 'M15 18l-6-6 6-6',
-        'info': 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16.001A8 8 0 0 1 12 20zm-1-13h2v2h-2V7zm0 4h2v6h-2v-6z',
-        'warning': 'M12 2L1 21h22L12 2zm0 4l7.53 13H4.47L12 6zm-1 5h2v4h-2v-4zm0-2h2V7h-2v2z',
-        'star': 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
-      };
-      const d = icons[type] || icons['info'];
-      return h('svg', {
-        viewBox: '0 0 24 24', width: '1em', height: '1em', fill: 'currentColor',
-        style: { verticalAlign: '-0.125em', ...style }
-      }, h('path', { d }));
-    };
+// ===== 数据 =====
+const PLATFORMS = [
+  { code: 8, name: 'Instagram', cls: 'ig', domains: ['instagram.com', 'instagr.am'] },
+  { code: 9, name: 'YouTube', cls: 'yt', domains: ['youtube.com', 'youtu.be'] },
+  { code: 10, name: 'TikTok', cls: 'tt', domains: ['tiktok.com', 'douyin.com'] },
+];
 
-    // ---------- Shared components ----------
-    const Tag = ({ color, children, style = {} }) =>
-      h('span', { className: `ant-tag-custom ${color}`, style }, children);
+// ===== Tab导航 =====
+const REQUIREMENTS = [
+  { id: 1, label: '需求1 URL自动识别' },
+  { id: 2, label: '需求2 无负责人搜索' },
+  { id: 3, label: '需求3 跨系统交接' },
+  { id: 4, label: '需求4+6 招募任务进度' },
+  { id: 7, label: '需求7 跟进人筛选' },
+];
 
-    const StatusDot = ({ color }) => h('span', { className: `status-dot ${color}` });
+const ReqTabs = ({ active, onChange }) =>
+  h('div', { className: 'req-tabs' },
+    REQUIREMENTS.map(r =>
+      h('button', {
+        key: r.id, className: `req-tab${active === r.id ? ' active' : ''}`,
+        onClick: () => onChange(r.id),
+      }, r.label)
+    )
+  );
 
-    const Progress = ({ percent, status = 'processing' }) => {
-      const colors = { success: '#52c41a', processing: '#1890ff', warning: '#faad14', exception: '#ff4d4f' };
-      return h('div', { className: 'ant-progress-custom' },
-        h('div', { className: 'progress-outer' },
-          h('div', { className: 'progress-inner', style: { width: Math.min(percent, 100) + '%', background: colors[status] } })
-        ),
-        h('span', { className: 'progress-text' }, `${percent}%`)
-      );
-    };
+// ===== 需求1: URL自动识别 =====
+function Requirement1() {
+  return h(Fragment, null,
 
-    const PlatformTag = ({ platform }) => {
-      const map = { 'Instagram': 'ig', 'YouTube': 'yt', 'TikTok': 'tt' };
-      return h('span', { className: `platform-tag ${map[platform]}` }, platform);
-    };
+    // 页面上下文
+    h('div', { className: 'alert-tip info', style: { marginBottom: 16 } },
+      h('strong', null, '涉及页面：'), '新建达人弹窗（TalentInfoForm/config.tsx）、新建线索弹窗（CreateThreadModal/schema.tsx）',
+      h('br' ),
+      h('strong', null, '改动文件：'), 'config.tsx (:20-40 新增映射表, :402-404 改 onBlurHandle) | schema.tsx (:20-40 新增映射表, :168-170 改 onBlurHandle)'
+    ),
 
-    const Modal = ({ visible, title, onClose, children, footer, width = 520 }) => {
-      if (!visible) return null;
-      return h('div', { className: 'modal-mask', onClick: onClose },
-        h('div', { className: 'modal-box', style: { minWidth: width }, onClick: e => e.stopPropagation() },
-          h('div', { className: 'modal-head' },
-            h('span', null, title),
-            h('span', { className: 'close-btn', onClick: onClose }, '✕')
-          ),
-          h('div', { className: 'modal-body' }, children),
-          footer && h('div', { className: 'modal-foot' }, footer),
-        )
-      );
-    };
-
-    const Btn = ({ type = 'default', children, onClick, disabled, size, style = {} }) => {
-      const cls = `ant-btn ant-btn-${type}${size === 'small' ? ' ant-btn-sm' : ''}`;
-      return h('button', { className: cls, onClick, disabled, style }, children);
-    };
-
-    const Input = ({ value, onChange, placeholder, prefix, style = {} }) => {
-      return h('span', { className: 'ant-input-affix-wrapper', style: { ...style, width: '100%' } },
-        prefix && h('span', { className: 'ant-input-prefix', style: { color: 'rgba(0,0,0,0.25)' } }, prefix),
-        h('input', {
-          className: 'ant-input', value, onChange: e => onChange(e.target.value),
-          placeholder, style: { paddingLeft: prefix ? 30 : 12 }
-        }),
-      );
-    };
-
-    const Select = ({ value, onChange, options, placeholder, style = {}, size }) => {
-      return h('div', { className: `ant-select ant-select-${size || 'default'}`, style },
-        h('select', {
-          className: 'ant-select-selection', value, onChange: e => onChange(e.target.value),
-          style: { width: '100%', height: 32, padding: '0 12px', borderRadius: 2, border: '1px solid #d9d9d9', outline: 'none', background: '#fff' }
-        },
-          placeholder && h('option', { value: '', disabled: true, hidden: true, selected: !value }, placeholder),
-          options.map(o => h('option', { key: o.value, value: o.value }, o.label))
-        )
-      );
-    };
-
-    const Checkbox = ({ checked, onChange, label }) =>
-      h('label', { className: 'ant-checkbox-wrapper', style: { fontSize: 14, cursor: 'pointer' } },
-        h('span', { className: `ant-checkbox${checked ? ' ant-checkbox-checked' : ''}` },
-          h('input', { type: 'checkbox', checked, onChange, className: 'ant-checkbox-input' }),
-          h('span', { className: 'ant-checkbox-inner' }),
-        ),
-        label && h('span', { style: { marginLeft: 8 } }, label),
-      );
-
-    // ---------- Data ----------
-    const PLATFORMS = [
-      { code: 8, name: 'Instagram', cls: 'ig', domains: ['instagram.com', 'instagr.am'] },
-      { code: 9, name: 'YouTube', cls: 'yt', domains: ['youtube.com', 'youtu.be'] },
-      { code: 10, name: 'TikTok', cls: 'tt', domains: ['tiktok.com', 'douyin.com'] },
-    ];
-
-    const URL_PATTERNS = {
-      instagram: [
-        { pattern: 'instagram.com/{username}/', example: 'instagram.com/nike/', rule: 'pathname[0] = username' },
-        { pattern: 'instagram.com/{username}/?hl=xx', example: 'instagram.com/nike/?hl=en', rule: '忽略 query，同上提取' },
-        { pattern: 'instagr.am/{username}/', example: 'instagr.am/nike/', rule: '兼容短域名，同上' },
-        { pattern: 'instagram.com/reel/{id}/', example: 'instagram.com/reel/CxYzAbC/', rule: 'reel/p 取 pathname[1]' },
-      ],
-      youtube: [
-        { pattern: 'youtube.com/@{handle}', example: 'youtube.com/@MrBeast', rule: '@handle 格式' },
-        { pattern: 'youtube.com/c/{name}', example: 'youtube.com/c/MrBeast', rule: '/c/ 格式' },
-        { pattern: 'youtube.com/channel/{id}', example: 'youtube.com/channel/UCX6OQ3Dk', rule: '/channel/{id}' },
-        { pattern: 'youtu.be/{id}', example: 'youtu.be/dQw4w9WgXcQ', rule: '短链接，直接取 pathname' },
-      ],
-      tiktok: [
-        { pattern: 'tiktok.com/@{username}', example: 'tiktok.com/@nike', rule: '@username 为核心标识' },
-        { pattern: 'tiktok.com/@{username}?lang=en', example: 'tiktok.com/@nike?lang=en', rule: '忽略 query 参数' },
-        { pattern: 'tiktok.com/@{username}/video/{id}', example: 'tiktok.com/@nike/video/723456789', rule: 'pathname[0]=@username' },
-      ],
-    };
-
-    // ============================== Feature 1: URL Parser ==============================
-    function UrlParserDemo() {
-      const [url, setUrl] = useState('');
-      const [result, setResult] = useState(null);
-      const [error, setError] = useState('');
-
-      const parseUrl = (input) => {
-        setError('');
-        if (!input.trim()) { setResult(null); return; }
-        try {
-          const u = new URL(input);
-          const host = u.hostname.replace(/^www\./, '').toLowerCase();
-          const parts = u.pathname.replace(/\/$/, '').split('/').filter(Boolean);
-
-          if (host.includes('instagram.com') || host.includes('instagr.am')) {
-            if (parts[0] === 'reel' || parts[0] === 'p') return setResult({ platform: 'Instagram', code: 8, username: parts[1] || '-', url: `https://www.instagram.com/${parts[1]}/` });
-            return setResult({ platform: 'Instagram', code: 8, username: parts[0] || '-', url: `https://www.instagram.com/${parts[0]}/` });
-          }
-          if (host.includes('youtube.com') || host.includes('youtu.be')) {
-            if (host.includes('youtu.be')) return setResult({ platform: 'YouTube', code: 9, username: '@' + (parts[0] || ''), url: `https://www.youtube.com/@${parts[0] || ''}` });
-            if (parts[0] === '@') return setResult({ platform: 'YouTube', code: 9, username: '@' + (parts[1] || ''), url: `https://www.youtube.com/@${parts[1]}` });
-            if (parts[0] === 'channel') return setResult({ platform: 'YouTube', code: 9, username: parts[1] || '', url: `https://www.youtube.com/channel/${parts[1]}` });
-            if (parts[0] === 'c') return setResult({ platform: 'YouTube', code: 9, username: parts[1] || '', url: `https://www.youtube.com/c/${parts[1]}` });
-            if (parts[0] === 'watch') return setResult({ platform: 'YouTube', code: 9, username: 'v=' + u.searchParams.get('v'), url: `https://www.youtube.com/watch?v=${u.searchParams.get('v')}` });
-            if (parts[0].startsWith('@')) return setResult({ platform: 'YouTube', code: 9, username: parts[0], url: `https://www.youtube.com/${parts[0]}` });
-            return setResult({ platform: 'YouTube', code: 9, username: parts[0] || '', url: `https://www.youtube.com/@${parts[0]}` });
-          }
-          if (host.includes('tiktok.com') || host.includes('douyin.com')) {
-            if (parts[0]?.startsWith('@')) return setResult({ platform: 'TikTok', code: 10, username: parts[0], url: `https://www.tiktok.com/${parts[0]}` });
-            return setResult({ platform: 'TikTok', code: 10, username: '@' + (parts[0] || ''), url: `https://www.tiktok.com/@${parts[0]}` });
-          }
-          setError('暂不支持此平台链接。当前支持：Instagram、YouTube、TikTok');
-          setResult(null);
-        } catch (e) {
-          setError('请输入有效的 URL 链接');
-          setResult(null);
-        }
-      };
-      useEffect(() => { parseUrl(url); }, [url]);
-
-      const pInfo = PLATFORMS.find(p => p.name === result?.platform);
-
-      return h(Fragment, null,
-        h('div', { className: 'proto-highlight' },
-          h('div', { className: 'title' }, '📍 新增能力：URL 自动识别与标准化'),
-          h('div', { className: 'desc' }, '在线索/达人入库时，粘贴任意格式的 IG / YT / TT 主页链接，系统自动识别平台、提取唯一标识、输出标准化链接。减少人工判断与手填。'),
-        ),
-
-        h('div', { style: { marginBottom: 16 } },
-          h('div', { style: { fontSize: 13, fontWeight: 600, marginBottom: 8, color: 'rgba(0,0,0,0.85)' } }, '各平台 URL 格式及提取规则'),
-          h('div', { style: { maxHeight: 240, overflowY: 'auto', border: '1px solid #e8e8e8', borderRadius: 2 } },
-            h('table', { className: 'pattern-table' },
-              h('thead', null, h('tr', null,
-                h('th', { style: { width: 80 } }, '平台'),
-                h('th', null, 'URL 格式'),
-                h('th', null, '示例'),
-                h('th', null, '提取规则'),
-              )),
-              h('tbody', null,
-                Object.entries(URL_PATTERNS).flatMap(([pkey, rows], pi) => {
-                  const pname = { instagram: 'Instagram', youtube: 'YouTube', tiktok: 'TikTok' }[pkey];
-                  return rows.map((row, ri) => h('tr', { key: pkey + ri },
-                    ri === 0 ? h('td', { rowSpan: rows.length, style: { verticalAlign: 'middle' } },
-                      h(PlatformTag, { platform: pname })
-                    ) : null,
-                    h('td', null, h('code', null, row.pattern)),
-                    h('td', null, h('code', null, row.example)),
-                    h('td', null, row.rule),
-                  ));
-                })
-              )
-            )
-          ),
-        ),
-
-        h('div', { style: { marginBottom: 4 } },
-          h('label', { style: { fontSize: 14, fontWeight: 500 } }, '粘贴达人主页链接'),
-        ),
-        h(Input, {
-          placeholder: '例如：https://www.instagram.com/nike/ 或 https://youtu.be/dQw4w9WgXcQ',
-          value: url, onChange: setUrl,
-        }),
-
-        error && h('div', { style: { color: '#ff4d4f', fontSize: 13, marginTop: 8, padding: 8, background: '#fff2f0', borderRadius: 2 } }, error),
-
-        result && h('div', { className: 'parse-result' },
-          h('div', { className: 'row' },
-            h('span', { className: 'label' }, '识别平台'),
-            h(PlatformTag, { platform: result.platform }),
-          ),
-          h('div', { className: 'row' },
-            h('span', { className: 'label' }, '平台代码'),
-            h('span', { className: 'value', style: { color: '#1890ff' } }, result.code),
-          ),
-          h('div', { className: 'row' },
-            h('span', { className: 'label' }, '提取账号'),
-            h('span', { className: 'value', style: { fontSize: 15 } }, result.username),
-          ),
-          h('div', { className: 'row' },
-            h('span', { className: 'label' }, '标准化链接'),
-            h('span', { className: 'value', style: { color: '#1890ff', fontSize: 12 } }, result.url),
-          ),
-        ),
-
-        h('div', { className: 'test-btns' },
-          h('span', { className: 'label' }, '快速测试：'),
-          ['https://www.instagram.com/nike/', 'https://youtu.be/dQw4w9WgXcQ', 'https://www.tiktok.com/@nike', 'https://www.youtube.com/@MrBeast'].map(u =>
-            h(Btn, { key: u, size: 'small', type: 'default', onClick: () => setUrl(u) },
-              u.split('//')[1].slice(0, 18) + (u.split('//')[1].length > 18 ? '…' : '')
-            )
-          ),
-        ),
-      );
-    }
-
-    // ============================== Feature 2: No Owner Filter ==============================
-    function NoOwnerFilterDemo() {
-      const [search, setSearch] = useState('');
-      const [onlyNoOwner, setOnlyNoOwner] = useState(false);
-      const data = [
-        { id: 'TA1001', nick: 'fashion_queen', platform: 'Instagram', fans: '245K', owner: '张三', dept: '业务A组' },
-        { id: 'TA1002', nick: 'tech_guru', platform: 'YouTube', fans: '1.2M', owner: null, dept: null },
-        { id: 'TA1003', nick: 'beauty_star', platform: 'TikTok', fans: '890K', owner: '李四', dept: '业务B组' },
-        { id: 'TA1004', nick: 'travel_vlogger', platform: 'YouTube', fans: '560K', owner: null, dept: null },
-        { id: 'TA1005', nick: 'pet_lover_23', platform: 'Instagram', fans: '120K', owner: null, dept: null },
-        { id: 'TA1006', nick: 'music_daily', platform: 'TikTok', fans: '3.4M', owner: '张三', dept: '业务A组' },
-        { id: 'TA1007', nick: 'food_adventures', platform: 'YouTube', fans: '780K', owner: null, dept: null },
-        { id: 'TA1008', nick: 'fitness_pro', platform: 'Instagram', fans: '430K', owner: '王五', dept: '业务C组' },
-      ];
-      const filtered = data.filter(d =>
-        (!onlyNoOwner || !d.owner) &&
-        (!search || d.nick.toLowerCase().includes(search.toLowerCase()) || d.id.includes(search))
-      );
-
-      return h(Fragment, null,
-        h('div', { className: 'proto-highlight' },
-          h('div', { className: 'title' }, '📍 新增能力：达人库支持搜索无负责人数据'),
-          h('div', { className: 'desc' }, '在达人库搜索区新增「有无负责人」开关。开启后仅展示无负责人的达人，便于管理员批量分配负责人或媒介认领。'),
-        ),
-
-        h('div', { className: 'ant-form-inline-custom' },
-          h('span', { className: 'ant-input-affix-wrapper', style: { width: 240 } },
-            h('span', { className: 'ant-input-prefix', style: { color: 'rgba(0,0,0,0.25)' } }, h(Icon, { type: 'search' })),
-            h('input', { className: 'ant-input', placeholder: '搜索达人昵称 / ID', value: search, onChange: e => setSearch(e.target.value), style: { paddingLeft: 30 } }),
-          ),
-          h('label', { className: 'ant-checkbox-wrapper', style: { cursor: 'pointer' } },
-            h('span', { className: `ant-checkbox${onlyNoOwner ? ' ant-checkbox-checked' : ''}` },
-              h('input', { type: 'checkbox', checked: onlyNoOwner, onChange: () => setOnlyNoOwner(v => !v), className: 'ant-checkbox-input' }),
-              h('span', { className: 'ant-checkbox-inner' }),
+    // 改动点卡片
+    h('div', { className: 'page-card' },
+      h('div', { className: 'card-head' },
+        h('span', { className: 'head-title' }, '新建达人弹窗 - URL 输入区域'),
+        h('span', { className: 'change-badge' }, '改动')
+      ),
+      h('div', { className: 'card-body' },
+        // 模拟弹窗内容
+        h('div', { style: { border: '1px solid #f0f0f0', borderRadius: 4, padding: 24, maxWidth: 560 } },
+          // 表单示例
+          h('div', { className: 'form-item-row' },
+            h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '平台'),
+            h('div', { className: 'form-control' },
+              h('div', { className: 'dm-cascader', style: { width: 260 } }, '请选择平台'),
             ),
-            h('span', { style: { marginLeft: 8 } }, '仅显示无负责人'),
           ),
-          onlyNoOwner && h('span', { style: { fontSize: 13, color: '#ff4d4f' } }, `共 ${filtered.length} 位达人暂无负责人`),
-        ),
-
-        h('div', { style: { border: '1px solid #e8e8e8', borderRadius: 2 } },
-          h('div', { className: 'ant-table' },
-            h('div', { className: 'ant-table-container' },
-              h('div', { className: 'ant-table-content' },
-                h('table', { style: { width: '100%', borderCollapse: 'collapse' } },
-                  h('colgroup', null,
-                    h('col', { style: { width: 100 } }), h('col'), h('col', { style: { width: 100 } }),
-                    h('col', { style: { width: 100 } }), h('col', { style: { width: 120 } }), h('col', { style: { width: 120 } }),
-                  ),
-                  h('thead', { className: 'ant-table-thead' },
-                    h('tr', null,
-                      h('th', null, '达人ID'),
-                      h('th', null, '昵称'),
-                      h('th', null, '平台'),
-                      h('th', null, '粉丝数'),
-                      h('th', null, '负责人'),
-                      h('th', null, '所属业务组'),
-                    ),
-                  ),
-                  h('tbody', { className: 'ant-table-tbody' },
-                    filtered.length === 0 ? h('tr', null, h('td', { colSpan: 6, className: 'ant-table-placeholder', style: { textAlign: 'center', padding: 24, color: 'rgba(0,0,0,0.25)' } }, '暂无数据')) :
-                    filtered.map(d => h('tr', { key: d.id },
-                      h('td', null, h('a', { style: { color: '#1890ff' } }, d.id)),
-                      h('td', null, d.nick),
-                      h('td', null, h(PlatformTag, { platform: d.platform })),
-                      h('td', null, d.fans),
-                      h('td', null, d.owner ? d.owner : h('span', { className: 'no-owner' }, '— 无负责人 —')),
-                      h('td', null, d.dept || h('span', { style: { color: '#d9d9d9' } }, '-')),
-                    ))
-                  )
-                )
-              )
-            )
-          )
-        ),
-      );
-    }
-
-    // ============================== Feature 3: Cross-system Handover ==============================
-    function CrossSystemHandoverDemo() {
-      const [step, setStep] = useState(0);
-      const [selected, setSelected] = useState([]);
-      const [targetSys, setTargetSys] = useState('CRM');
-      const [targetPerson, setTargetPerson] = useState('');
-
-      const talents = [
-        { id: 'TA1002', nick: 'tech_guru', platform: 'YouTube' },
-        { id: 'TA1004', nick: 'travel_vlogger', platform: 'YouTube' },
-        { id: 'TA1005', nick: 'pet_lover_23', platform: 'Instagram' },
-        { id: 'TA1007', nick: 'food_adventures', platform: 'YouTube' },
-      ];
-      const toggle = (id) => setSelected(s => s.includes(id) ? s.filter(i => i !== id) : [...s, id]);
-
-      if (step === 0) return h(Fragment, null,
-        h('div', { className: 'proto-highlight' },
-          h('div', { className: 'title' }, '📍 新增能力：达人库数据支持跨系统交接负责人'),
-          h('div', { className: 'desc' }, '选中无负责人的达人 → 选择目标系统（CRM/CMS/热麦等）→ 指定接收人 → 同步负责人信息至对方系统。交接记录全留存，可追溯。'),
-        ),
-
-        h('div', { className: 'ant-form-inline-custom' },
-          h(Checkbox, { checked: selected.length === talents.length, onChange: () => setSelected(selected.length === talents.length ? [] : talents.map(t => t.id)), label: '全选' }),
-          h('span', { style: { fontSize: 13, color: 'rgba(0,0,0,0.45)' } }, `已选 ${selected.length} 人`),
-        ),
-
-        h('div', { style: { border: '1px solid #e8e8e8', borderRadius: 2, marginBottom: 16 } },
-          h('div', { className: 'ant-table' },
-            h('table', { style: { width: '100%', borderCollapse: 'collapse' } },
-              h('thead', { className: 'ant-table-thead' },
-                h('tr', null, h('th', { style: { width: 40 } }), h('th', null, '达人ID'), h('th', null, '昵称'), h('th', null, '平台'), h('th', null, '当前状态')),
+          h('div', { className: 'form-item-row' },
+            h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), 'URL'),
+            h('div', { className: 'form-control' },
+              h('span', { className: 'ant-input-affix-wrapper', style: { width: '100%' } },
+                h('input', { className: 'ant-input', placeholder: '请粘贴达人主页链接（支持 Instagram / YouTube / TikTok）', style: { paddingLeft: 12 }, value: 'https://www.instagram.com/nike/' })
               ),
-              h('tbody', { className: 'ant-table-tbody' },
-                talents.map(d => h('tr', { key: d.id, style: { background: selected.includes(d.id) ? '#e6f7ff' : '' } },
-                  h('td', null, h('input', { type: 'checkbox', checked: selected.includes(d.id), onChange: () => toggle(d.id), style: { cursor: 'pointer' } })),
-                  h('td', null, h('a', { style: { color: '#1890ff' } }, d.id)),
-                  h('td', null, d.nick),
-                  h('td', null, h(PlatformTag, { platform: d.platform })),
-                  h('td', null, h('span', { className: 'no-owner' }, '无负责人')),
-                ))
-              )
-            )
-          )
-        ),
-
-        h('div', { className: 'ant-form-inline-custom' },
-          h('div', null,
-            h('div', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)', marginBottom: 4 } }, '目标系统'),
-            h(Select, {
-              value: targetSys, onChange: setTargetSys,
-              options: [{ value: 'CRM', label: 'CRM 系统' }, { value: 'CMS', label: 'CMS 系统' }, { value: '热麦', label: '热麦系统' }],
-              style: { width: 160 },
-            }),
-          ),
-          h('div', null,
-            h('div', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)', marginBottom: 4 } }, '指定交接人'),
-            h(Select, {
-              value: targetPerson, onChange: setTargetPerson,
-              options: [
-                { value: '', label: '请选择交接人', disabled: true },
-                { value: '张三', label: '张三 (业务A组)' },
-                { value: '李四', label: '李四 (业务B组)' },
-                { value: '王五', label: '王五 (业务C组)' },
-              ],
-              style: { width: 180 },
-              placeholder: '请选择交接人',
-            }),
-          ),
-          h(Btn, { type: 'primary', disabled: !selected.length || !targetPerson, onClick: () => setStep(1) }, '执行交接'),
-        ),
-      );
-
-      // Step 1: Result
-      return h(Fragment, null,
-        h('div', { style: { background: '#f6ffed', border: '1px solid #b7eb8f', borderRadius: 2, padding: 20, marginBottom: 16 } },
-          h('div', { style: { display: 'flex', alignItems: 'center', gap: 8, fontSize: 16, fontWeight: 500, color: '#389e0d', marginBottom: 16 } },
-            h(Icon, { type: 'check' }), '交接完成'
-          ),
-          h('div', { className: 'handover-flow' },
-            h('div', { className: 'flow-item' },
-              h('div', { className: 'label' }, '交接来源'),
-              h('div', { className: 'value' }, '达人库'),
-            ),
-            h('span', { className: 'flow-arrow' }, '→'),
-            h('div', { className: 'flow-item' },
-              h('div', { className: 'label' }, '目标系统'),
-              h('div', { className: 'value' }, targetSys),
-            ),
-            h('span', { className: 'flow-arrow' }, '→'),
-            h('div', { className: 'flow-item' },
-              h('div', { className: 'label' }, '接收人'),
-              h('div', { className: 'value' }, targetPerson),
-            ),
-          ),
-          h('div', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)' } },
-            `共交接 ${selected.length} 位达人至「${targetSys}」系统，交接人：${targetPerson}`
-          ),
-        ),
-
-        h('div', { style: { fontWeight: 500, marginBottom: 8 } }, '本次交接明细'),
-        h('div', { style: { border: '1px solid #e8e8e8', borderRadius: 2, marginBottom: 16 } },
-          h('div', { className: 'ant-table' },
-            h('table', { style: { width: '100%', borderCollapse: 'collapse' } },
-              h('thead', { className: 'ant-table-thead' },
-                h('tr', null, h('th', null, '达人'), h('th', null, '平台'), h('th', null, '交接前'), h('th', null, '交接后'), h('th', null, '目标系统'), h('th', null, '交接时间')),
+              h('div', { style: { marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' } },
+                PLATFORMS.map(p =>
+                  h('span', { className: `platform-tag ${p.cls}`, key: p.name }, p.name)
+                ),
+                h('span', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)', lineHeight: '22px', marginLeft: 4 } }, 'URL 格式自动识别')
               ),
-              h('tbody', { className: 'ant-table-tbody' },
-                selected.map((id, i) => {
-                  const d = talents.find(t => t.id === id);
-                  return h('tr', { key: id },
-                    h('td', null, h('span', { style: { fontWeight: 500 } }, `${d.id} ${d.nick}`)),
-                    h('td', null, h(PlatformTag, { platform: d.platform })),
-                    h('td', null, h('span', { className: 'no-owner' }, '无负责人')),
-                    h('td', null, h('span', { style: { color: '#389e0d', fontWeight: 500 } }, targetPerson)),
-                    h('td', null, targetSys),
-                    h('td', null, '2026-06-05 14:30'),
-                  );
-                })
-              )
-            )
-          )
-        ),
-        h(Btn, { type: 'default', onClick: () => { setStep(0); setSelected([]); setTargetPerson(''); } }, '返回'),
-      );
-    }
-
-    // ============================== Feature 4: Biz Line Hint ==============================
-    function BizLineHintDemo() {
-      const [modal, setModal] = useState(null);
-      const [toast, setToast] = useState('');
-
-      const myTalents = [
-        { id: 'TA2001', nick: 'beauty_guru_88', platform: 'Instagram', fans: '320K', biz: ['业务A组(美妆)', '业务C组(快消)'], detail: '业务A组 2025-12 ~ 2026-03\n业务C组 2026-04 ~ 至今' },
-        { id: 'TA2002', nick: 'gaming_star', platform: 'TikTok', fans: '1.8M', biz: ['业务B组(游戏)'], detail: '业务B组 2026-01 ~ 至今' },
-        { id: 'TA2003', nick: 'lifestyle_jane', platform: 'Instagram', fans: '150K', biz: null, detail: null },
-        { id: 'TA2004', nick: 'cooking_master', platform: 'YouTube', fans: '890K', biz: ['业务A组(美食)', '业务B组(生活)'], detail: '业务A组 2026-02 ~ 2026-04\n业务B组 2026-05 ~ 至今' },
-        { id: 'TA2005', nick: 'travel_dreams', platform: 'TikTok', fans: '560K', biz: ['业务C组(旅游)'], detail: '业务C组 2026-03 ~ 至今' },
-      ];
-
-      return h(Fragment, null,
-        h('div', { className: 'proto-highlight' },
-          h('div', { className: 'title' }, '📍 新增能力：提报前展示达人的历史合作业务线'),
-          h('div', { className: 'desc' }, '媒介在「我的达人库」提报达人时，弹窗提示该达人已与哪些业务线合作过、合作时段。避免内部撞单，让媒介明确知晓归属后再提交。'),
-        ),
-
-        h('div', { style: { border: '1px solid #e8e8e8', borderRadius: 2, marginBottom: 16 } },
-          h('div', { className: 'ant-table' },
-            h('table', { style: { width: '100%', borderCollapse: 'collapse' } },
-              h('colgroup', null, h('col', { style: { width: 120 } }), h('col', { style: { width: 100 } }), h('col', { style: { width: 100 } }), h('col'), h('col', { style: { width: 120 } })),
-              h('thead', { className: 'ant-table-thead' },
-                h('tr', null, h('th', null, '达人'), h('th', null, '平台'), h('th', null, '粉丝数'), h('th', null, '历史合作业务线'), h('th', null, '操作')),
-              ),
-              h('tbody', { className: 'ant-table-tbody' },
-                myTalents.map(d => h('tr', { key: d.id },
-                  h('td', null, h('div', { style: { fontWeight: 500 } }, d.nick), h('div', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)' } }, d.id)),
-                  h('td', null, h(PlatformTag, { platform: d.platform })),
-                  h('td', null, d.fans),
-                  h('td', null,
-                    d.biz ? d.biz.map((b, i) => h(Tag, { key: i, color: 'purple' }, b)) : h('span', { style: { color: '#d9d9d9' } }, '暂无合作记录'),
-                  ),
-                  h('td', null, h(Btn, { type: 'primary', size: 'small', onClick: () => setModal(d) }, '提报')),
-                ))
-              )
-            )
-          )
-        ),
-
-        h(Modal, {
-          visible: !!modal, onClose: () => setModal(null), title: '提报确认',
-          width: 520,
-          footer: [
-            h(Btn, { type: 'default', onClick: () => setModal(null) }, '取消'),
-            h(Btn, { type: 'primary', onClick: () => { setModal(null); setToast('提报已提交'); setTimeout(() => setToast(''), 2000); } }, '确认提报'),
-          ]
-        },
-          modal && h(Fragment, null,
-            h('div', { style: { marginBottom: 16 } },
-              h('div', { style: { fontSize: 13, color: 'rgba(0,0,0,0.45)', marginBottom: 4 } }, '提报达人'),
-              h('div', { style: { fontSize: 16, fontWeight: 500 } }, `${modal.nick} (${modal.id})`),
-            ),
-            modal.biz && h('div', { style: { background: '#fffbe6', border: '1px solid #ffe58f', borderRadius: 2, padding: 16 } },
-              h('div', { style: { display: 'flex', alignItems: 'center', gap: 6, fontSize: 14, fontWeight: 500, color: '#d48806', marginBottom: 8 } },
-                h(Icon, { type: 'warning' }), '该达人已有合作业务线',
-              ),
-              h('div', { style: { fontSize: 13, lineHeight: 2 } },
-                h('div', { style: { fontWeight: 500, marginBottom: 4 } }, '历史合作组别：'),
-                modal.biz.map((b, i) => h('div', { key: i, style: { paddingLeft: 8 } }, `· ${b}`)),
-                h('div', { style: { color: 'rgba(0,0,0,0.45)', fontSize: 12, marginTop: 4, whiteSpace: 'pre-line' } }, modal.detail),
-                h('div', { style: { color: '#d48806', marginTop: 8, padding: 8, background: '#fff', borderRadius: 2, fontSize: 12 } },
-                  '请确认本次提报的业务线不与已有合作冲突。如需跨组合作，建议先与对应业务组沟通。'
+              // 识别结果展示
+              h('div', { style: { marginTop: 12, background: '#f6ffed', border: '1px solid #b7eb8f', borderRadius: 4, padding: 12 } },
+                h('div', { className: 'flex-center', style: { marginBottom: 8 } },
+                  h('span', { className: 'anticon anticon-check-circle', style: { color: '#52c41a' } }, '✓'),
+                  h('span', { style: { fontWeight: 500 } }, '已识别：'),
+                  h('span', { className: 'platform-tag ig', style: { marginLeft: 4 } }, 'Instagram'),
+                ),
+                h('div', { style: { display: 'flex', gap: 24, fontSize: 13 } },
+                  h('div', null, h('span', { style: { color: 'rgba(0,0,0,0.45)' } }, '账号 '), h('strong', null, 'nike')),
+                  h('div', null, h('span', { style: { color: 'rgba(0,0,0,0.45)' } }, '标准化链接 '), h('code', { style: { color: '#1890ff' } }, 'https://www.instagram.com/nike/')),
                 ),
               ),
             ),
-            !modal.biz && h('div', { style: { color: 'rgba(0,0,0,0.45)', fontSize: 13, padding: 12 } },
-              '该达人暂无历史合作记录，可直接提报。'
-            ),
           ),
         ),
-      );
-    }
+      ),
+    ),
 
-    // ============================== Feature 6: Recruit Task Progress ==============================
-    function RecruitProgressDemo() {
-      const [tab, setTab] = useState('talent');
-      const [expanded, setExpanded] = useState(null);
-
-      const data = {
-        talent: [
-          { id: 'TA1001', nick: 'fashion_queen', platform: 'Instagram', tasks: [
-            { name: '2026-06 A组美妆达人招募', status: '已投稿', progress: 80, deadline: '2026-06-20', cpt: '执行中' },
-            { name: '2026-06 B组快消招募', status: '已确认', progress: 40, deadline: '2026-06-25', cpt: '待开始' },
-          ]},
-          { id: 'TA1003', nick: 'beauty_star', platform: 'TikTok', tasks: [
-            { name: '2026-06 C组服装达人招募', status: '招募中', progress: 20, deadline: '2026-06-30', cpt: '招募中' },
-          ]},
-          { id: 'TA1006', nick: 'music_daily', platform: 'TikTok', tasks: [
-            { name: '2026-05 A组音乐招募', status: '已结案', progress: 100, deadline: '2026-05-31', cpt: '已完成' },
-          ]},
-        ],
-        clue: [
-          { id: 'CL5001', nick: 'new_artist_01', platform: 'Instagram', tasks: [
-            { name: '2026-06 D组新人招募', status: '招募中', progress: 15, deadline: '2026-06-28' },
-          ]},
-          { id: 'CL5003', nick: 'dancer_2023', platform: 'TikTok', tasks: [
-            { name: '2026-06 B组舞蹈招募', status: '已沟通', progress: 35, deadline: '2026-06-22' },
-            { name: '2026-06 A组达人招募', status: '招募中', progress: 10, deadline: '2026-06-30' },
-          ]},
-        ],
-      };
-
-      const statusMeta = {
-        '已结案': { color: 'green', dot: 'success' },
-        '已完成': { color: 'green', dot: 'success' },
-        '已投稿': { color: 'geekblue', dot: 'processing' },
-        '已确认': { color: 'geekblue', dot: 'processing' },
-        '已沟通': { color: 'orange', dot: 'warning' },
-        '招募中': { color: 'orange', dot: 'warning' },
-        '待开始': { color: 'cyan', dot: 'default' },
-      };
-
-      const current = data[tab];
-
-      return h(Fragment, null,
-        h('div', { className: 'proto-highlight' },
-          h('div', { className: 'title' }, '📍 新增能力：达人/线索列表透出正在执行的招募任务及进度'),
-          h('div', { className: 'desc' }, '在达人库、线索库列表中新增「招募任务」列，展示该达人当前正在执行的招募任务名称、状态、进度条。展开可看 CPT 状态与截止日期。媒介无需跳转即可掌握达人所处环节。'),
-        ),
-
-        h('div', { className: 'ant-tabs-custom' },
-          h('div', { className: `tab-item ${tab === 'talent' ? 'active' : ''}`, onClick: () => setTab('talent') }, '达人库'),
-          h('div', { className: `tab-item ${tab === 'clue' ? 'active' : ''}`, onClick: () => setTab('clue') }, '线索库'),
-        ),
-
-        h('div', { style: { border: '1px solid #e8e8e8', borderRadius: 2 } },
-          h('div', { className: 'ant-table' },
-            h('table', { style: { width: '100%', borderCollapse: 'collapse' } },
-              h('colgroup', null, h('col', { style: { width: 130 } }), h('col', { style: { width: 80 } }), h('col'), h('col'), h('col', { style: { width: 120 } }), h('col', { style: { width: 80 } })),
-              h('thead', { className: 'ant-table-thead' },
-                h('tr', null,
-                  h('th', null, '达人/线索'), h('th', null, '平台'), h('th', null, '正在执行的招募任务'),
-                  h('th', null, '状态 & 进度'), h('th', null, '截止日期'), h('th', null),
-                ),
-              ),
-              h('tbody', { className: 'ant-table-tbody' },
-                current.map(d => h(Fragment, { key: d.id },
-                  h('tr', { className: 'tr-hoverable', onClick: () => setExpanded(expanded === d.id ? null : d.id) },
-                    h('td', null, h('div', { style: { fontWeight: 500 } }, d.nick), h('div', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)' } }, d.id)),
-                    h('td', null, h(PlatformTag, { platform: d.platform })),
-                    h('td', null, d.tasks.map((t, i) => h('div', { key: i, style: { fontSize: 13, lineHeight: '24px' } }, t.name))),
-                    h('td', null, d.tasks.map((t, i) =>
-                      h('div', { key: i, style: { display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 } },
-                        h(StatusDot, { color: (statusMeta[t.status] || {}).dot || 'default' }),
-                        h(Tag, { color: (statusMeta[t.status] || {}).color || 'cyan' }, t.status),
-                        h(Progress, { percent: t.progress, status: t.status === '已结案' ? 'success' : 'processing' }),
-                      )
-                    )),
-                    h('td', null, d.tasks.map((t, i) => h('div', { key: i, style: { fontSize: 13, lineHeight: '24px' } }, t.deadline))),
-                    h('td', null, h('span', { style: { fontSize: 12, color: '#1890ff' } }, expanded === d.id ? '收起' : '展开')),
-                  ),
-                  expanded === d.id && h('tr', null,
-                    h('td', { colSpan: 6, style: { background: '#fafafa', padding: 16 } },
-                      h('div', { style: { fontSize: 14, fontWeight: 500, marginBottom: 12, color: 'rgba(0,0,0,0.85)' } }, '任务详情'),
-                      d.tasks.map((t, i) =>
-                        h('div', { key: i, style: { background: '#fff', padding: 16, borderRadius: 2, marginBottom: 8, border: '1px solid #f0f0f0' } },
-                          h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 } },
-                            h('span', { style: { fontWeight: 500, fontSize: 14 } }, t.name),
-                            h(Tag, { color: (statusMeta[t.status] || {}).color || 'cyan' }, t.status),
-                          ),
-                          h('div', { style: { display: 'flex', gap: 32 } },
-                            h('div', null,
-                              h('div', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)', marginBottom: 2 } }, 'CPT 状态'),
-                              h('div', { style: { fontWeight: 500 } }, t.cpt || '-'),
-                            ),
-                            h('div', null,
-                              h('div', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)', marginBottom: 2 } }, '截止日期'),
-                              h('div', { style: { fontWeight: 500 } }, t.deadline),
-                            ),
-                            h('div', { style: { flex: 1 } },
-                              h('div', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)', marginBottom: 4 } }, '任务进度'),
-                              h(Progress, { percent: t.progress, status: t.status === '已结案' ? 'success' : 'processing' }),
-                            ),
-                          ),
-                        )
-                      ),
-                    ),
-                  ),
-                ))
-              )
-            )
-          )
-        ),
-      );
-    }
-
-    // ============================== Feature 7: Follower Filter ==============================
-    function FollowerFilterDemo() {
-      const [filter, setFilter] = useState('all');
-
-      const clues = [
-        { id: 'CL5001', nick: 'new_artist_01', platform: 'Instagram', fans: '12K', follower: '张三', time: '2026-05-20', status: '跟进中', tag: 'geekblue' },
-        { id: 'CL5002', nick: 'photo_lover_88', platform: 'Instagram', fans: '45K', follower: '李四', time: '2026-06-01', status: '已联系', tag: 'green' },
-        { id: 'CL5003', nick: 'dancer_2023', platform: 'TikTok', fans: '230K', follower: '张三', time: '2026-05-15', status: '跟进中', tag: 'geekblue' },
-        { id: 'CL5004', nick: 'sketch_master', platform: 'YouTube', fans: '67K', follower: null, time: null, status: '待跟进', tag: 'cyan' },
-        { id: 'CL5005', nick: 'singer_daily', platform: 'TikTok', fans: '890K', follower: '王五', time: '2026-06-03', status: '已联系', tag: 'green' },
-        { id: 'CL5006', nick: 'art_gallery_23', platform: 'Instagram', fans: '23K', follower: null, time: null, status: '待跟进', tag: 'cyan' },
-        { id: 'CL5007', nick: 'comedy_star', platform: 'TikTok', fans: '1.2M', follower: '李四', time: '2026-05-28', status: '跟进中', tag: 'geekblue' },
-      ];
-
-      const filtered = filter === 'all' ? clues :
-        filter === 'has' ? clues.filter(c => c.follower) :
-        filter === 'none' ? clues.filter(c => !c.follower) :
-        clues.filter(c => c.follower === filter);
-
-      const filters = [
-        { value: 'all', label: '全部' },
-        { value: 'has', label: '有跟进人' },
-        { value: 'none', label: '无跟进人' },
-        { value: '张三', label: '张三' },
-        { value: '李四', label: '李四' },
-        { value: '王五', label: '王五' },
-      ];
-
-      return h(Fragment, null,
-        h('div', { className: 'proto-highlight' },
-          h('div', { className: 'title' }, '📍 新增能力：全部线索增加「跟进人」筛选项'),
-          h('div', { className: 'desc' }, '在「全部线索」搜索区域增加跟进人筛选维度。支持按具体跟进人查看，以及快捷筛选有/无跟进人，方便主管分配线索或查看个人线索。'),
-        ),
-
-        h('div', { className: 'ant-form-inline-custom' },
-          h('span', { style: { fontSize: 13, color: 'rgba(0,0,0,0.85)' } }, '跟进人：'),
-          filters.map(f => h(Btn, {
-            key: f.value, type: filter === f.value ? 'primary' : 'default', size: 'small',
-            onClick: () => setFilter(f.value), style: { marginRight: 4 }
-          }, f.label)),
-          h('span', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)', marginLeft: 8 } }, `共 ${filtered.length} 条线索`),
-        ),
-
-        h('div', { style: { border: '1px solid #e8e8e8', borderRadius: 2 } },
-          h('div', { className: 'ant-table' },
-            h('table', { style: { width: '100%', borderCollapse: 'collapse' } },
-              h('colgroup', null, h('col', { style: { width: 100 } }), h('col'), h('col', { style: { width: 90 } }), h('col', { style: { width: 80 } }), h('col', { style: { width: 100 } }), h('col', { style: { width: 120 } }), h('col', { style: { width: 100 } })),
-              h('thead', { className: 'ant-table-thead' },
-                h('tr', null,
-                  h('th', null, '线索ID'), h('th', null, '平台账号'), h('th', null, '平台'),
-                  h('th', null, '粉丝'), h('th', null, '跟进人'), h('th', null, '跟进时间'), h('th', null, '跟进状态'),
-                ),
-              ),
-              h('tbody', { className: 'ant-table-tbody' },
-                filtered.length === 0 ? h('tr', null, h('td', { colSpan: 7, style: { textAlign: 'center', padding: 24, color: 'rgba(0,0,0,0.25)' } }, '暂无数据')) :
-                filtered.map(d => h('tr', { key: d.id },
-                  h('td', null, h('a', { style: { color: '#1890ff' } }, d.id)),
-                  h('td', null, h('span', { style: { fontWeight: 500 } }, d.nick)),
-                  h('td', null, h(PlatformTag, { platform: d.platform })),
-                  h('td', null, d.fans),
-                  h('td', null, d.follower ? h('span', { style: { fontWeight: 500 } }, d.follower) : h('span', { style: { color: '#d9d9d9' } }, '-')),
-                  h('td', null, d.time || h('span', { style: { color: '#d9d9d9' } }, '-')),
-                  h('td', null, h(Tag, { color: d.tag }, d.status)),
-                ))
-              )
-            )
-          )
-        ),
-      );
-    }
-
-    // ============================== Sidebar ==============================
-    function Sidebar() {
-      const items = [
-        { icon: 'user', label: '流量主', active: true },
-      ];
-      const subItems = [
-        { label: '达人管理', active: true },
-        { label: '达人库', active: true },
-        { label: '线索库', active: false },
-        { label: '线索公海', active: false },
-        { label: 'MCN机构管理', active: false },
-        { label: '网站库', active: false },
-      ];
-      return h('div', { className: 'sidebar' },
-        h('div', { className: 'sub-title' }, '导航'),
-        items.map(i => h('div', { key: i.label, className: `menu-item${i.active ? ' active' : ''}` },
-          h(Icon, { type: i.icon }), i.label
-        )),
-        h('div', { className: 'sub-title', style: { marginTop: 8 } }, '达人管理'),
-        subItems.map(i => h('div', { key: i.label, className: `menu-item${i.active ? ' active' : ''}`, style: { paddingLeft: 32 } },
-          i.label
-        )),
-      );
-    }
-
-    // ============================== Top Nav ==============================
-    function TopNav() {
-      const navs = [
-        { icon: 'user', label: '流量主', active: true },
-        { icon: 'flag', label: '推广管理' },
-        { icon: 'notification', label: '广告主' },
-        { icon: 'bar-chart', label: '数据分析' },
-        { icon: 'audit', label: '财务管理' },
-        { icon: 'project', label: '运营管理' },
-        { icon: 'star', label: '绩效与任务' },
-        { icon: 'setting', label: '其他' },
-      ];
-      return h('div', { className: 'top-nav' },
-        h('div', { className: 'logo-area' },
-          h('div', { className: 'logo-icon' }, 'M'),
-          h('span', { className: 'logo-text' }, '营销系统'),
-        ),
-        h('div', { className: 'nav-menu' },
-          navs.map(n => h('div', { key: n.label, className: `nav-item${n.active ? ' active' : ''}` },
-            h(Icon, { type: n.icon }), n.label
+    // URL格式对照表
+    h('div', { className: 'page-card' },
+      h('div', { className: 'card-head' },
+        h('span', { className: 'head-title' }, '新增：URL 格式映射表（PLATFORM_URL_RULES）')
+      ),
+      h('div', { className: 'card-body' },
+        h('table', { className: 'url-pattern-table' },
+          h('thead', null, h('tr', null,
+            h('th', null, '平台'),
+            h('th', null, '识别域名'),
+            h('th', null, 'code'),
+            h('th', null, '支持格式'),
           )),
+          h('tbody', null,
+            h('tr', null,
+              h('td', null, h('span', { className: 'platform-tag ig' }, 'Instagram')),
+              h('td', null, h('code', null, 'instagram.com, instagr.am')),
+              h('td', null, '8'),
+              h('td', null, '/{username}、/reel/{id}、/p/{id}'),
+            ),
+            h('tr', null,
+              h('td', null, h('span', { className: 'platform-tag yt' }, 'YouTube')),
+              h('td', null, h('code', null, 'youtube.com, youtu.be')),
+              h('td', null, '9'),
+              h('td', null, '/@{handle}、/c/{name}、/channel/{id}、youtu.be/{id}'),
+            ),
+            h('tr', null,
+              h('td', null, h('span', { className: 'platform-tag tt' }, 'TikTok')),
+              h('td', null, h('code', null, 'tiktok.com, douyin.com')),
+              h('td', null, '10'),
+              h('td', null, '/@{username}、/video/{id}、douyin.com/user/{id}'),
+            ),
+          ),
         ),
-        h('div', { className: 'right-area' },
-          h('span', null, 'admin'),
+      ),
+    ),
+
+    // 代码改动
+    h('div', { className: 'change-area' },
+      h('div', { className: 'change-title' }, '代码改动说明'),
+      h('div', { className: 'change-desc' },
+        '两处弹窗（config.tsx 和 schema.tsx）做相同的改动：文件顶部新增 PLATFORM_URL_RULES 映射表，onBlurHandle 中增加前端 URL 预识别校验。'
+      ),
+      h('div', { className: 'code-diff' },
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '1'), '// config.tsx :20 新增——URL 格式自动识别规则'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'const PLATFORM_URL_RULES = ['),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { code: 8, name: "Instagram",  domains: ["instagram.com", "instagr.am"] },'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { code: 9, name: "YouTube",    domains: ["youtube.com", "youtu.be"] },'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { code: 10, name: "TikTok",    domains: ["tiktok.com", "douyin.com"] },'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '];'),
+        h('div', {}, h('span', { className: 'line-num' }, '5'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '6'), '// onBlurHandle (:402-404) 改为：'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'const onBlurHandle = () => {'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  const url = getFieldValue(["data", index, "url"]);'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  if (!url || !isUrl(url)) return;'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  const matched = PLATFORM_URL_RULES.find(rule =>'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    rule.domains.some(domain => url.includes(domain))'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  );'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  if (!matched) {'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    message.warning("暂不支持此平台链接。支持：IG/YT/TT");'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    return;'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  }'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  setTalentInfo();'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '};'),
+      ),
+    ),
+  );
+}
+
+// ===== 需求2: 无负责人搜索 =====
+function Requirement2() {
+  return h(Fragment, null,
+
+    h('div', { className: 'alert-tip info', style: { marginBottom: 16 } },
+      h('strong', null, '涉及页面：'), '达人库列表',
+      h('br' ),
+      h('strong', null, '改动文件：'), 'tableSchema.tsx (新增「负责人状态」搜索项) | TalentTreeList.tsx (:147-148 处理参数) | 后端 /crmV2/agentList (加 has_agent 参数)'
+    ),
+
+    // 系统原有搜索栏
+    h('div', { className: 'page-card' },
+      h('div', { className: 'card-head' },
+        h('span', { className: 'head-title' }, '达人库 - 搜索区'),
+        h('span', { className: 'change-badge' }, '新增')
+      ),
+      h('div', { className: 'card-body' },
+        h('div', { className: 'search-bar', style: { margin: '-24px -24px 0 -24px', borderBottom: '1px solid #f0f0f0' } },
+          // 达人ID搜索
+          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
+            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '达人ID'),
+            h('span', { className: 'ant-input-affix-wrapper', style: { width: 160 } },
+              h('input', { className: 'ant-input', placeholder: '达人ID', style: { paddingLeft: 12 } }),
+            ),
+          ),
+          // 平台账号搜索
+          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
+            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '平台账号'),
+            h('span', { className: 'ant-input-affix-wrapper', style: { width: 160 } },
+              h('input', { className: 'ant-input', placeholder: '平台账号', style: { paddingLeft: 12 } }),
+            ),
+          ),
+          // 负责人搜索 (原有)
+          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
+            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '负责人'),
+            h('div', { className: 'dm-cascader', style: { width: 140 } }, '请选择负责人'),
+          ),
+          // ★ 新增：负责人状态
+          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
+            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } },
+              '负责人状态', h('span', { className: 'new-badge' }, 'NEW')
+            ),
+            h('div', { className: 'radio-group-custom' },
+              h('span', { className: 'radio-btn active' }, '全部'),
+              h('span', { className: 'radio-btn' }, '有负责人'),
+              h('span', { className: 'radio-btn' }, '无负责人'),
+            ),
+          ),
+          h('button', { className: 'ant-btn ant-btn-primary', style: { marginLeft: 8 } }, '搜索'),
+          h('button', { className: 'ant-btn', style: { marginLeft: 8 } }, '重置'),
         ),
-      );
-    }
 
-    // ============================== Main ==============================
-    function App() {
-      const [page, setPage] = useState(0);
-      const pages = [
-        { key: 'F1+F2+F3', title: '需求 1-3' },
-        { key: 'F4+F6+F7', title: '需求 4,6,7' },
-      ];
-
-      const featStyle = { background: '#fff', borderRadius: 2, marginBottom: 16 };
-
-      return h('div', { className: 'app-layout' },
-        h(TopNav),
-        h('div', { className: 'main-area' },
-          h(Sidebar),
-          h('div', { className: 'content-area' },
-            // 页面头部
-            h('div', { className: 'page-header' },
-              h('div', { className: 'breadcrumb' }, '流量主 / 达人管理 / 达人库'),
-              h('h2', null, '达人库'),
+        // 表格
+        h('table', { className: 'mock-table', style: { marginTop: 16 } },
+          h('thead', null,
+            h('tr', null,
+              h('th', { style: { width: 32 } }, h('input', { type: 'checkbox' })),
+              h('th', null, '达人ID'),
+              h('th', null, '昵称'),
+              h('th', null, '平台'),
+              h('th', null, '粉丝数'),
+              h('th', { className: 'highlight-col' }, '负责人状态'),
+              h('th', null, '操作'),
             ),
-
-            // Tab 切换卡片
-            h('div', { className: 'ant-tabs-custom', style: { background: '#fff', padding: '0 24px', marginBottom: 16, borderRadius: 2 } },
-              pages.map((p, i) => h('div', {
-                key: p.key, className: `tab-item${page === i ? ' active' : ''}`, onClick: () => setPage(i)
-              }, p.title)),
+          ),
+          h('tbody', null,
+            [
+              { id: 'TA1001', nick: 'fashion_queen', platform: 'Instagram', fans: '245K', owner: '张三', noOwner: false },
+              { id: 'TA1002', nick: 'tech_guru', platform: 'YouTube', fans: '1.2M', owner: null, noOwner: true },
+              { id: 'TA1003', nick: 'beauty_star', platform: 'TikTok', fans: '890K', owner: '李四', noOwner: false },
+              { id: 'TA1004', nick: 'travel_vlogger', platform: 'YouTube', fans: '560K', owner: null, noOwner: true },
+            ].map((row, i) =>
+              h('tr', { key: i },
+                h('td', null, h('input', { type: 'checkbox' })),
+                h('td', null, row.id),
+                h('td', null, row.nick),
+                h('td', null, h('span', { className: `platform-tag ${row.platform === 'Instagram' ? 'ig' : row.platform === 'YouTube' ? 'yt' : 'tt'}` }, row.platform)),
+                h('td', null, row.fans),
+                h('td', { className: 'highlight-col' },
+                  row.noOwner
+                    ? h('span', { className: 'tag-custom red' }, '无负责人')
+                    : h('span', { className: 'tag-custom green' }, row.owner)
+                ),
+                h('td', null, h('a', { style: { marginRight: 8 } }, '编辑'), h('a', null, '交接')),
+              )
             ),
+          ),
+        ),
+      ),
+    ),
 
-            // --- 页面 1: 需求 1-3 ---
-            page === 0 && h(Fragment, null,
-              h('div', { className: 'ant-card-custom' },
-                h('div', { className: 'card-head' },
-                  h('span', { className: 'head-title' }, '需求 1：入库时自动识别平台最简 URL 并解析'),
-                  h('span', { className: 'head-extra', style: { color: '#1890ff', fontWeight: 500 } }, '位置：线索/达人入库弹窗'),
-                ),
-                h('div', { className: 'card-body' },
-                  h(UrlParserDemo),
-                ),
-              ),
+    // 代码改动
+    h('div', { className: 'change-area' },
+      h('div', { className: 'change-title' }, '代码改动说明'),
+      h('div', { className: 'change-desc' },
+        '在 tableSchema.tsx 现有搜索项末尾新增「负责人状态」独立搜索项，使用 Radio.Group 组件。TalentTreeList.tsx 中处理 has_agent 参数传递。'
+      ),
+      h('div', { className: 'code-diff' },
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '1'), '// tableSchema.tsx :1008 后新增'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '{'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  title: "负责人状态",'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  hideInTable: true,'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  key: "agent_status",'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  registerToSearch: true,'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  renderFormItem: () => <Radio.Group>...<Radio value="">全部</Radio>...</Radio.Group>,'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  search: {'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    transform: (value) => {'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '      if (value === "none") return { agent_id: "", agent_type: undefined };'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '      if (value === "has") return { has_agent: "1" };'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '      return {};'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    },'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  },'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '};'),
+        h('div', {}, h('span', { className: 'line-num' }, '12'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '13'), '// 后端 /crmV2/agentList 新增参数'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'has_agent=1  // 过滤有负责人'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'agent_id=""  // 空串过滤无负责人 (传递空字符串)'),
+      ),
+    ),
+  );
+}
 
-              h('div', { className: 'ant-card-custom' },
-                h('div', { className: 'card-head' },
-                  h('span', { className: 'head-title' }, '需求 2：达人库支持搜索无负责人的数据'),
-                  h('span', { className: 'head-extra', style: { color: '#1890ff', fontWeight: 500 } }, '位置：达人库列表 → 搜索区'),
-                ),
-                h('div', { className: 'card-body' },
-                  h(NoOwnerFilterDemo),
-                ),
-              ),
+// ===== 需求3: 跨系统交接 =====
+function Requirement3() {
+  const [showModal, setShowModal] = useState(false);
+  return h(Fragment, null,
 
-              h('div', { className: 'ant-card-custom' },
-                h('div', { className: 'card-head' },
-                  h('span', { className: 'head-title' }, '需求 3：达人库数据支持跨系统交接负责人'),
-                  h('span', { className: 'head-extra', style: { color: '#1890ff', fontWeight: 500 } }, '位置：达人库 → 批量操作 → 跨系统交接'),
-                ),
-                h('div', { className: 'card-body' },
-                  h(CrossSystemHandoverDemo),
-                ),
-              ),
+    h('div', { className: 'alert-tip info', style: { marginBottom: 16 } },
+      h('strong', null, '涉及页面：'), '达人库、达人线索、社群库、网站媒体',
+      h('br' ),
+      h('strong', null, '改动文件：'), 'DistributeThreadModal.tsx (新增目标系统选择) | 后端 POST /crmV2/transferTalent (加 target_system)'
+    ),
+
+    // 达人库列表 + 批量交接按钮
+    h('div', { className: 'page-card' },
+      h('div', { className: 'card-head' },
+        h('span', { className: 'head-title' }, '达人库 - 批量操作区')
+      ),
+      h('div', { className: 'card-body' },
+        h('div', { style: { marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 } },
+          h('button', { className: 'ant-btn', disabled: true }, '批量更新达人信息'),
+          h('button', { className: 'ant-btn', disabled: true }, '导入交接数据'),
+          h('div', { className: 'ant-dropdown-trigger', style: { display: 'inline-flex', alignItems: 'center' } },
+            h('button', { className: 'ant-btn ant-btn-primary', onClick: () => setShowModal(true) },
+              '批量交接',
+              h('span', { style: { marginLeft: 6, fontSize: 11 } }, '▼')
             ),
+          ),
+        ),
 
-            // --- 页面 2: 需求 4,6,7 ---
-            page === 1 && h(Fragment, null,
-              h('div', { className: 'ant-card-custom' },
-                h('div', { className: 'card-head' },
-                  h('span', { className: 'head-title' }, '需求 4：我的达人库 - 媒介提报前明确合作业务线'),
-                  h('span', { className: 'head-extra', style: { color: '#1890ff', fontWeight: 500 } }, '位置：我的达人库 → 提报弹窗'),
-                ),
-                h('div', { className: 'card-body' },
-                  h(BizLineHintDemo),
-                ),
-              ),
+        // 操作说明
+        h('div', { style: { background: '#fafafa', border: '1px solid #f0f0f0', borderRadius: 4, padding: 16 } },
+          h('div', { style: { fontSize: 13, fontWeight: 600, marginBottom: 8 } }, '交接流程说明'),
+          h('div', { style: { fontSize: 13, lineHeight: 1.8, color: 'rgba(0,0,0,0.65)' } },
+            h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '步骤1'), '选择要交接的达人'),
+            h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '步骤2'), '点击"批量交接"'),
+            h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '步骤3'), '选择目标系统 + 目标负责人'),
+            h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '步骤4'), '确认交接'),
+          ),
+        ),
+      ),
+    ),
 
-              h('div', { className: 'ant-card-custom' },
-                h('div', { className: 'card-head' },
-                  h('span', { className: 'head-title' }, '需求 6：达人/线索透出其正在执行的招募任务及进度'),
-                  h('span', { className: 'head-extra', style: { color: '#1890ff', fontWeight: 500 } }, '位置：达人库 / 线索库 → 列表新增列'),
-                ),
-                h('div', { className: 'card-body' },
-                  h(RecruitProgressDemo),
-                ),
-              ),
-
-              h('div', { className: 'ant-card-custom' },
-                h('div', { className: 'card-head' },
-                  h('span', { className: 'head-title' }, '需求 7：全部线索加跟进人筛选项'),
-                  h('span', { className: 'head-extra', style: { color: '#1890ff', fontWeight: 500 } }, '位置：全部线索 → 搜索区新增'),
-                ),
-                h('div', { className: 'card-body' },
-                  h(FollowerFilterDemo),
+    // 弹窗模拟
+    showModal && h('div', { className: 'modal-overlay', onClick: () => setShowModal(false) },
+      h('div', { className: 'modal-box', onClick: e => e.stopPropagation() },
+        h('div', { className: 'modal-head' },
+          h('span', null, '批量交接'),
+          h('span', { style: { cursor: 'pointer' }, onClick: () => setShowModal(false) }, '✖')
+        ),
+        h('div', { className: 'modal-body' },
+          // 已选择达人(原有的)
+          h('div', { className: 'form-item-row' },
+            h('div', { className: 'form-label' }, '已选择达人'),
+            h('div', { className: 'form-control', style: { fontSize: 13 } },
+              'fashion_queen | 张三',
+              h('br' ),
+              'tech_guru | 李四',
+            ),
+          ),
+          // 目标负责人(原有的)
+          h('div', { className: 'form-item-row' },
+            h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '负责人'),
+            h('div', { className: 'form-control' },
+              h('div', { className: 'dm-cascader', style: { width: 300 } }, '请选择负责人'),
+            ),
+          ),
+          // ★ 新增：目标系统
+          h('div', { className: 'form-item-row' },
+            h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '目标系统'),
+            h('div', { className: 'form-control' },
+              h('div', { className: 'radio-group-custom' },
+                h('span', { className: 'radio-btn active' }, 'DM（多麦联盟）'),
+                h('span', { className: 'radio-btn' }, 'KN（KreatorNow）'),
+                h('span', { className: 'radio-btn' }, 'LKB（Linkbest）'),
+                h('span', { style: { display: 'inline-block', marginLeft: 8 } },
+                  h('span', { className: 'new-badge' }, 'NEW')
                 ),
               ),
             ),
           ),
         ),
-      );
-    }
+        h('div', { className: 'modal-foot' },
+          h('button', { className: 'ant-btn', onClick: () => setShowModal(false) }, '取消'),
+          h('button', { className: 'ant-btn ant-btn-primary', onClick: () => setShowModal(false) }, '确认交接'),
+        ),
+      ),
+    ),
 
-    const root = ReactDOM.createRoot ? ReactDOM.createRoot(document.getElementById('root')) : ReactDOM.render(h(App), document.getElementById('root'));
-  </script>
+    // 代码改动
+    h('div', { className: 'change-area' },
+      h('div', { className: 'change-title' }, '代码改动说明'),
+      h('div', { className: 'change-desc' },
+        'DistributeThreadModal.tsx 中新增 target_system 选择字段，提交参数增加 target_system。后端 /crmV2/transferTalent 根据 target_system 分发到不同系统的写入 API。'
+      ),
+      h('div', { className: 'code-diff' },
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '1'), '// DistributeThreadModal.tsx 新增'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'const TARGET_SYSTEMS = ['),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { value: "dm", label: "DM（多麦联盟）" },'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { value: "kn", label: "KN（KreatorNow）" },'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { value: "lkb", label: "LKB（Linkbest）" },'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '];'),
+        h('div', {}, h('span', { className: 'line-num' }, '6'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '7'), '// form 中新增'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '<Form.Item label="目标系统" name="target_system" rules={[{required:true}]}>'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  <Radio.Group options={TARGET_SYSTEMS} />'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '</Form.Item>'),
+        h('div', {}, h('span', { className: 'line-num' }, '11'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '12'), '// 提交参数增加'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'target_system  // 新增字段'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'source_system: "talent_tree"  // 来源标识'),
+      ),
+    ),
+  );
+}
+
+// ===== 需求4+6: 招募任务进度 =====
+const STATUS_MAP = [
+  { code: 10, label: '待初审', phase: '提报', pct: 10 },
+  { code: 12, label: '初审通过', phase: '提报', pct: 15 },
+  { code: 20, label: '待提报审批', phase: '提报', pct: 20 },
+  { code: 22, label: '待报价', phase: '提报', pct: 25 },
+  { code: 30, label: '待报价审批', phase: '报价', pct: 35 },
+  { code: 32, label: '报价通过', phase: '报价', pct: 40 },
+  { code: 40, label: '待确认合作', phase: '确认合作', pct: 50 },
+  { code: 50, label: '待执行', phase: '执行', pct: 60 },
+  { code: 51, label: '执行中', phase: '执行', pct: 80 },
+  { code: 52, label: '已完结', phase: '完结', pct: 100 },
+];
+
+function calcPct(code) {
+  if (code >= 52) return 100;
+  if (code >= 51) return 80;
+  if (code >= 50) return 60;
+  if (code >= 40) return 50;
+  if (code >= 32) return 40;
+  if (code >= 30) return 35;
+  if (code >= 22) return 25;
+  if (code >= 20) return 20;
+  if (code >= 12) return 15;
+  if (code >= 10) return 10;
+  return 0;
+}
+
+const progressColor = (p) => p >= 100 ? '#52c41a' : p >= 50 ? '#1890ff' : p > 0 ? '#faad14' : '#d9d9d9';
+
+function RecruitTaskDemo() {
+  const tasks = [
+    { task_name: '618美妆达人招募', business_line_name: '美妆', submit_status: 52 },
+    { task_name: '夏季服饰推广', business_line_name: '服饰', submit_status: 30 },
+    { task_name: '新品牌种草计划', business_line_name: '快消', submit_status: 10 },
+  ];
+
+  return h(Fragment, null,
+    // 提报弹窗中的招募任务展示
+    h('div', { className: 'page-card' },
+      h('div', { className: 'card-head' },
+        h('span', { className: 'head-title' }, '我的达人库 - 提报弹窗（PutForwardModal）'),
+        h('span', { className: 'change-badge' }, '新增')
+      ),
+      h('div', { className: 'card-body' },
+        // 模拟Alert
+        h('div', { style: { background: '#fffbe6', border: '1px solid #ffe58f', borderRadius: 4, padding: 12, marginBottom: 16 } },
+          h('div', { className: 'flex-center', style: { marginBottom: 8 } },
+            h('span', { style: { color: '#faad14', fontWeight: 700 } }, '⚠'),
+            h('span', { style: { fontWeight: 600, fontSize: 13 } }, '该达人已有相关联的招募任务'),
+          ),
+          // 表格展示招募任务进度
+          h('table', { className: 'mock-table', style: { fontSize: 12 } },
+            h('thead', null,
+              h('tr', null,
+                h('th', null, '招募任务'),
+                h('th', null, '业务线'),
+                h('th', null, '合作状态/进度'),
+              ),
+            ),
+            h('tbody', null,
+              tasks.map((t, i) => {
+                const p = calcPct(t.submit_status);
+                const s = STATUS_MAP.find(s => s.code === t.submit_status) || { label: '未知', phase: '未知' };
+                return h('tr', { key: i },
+                  h('td', null, h('strong', null, t.task_name)),
+                  h('td', null, h('span', { className: 'tag-custom geekblue' }, t.business_line_name)),
+                  h('td', null,
+                    h('div', { className: 'progress-wrap' },
+                      h('div', { className: 'progress-bar' },
+                        h('div', { className: 'progress-fill', style: { width: p + '%', background: progressColor(p) } })
+                      ),
+                      h('span', { className: `tag-custom ${p >= 100 ? 'green' : p >= 50 ? 'geekblue' : p > 0 ? 'orange' : 'default'}`, style: { fontSize: 11 } }, s.label),
+                      h('span', { className: 'text-muted' }, p + '%'),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ),
+
+        // 原有提报表单(简化示意)
+        h('div', { style: { borderTop: '1px dashed #f0f0f0', paddingTop: 16 } },
+          h('div', { className: 'form-item-row' },
+            h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '项目'),
+            h('div', { className: 'form-control' },
+              h('div', { className: 'dm-cascader', style: { width: 300 } }, '请选择项目'),
+            ),
+          ),
+        ),
+      ),
+    ),
+
+    // 达人库列表新增列
+    h('div', { className: 'page-card' },
+      h('div', { className: 'card-head' },
+        h('span', { className: 'head-title' }, '达人库列表 - 「招募任务」列'),
+        h('span', { className: 'change-badge' }, '新增')
+      ),
+      h('div', { className: 'card-body' },
+        h('table', { className: 'mock-table' },
+          h('thead', null,
+            h('tr', null,
+              h('th', null, '达人昵称'),
+              h('th', null, '平台'),
+              h('th', null, '粉丝'),
+              h('th', { className: 'highlight-col', style: { width: 320 } }, '招募任务 ' + h('span', { className: 'new-badge' }, 'NEW')),
+              h('th', null, '操作'),
+            ),
+          ),
+          h('tbody', null,
+            [
+              { nick: 'fashion_queen', plat: 'Instagram', fans: '245K', tasks: [{ name: '618美妆达人招募', biz: '美妆', status: 52 }, { name: '夏季服饰推广', biz: '服饰', status: 30 }] },
+              { nick: 'tech_guru', plat: 'YouTube', fans: '1.2M', tasks: [{ name: '新品牌种草计划', biz: '快消', status: 10 }] },
+              { nick: 'beauty_star', plat: 'TikTok', fans: '890K', tasks: [] },
+            ].map((row, i) =>
+              h('tr', { key: i },
+                h('td', null, row.nick),
+                h('td', null, h('span', { className: `platform-tag ${row.plat === 'Instagram' ? 'ig' : row.plat === 'YouTube' ? 'yt' : 'tt'}` }, row.plat)),
+                h('td', null, row.fans),
+                h('td', { className: 'highlight-col' },
+                  row.tasks.length === 0 ? h('span', { className: 'text-muted' }, '-') :
+                  row.tasks.map((t, j) => {
+                    const p = calcPct(t.status);
+                    const s = STATUS_MAP.find(s => s.code === t.status) || {};
+                    return h('div', { key: j, style: { padding: '6px 0', borderBottom: j < row.tasks.length - 1 ? '1px dashed #f0f0f0' : 'none' } },
+                      h('div', { style: { fontWeight: 500, fontSize: 13, marginBottom: 4 } },
+                        t.name,
+                        h('span', { style: { marginLeft: 8, fontSize: 12, color: 'rgba(0,0,0,0.45)' } }, t.biz),
+                      ),
+                      h('div', { className: 'progress-wrap' },
+                        h('div', { className: 'progress-bar', style: { width: 120 } },
+                          h('div', { className: 'progress-fill', style: { width: p + '%', background: progressColor(p) } })
+                        ),
+                        h('span', { className: `tag-custom ${p >= 100 ? 'green' : p >= 50 ? 'geekblue' : p > 0 ? 'orange' : 'default'}`, style: { fontSize: 11 } }, s.label || '未知'),
+                      ),
+                    );
+                  })
+                ),
+                h('td', null, h('a', null, '编辑')),
+              )
+            ),
+          ),
+        ),
+      ),
+    ),
+
+    // 状态流转表
+    h('div', { className: 'page-card' },
+      h('div', { className: 'card-head' },
+        h('span', { className: 'head-title' }, '招募任务状态流转图')
+      ),
+      h('div', { className: 'card-body' },
+        h('table', { className: 'url-pattern-table' },
+          h('thead', null,
+            h('tr', null,
+              h('th', null, '阶段'),
+              h('th', null, '状态码'),
+              h('th', null, '说明'),
+              h('th', null, '进度'),
+              h('th', null, '状态颜色'),
+            ),
+          ),
+          h('tbody', null,
+            STATUS_MAP.map(s =>
+              h('tr', { key: s.code },
+                h('td', null, h('strong', { style: { fontSize: 11 } }, s.phase)),
+                h('td', null, h('code', null, s.code)),
+                h('td', null, s.label),
+                h('td', null,
+                  h('div', { className: 'progress-wrap' },
+                    h('div', { className: 'progress-bar', style: { width: 80 } },
+                      h('div', { className: 'progress-fill', style: { width: s.pct + '%', background: progressColor(s.pct) } })
+                    ),
+                    h('span', { className: 'text-muted' }, s.pct + '%'),
+                  ),
+                ),
+                h('td', null, h('span', { style: { display: 'inline-block', width: 10, height: 10, borderRadius: '50%', background: progressColor(s.pct) } })),
+              )
+            ),
+          ),
+        ),
+      ),
+    ),
+
+    // 代码改动
+    h('div', { className: 'change-area' },
+      h('div', { className: 'change-title' }, '代码改动说明'),
+      h('div', { className: 'change-desc' },
+        'PutForwardModal.tsx 打开时获取该达人关联的招募任务+业务线+合作状态，弹窗顶部新增 Alert 展示区域。',
+        h('br' ),
+        'TalentTree/tableSchema.tsx 和 ThreadedTree/tableSchema.tsx 新增「招募任务」列（hideInSearch: true, 仅展示）。',
+        h('br' ),
+        'TalentTreeList.tsx listRequest 中在 /crmV2/agentList 返回后，批量查询 /crmV2/batchRecruitmentTasks 补充 recruitment_tasks 数据。'
+      ),
+      h('div', { className: 'code-diff' },
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '1'), '// 后端新增接口'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'GET /crmV2/talentRecruitmentTaskStatus'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  params: raw_talent_id'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  return: [{task_name, business_line_name, submit_status}]'),
+        h('div', {}, h('span', { className: 'line-num' }, '5'), ''),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'GET /crmV2/batchRecruitmentTasks'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  params: talent_ids(逗号分隔), type(talent/clue)'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  return: Map<talent_id, Array<{task_name, business_line_name, submit_status}>>'),
+      ),
+    ),
+  );
+}
+
+// ===== 需求7: 跟进人筛选 =====
+function Requirement7() {
+  return h(Fragment, null,
+
+    h('div', { className: 'alert-tip info', style: { marginBottom: 16 } },
+      h('strong', null, '涉及页面：'), '全部线索（ThreadedTree）',
+      h('br' ),
+      h('strong', null, '改动文件：'), 'ThreadedTree/tableSchema.tsx - schemaTableProps 中「跟进人」列（:692-697）加上 registerToSearch + renderFormItem + search.transform'
+    ),
+
+    h('div', { className: 'page-card' },
+      h('div', { className: 'card-head' },
+        h('span', { className: 'head-title' }, '全部线索 - 搜索区')
+      ),
+      h('div', { className: 'card-body' },
+        // 搜索栏
+        h('div', { className: 'search-bar', style: { margin: '-24px -24px 0 -24px', borderBottom: '1px solid #f0f0f0' } },
+          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
+            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '线索ID'),
+            h('span', { className: 'ant-input-affix-wrapper', style: { width: 140 } },
+              h('input', { className: 'ant-input', placeholder: '线索ID', style: { paddingLeft: 12 } }),
+            ),
+          ),
+          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
+            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '平台'),
+            h('div', { className: 'dm-cascader', style: { width: 120 } }, '请选择平台'),
+          ),
+          // ★ 新增：跟进人
+          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
+            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } },
+              '跟进人', h('span', { className: 'new-badge' }, 'NEW')
+            ),
+            h('div', { className: 'dm-cascader', style: { width: 160 } },
+              h('span', { style: { color: 'rgba(0,0,0,0.25)', fontSize: 13 } }, '请选择跟进人'),
+              h('span', { style: { marginLeft: 'auto' } }, '▼'),
+            ),
+          ),
+          h('button', { className: 'ant-btn ant-btn-primary' }, '搜索'),
+          h('button', { className: 'ant-btn' }, '重置'),
+        ),
+
+        // 线索列表
+        h('table', { className: 'mock-table', style: { marginTop: 16 } },
+          h('thead', null,
+            h('tr', null,
+              h('th', null, '线索ID'),
+              h('th', null, '昵称'),
+              h('th', null, '平台'),
+              h('th', null, '粉丝数'),
+              h('th', { className: 'highlight-col' }, '跟进人'),
+              h('th', null, '状态'),
+            ),
+          ),
+          h('tbody', null,
+            [
+              { id: 'CL1001', nick: 'skincare_pro', plat: 'Instagram', fans: '125K', follower: '张三', status: '待跟进' },
+              { id: 'CL1002', nick: 'game_champion', plat: 'YouTube', fans: '5.2M', follower: '李四', status: '跟进中' },
+              { id: 'CL1003', nick: 'dance_star', plat: 'TikTok', fans: '2.1M', follower: null, status: '待跟进' },
+            ].map((row, i) =>
+              h('tr', { key: i },
+                h('td', null, row.id),
+                h('td', null, row.nick),
+                h('td', null, h('span', { className: `platform-tag ${row.plat === 'Instagram' ? 'ig' : row.plat === 'YouTube' ? 'yt' : 'tt'}` }, row.plat)),
+                h('td', null, row.fans),
+                h('td', { className: 'highlight-col' },
+                  row.follower
+                    ? h('span', { className: 'tag-custom geekblue' }, row.follower)
+                    : h('span', { className: 'text-muted' }, '-'),
+                ),
+                h('td', null, row.status),
+              )
+            ),
+          ),
+        ),
+      ),
+    ),
+
+    // 代码改动
+    h('div', { className: 'change-area' },
+      h('div', { className: 'change-title' }, '代码改动说明'),
+      h('div', { className: 'change-desc' },
+        'ThreadedTree/tableSchema.tsx 的 schemaTableProps 中「跟进人」列目前只有 dataIndex，缺少 registerToSearch。',
+        h('br' ),
+        '复用 ThreadedTreeColumns（:326-360）中已有的 DmCascader 搜索配置，替换 schemaTableProps 中的列配置即可。',
+        h('br' ),
+        '后端无需改动，API /crmV2/list 已支持 follow_up_person_id 和 follow_up_person_type 参数。'
+      ),
+      h('div', { className: 'code-diff' },
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '1'), '// schemaTableProps 中 :692-697 原代码：'),
+        h('div', { className: 'diff-del' }, h('span', { className: 'line-num' }, '-'), '{ title: "跟进人", dataIndex: "follow_up_person_name", width: 100, key: "follow_up_person_name" }'),
+        h('div', {}, h('span', { className: 'line-num' }, '3'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '4'), '// 改为（复用 ThreadedTreeColumns 配置）：'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '{'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  title: "跟进人", dataIndex: "follow_up_person_name", width: 100, key: "follow_up_person_name",'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  registerToSearch: true,'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  renderFormItem: () => <DmCascader searchUrl="/department/medium" ... />,'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  search: {'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    transform: (value) => ({'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '      follow_up_person_id: value?.id,'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '      follow_up_person_type: value?.type,'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    }),'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  },'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '};'),
+      ),
+    ),
+  );
+}
+
+// ============ App ============
+function App() {
+  const [activeReq, setActiveReq] = useState(1);
+
+  const content = {
+    1: h(Requirement1),
+    2: h(Requirement2),
+    3: h(Requirement3),
+    4: h(RecruitTaskDemo),
+    7: h(Requirement7),
+  };
+
+  return h('div', { className: 'app-layout' },
+    // 顶部导航
+    h('div', { className: 'top-nav' },
+      h('div', { className: 'logo-area' },
+        h('div', { className: 'logo-icon' }, 'M'),
+        h('span', { className: 'logo-text' }, '多麦营销系统'),
+      ),
+      h('div', { className: 'nav-menu' },
+        h('a', { className: 'nav-item active' }, '👥 达人管理'),
+        h('a', { className: 'nav-item' }, '📋 广告管理'),
+        h('a', { className: 'nav-item' }, '📊 数据报告'),
+      ),
+    ),
+    // 主体
+    h('div', { className: 'main-area' },
+      // 侧边栏
+      h('div', { className: 'sidebar' },
+        h('div', { className: 'sub-title' }, '达人管理'),
+        h('a', { className: 'menu-item active', style: { cursor: 'default' } }, '🏷 达人库'),
+        h('a', { className: 'menu-item', style: { cursor: 'default' } }, '🔍 全部线索'),
+        h('a', { className: 'menu-item', style: { cursor: 'default' } }, '🌟 我的达人库'),
+      ),
+      // 内容区
+      h('div', { className: 'content-area' },
+        // 页面标题
+        h('div', { className: 'page-header' },
+          h('h2', null, '达人管理需求改动原型'),
+          h('div', { className: 'breadcrumb' }, '达人管理 / ', h('span', null, '需求改动方案')),
+        ),
+        // 需求切换 Tab
+        h(ReqTabs, { active: activeReq, onChange: setActiveReq }),
+        // 需求内容
+        content[activeReq] || h('div', null, '选中一个需求查看'),
+      ),
+    ),
+  );
+}
+
+ReactDOM.render(h(App), document.getElementById('root'));
+</script>
 </body>
 </html>
