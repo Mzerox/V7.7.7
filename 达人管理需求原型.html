@@ -33,7 +33,7 @@
     .top-nav .nav-menu { display: flex; gap: 0; flex: 1; }
     .top-nav .nav-item {
       padding: 14px 16px; font-size: 14px; color: rgba(0,0,0,0.65); cursor: pointer;
-      border-bottom: 2px solid transparent; transition: all 0.2s; text-decoration: none; white-space: nowrap;
+      border-bottom: 2px solid transparent; text-decoration: none; white-space: nowrap;
     }
     .top-nav .nav-item:hover { color: #1890ff; }
     .top-nav .nav-item.active { color: #1890ff; border-bottom-color: #1890ff; font-weight: 500; }
@@ -50,19 +50,17 @@
     .sidebar .menu-item {
       display: flex; align-items: center; gap: 8px; padding: 8px 16px 8px 24px;
       font-size: 14px; color: rgba(0,0,0,0.65); cursor: pointer; text-decoration: none;
-      border-right: 3px solid transparent; transition: all 0.2s;
+      border-right: 3px solid transparent;
     }
     .sidebar .menu-item:hover { color: #1890ff; background: #f5f5f5; }
     .sidebar .menu-item.active { color: #1890ff; background: #e6f7ff; border-right-color: #1890ff; font-weight: 500; }
 
-    /* ===== 主布局 ===== */
     .app-layout { display: flex; flex-direction: column; min-height: 100vh; }
     .main-area { display: flex; flex: 1; }
     .content-area { flex: 1; padding: 24px; min-width: 0; overflow-x: auto; }
 
-    /* ===== 页面头部 ===== */
     .page-header { margin-bottom: 16px; }
-    .page-header h2 { font-size: 20px; font-weight: 600; color: rgba(0,0,0,0.85); margin-bottom: 4px; }
+    .page-header h2 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
     .page-header .breadcrumb { font-size: 13px; color: rgba(0,0,0,0.45); }
     .page-header .breadcrumb span { color: rgba(0,0,0,0.65); }
 
@@ -72,12 +70,12 @@
     }
     .req-tab {
       padding: 8px 20px; cursor: pointer; font-size: 13px; color: rgba(0,0,0,0.65);
-      border-radius: 2px; transition: all 0.2s; border: none; background: none;
+      border-radius: 2px; border: none; background: none;
     }
     .req-tab:hover { color: #1890ff; background: #f5f5f5; }
     .req-tab.active { color: #fff; background: #1890ff; font-weight: 500; }
 
-    /* ===== 内容卡片 ===== */
+    /* ===== 页卡 ===== */
     .page-card {
       background: #fff; border-radius: 2px; margin-bottom: 16px;
     }
@@ -85,46 +83,70 @@
       padding: 0 24px; border-bottom: 1px solid #f0f0f0;
       min-height: 48px; display: flex; align-items: center;
     }
-    .page-card .card-head .head-title { font-size: 16px; font-weight: 500; color: rgba(0,0,0,0.85); }
+    .page-card .card-head .head-title { font-size: 16px; font-weight: 500; }
     .page-card .card-body { padding: 24px; }
 
-    /* ===== 改动点标识 ===== */
-    .change-badge {
-      display: inline-block; background: #ff4d4f; color: #fff;
-      font-size: 10px; font-weight: 700; padding: 0 6px; border-radius: 8px; line-height: 16px; margin-left: 8px;
+    /* ===== 需求目标横幅 ===== */
+    .goal-banner {
+      background: linear-gradient(135deg, #e6f7ff 0%, #f0f5ff 100%);
+      border: 1px solid #91d5ff;
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
     }
-    .change-area {
-      background: #fffbe6; border: 1px solid #ffe58f; border-radius: 4px; padding: 16px; margin-bottom: 16px;
+    .goal-banner .goal-label {
+      display: inline-block;
+      background: #1890ff;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
     }
-    .change-area .change-title { font-weight: 600; color: #d48806; margin-bottom: 8px; font-size: 14px; }
-    .change-area .change-desc { color: rgba(0,0,0,0.65); font-size: 13px; margin-bottom: 12px; }
+    .goal-banner .goal-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .goal-banner .goal-desc { font-size: 14px; line-height: 1.8; color: rgba(0,0,0,0.65); }
+    .goal-banner .goal-desc code { background: #f0f5ff; padding: 1px 6px; border-radius: 2px; font-size: 13px; border: 1px solid #d6e4ff; }
+
+    /* ===== 改动高亮 ===== */
+    .highlight-area {
+      outline: 2px dashed #ff4d4f;
+      outline-offset: 2px;
+      position: relative;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 77, 79, 0.02) 10px,
+        rgba(255, 77, 79, 0.02) 20px
+      );
+      border-radius: 2px;
+    }
+    .highlight-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: #ff4d4f; color: #fff; font-size: 11px; font-weight: 700;
+      padding: 2px 10px; border-radius: 10px; line-height: 20px;
+    }
+    .highlight-tag::before { content: "✦"; }
 
     /* ===== 代码diff ===== */
     .code-diff {
-      background: #f6f8fa; border: 1px solid #e8e8e8; border-radius: 4px; padding: 16px; margin-bottom: 12px; font-family: 'SF Mono', 'Monaco', 'Menlo', monospace; font-size: 12px; line-height: 1.8; overflow-x: auto;
+      background: #f6f8fa; border: 1px solid #e8e8e8; border-radius: 4px; padding: 16px; margin-bottom: 12px;
+      font-family: 'SF Mono', 'Monaco', 'Menlo', monospace; font-size: 12px; line-height: 1.8; overflow-x: auto;
     }
-    .code-diff .diff-new { background: #e6ffed; }
-    .code-diff .diff-del { background: #ffeef0; }
-    .code-diff .diff-info { color: rgba(0,0,0,0.45); }
+    .code-diff .diff-new { background: #e6ffed; display: block; }
+    .code-diff .diff-del { background: #ffeef0; display: block; }
+    .code-diff .diff-info { color: rgba(0,0,0,0.45); display: block; }
     .code-diff .line-num { color: rgba(0,0,0,0.25); min-width: 32px; display: inline-block; text-align: right; margin-right: 12px; user-select: none; }
 
-    /* ===== 修改前后对比 ===== */
-    .compare-wrap { display: flex; gap: 16px; margin-bottom: 16px; }
-    .compare-box { flex: 1; border: 1px solid #f0f0f0; border-radius: 4px; overflow: hidden; }
-    .compare-box .compare-head { padding: 8px 12px; font-size: 12px; font-weight: 600; border-bottom: 1px solid #f0f0f0; }
-    .compare-box .compare-head.before { background: #fff2f0; color: #cf1322; }
-    .compare-box .compare-head.after { background: #f6ffed; color: #389e0d; }
-    .compare-box .compare-body { padding: 16px; }
-
-    /* ===== 模拟表格 ===== */
+    /* ===== 表格 ===== */
     .mock-table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .mock-table th {
       background: #fafafa; padding: 8px 12px; text-align: left; font-weight: 600;
-      font-size: 12px; color: rgba(0,0,0,0.85); border-bottom: 1px solid #e8e8e8;
+      font-size: 12px; border-bottom: 1px solid #e8e8e8;
     }
     .mock-table td { padding: 8px 12px; border-bottom: 1px solid #f0f0f0; }
-    .mock-table tr:hover td { background: #e6f7ff; }
-    .mock-table .highlight-col { background: #fffbe6; }
+    .mock-table tbody tr:hover td { background: #e6f7ff; }
 
     /* ===== 标签 ===== */
     .tag-custom {
@@ -140,20 +162,19 @@
     /* ===== 进度条 ===== */
     .progress-wrap { display: inline-flex; align-items: center; gap: 8px; }
     .progress-bar { width: 120px; background: #f5f5f5; border-radius: 100px; height: 8px; overflow: hidden; }
-    .progress-fill { height: 100%; border-radius: 100px; transition: width 0.3s; }
+    .progress-fill { height: 100%; border-radius: 100px; }
     .progress-text { font-size: 12px; color: rgba(0,0,0,0.45); white-space: nowrap; }
 
-    /* ===== 搜索栏模拟 ===== */
+    /* ===== 搜索栏 ===== */
     .search-bar {
       display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
       padding: 16px; background: #fafafa; border-bottom: 1px solid #f0f0f0;
     }
-    .search-bar .ant-input-affix-wrapper { width: 200px; }
-    .search-bar .ant-btn { margin-right: 0; }
 
-    /* ===== 弹窗模拟 ===== */
+    /* ===== 弹窗 ===== */
     .modal-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1050; display: flex; align-items: flex-start; justify-content: center; padding-top: 120px;
+      position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1050;
+      display: flex; align-items: flex-start; justify-content: center; padding-top: 120px;
     }
     .modal-box {
       background: #fff; border-radius: 2px; width: 640px; max-height: 70vh;
@@ -167,24 +188,16 @@
     .radio-group-custom { display: inline-flex; gap: 0; border: 1px solid #d9d9d9; border-radius: 2px; overflow: hidden; }
     .radio-group-custom .radio-btn {
       padding: 4px 16px; font-size: 13px; cursor: pointer; border-right: 1px solid #d9d9d9;
-      background: #fff; color: rgba(0,0,0,0.65); transition: all 0.2s;
+      background: #fff; color: rgba(0,0,0,0.65);
     }
     .radio-group-custom .radio-btn:last-child { border-right: none; }
     .radio-group-custom .radio-btn.active { background: #1890ff; color: #fff; border-color: #1890ff; }
 
-    /* ===== 弹窗内表单 ===== */
+    /* ===== 表单行 ===== */
     .form-item-row { display: flex; margin-bottom: 16px; align-items: flex-start; }
-    .form-item-row .form-label { width: 100px; text-align: right; padding-right: 12px; line-height: 32px; font-size: 13px; color: rgba(0,0,0,0.85); flex-shrink: 0; }
+    .form-item-row .form-label { width: 100px; text-align: right; padding-right: 12px; line-height: 32px; font-size: 13px; flex-shrink: 0; }
     .form-item-row .form-label .required { color: #ff4d4f; margin-right: 4px; }
     .form-item-row .form-control { flex: 1; }
-
-    /* ===== 概况信息 ===== */
-    .stats-grid { display: flex; gap: 16px; margin-bottom: 16px; }
-    .stat-item {
-      flex: 1; border: 1px solid #f0f0f0; border-radius: 4px; padding: 16px; text-align: center;
-    }
-    .stat-item .num { font-size: 28px; font-weight: 700; color: #1890ff; }
-    .stat-item .label { font-size: 12px; color: rgba(0,0,0,0.45); margin-top: 4px; }
 
     /* ===== 平台标签 ===== */
     .platform-tag {
@@ -199,46 +212,19 @@
     .dm-cascader { display: flex; align-items: center; gap: 4px; padding: 4px 12px; border: 1px solid #d9d9d9; border-radius: 2px; cursor: pointer; background: #fff; min-height: 32px; }
     .dm-cascader:hover { border-color: #1890ff; }
 
-    /* ===== Tab ===== */
-    .ant-tabs-bar {
-      border-bottom: 1px solid #f0f0f0; padding: 0 8px; display: flex; background: #fff;
-    }
-    .ant-tabs-bar .tab-item {
-      padding: 8px 16px; cursor: pointer; font-size: 13px; color: rgba(0,0,0,0.65);
-      border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.3s;
-    }
-    .ant-tabs-bar .tab-item:hover { color: #1890ff; }
-    .ant-tabs-bar .tab-item.active { color: #1890ff; border-bottom-color: #1890ff; }
-
     /* ===== 工具类 ===== */
-    .mt-8 { margin-top: 8px; }
-    .mt-16 { margin-top: 16px; }
-    .mb-8 { margin-bottom: 8px; }
-    .mb-16 { margin-bottom: 16px; }
     .flex-center { display: flex; align-items: center; gap: 8px; }
     .text-muted { color: rgba(0,0,0,0.45); font-size: 12px; }
-    .text-danger { color: #ff4d4f; }
-    .text-success { color: #52c41a; }
+    .mb-8 { margin-bottom: 8px; }
+    .mb-16 { margin-bottom: 16px; }
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
 
-    /* ===== 需求1 - URL格式表 ===== */
+    /* ===== URL格式表 ===== */
     .url-pattern-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    .url-pattern-table th { background: #fafafa; padding: 6px 10px; text-align: left; font-weight: 600; color: rgba(0,0,0,0.85); border-bottom: 1px solid #e8e8e8; }
+    .url-pattern-table th { background: #fafafa; padding: 6px 10px; text-align: left; font-weight: 600; border-bottom: 1px solid #e8e8e8; }
     .url-pattern-table td { padding: 6px 10px; border-bottom: 1px solid #f0f0f0; }
     .url-pattern-table code { background: #f6f8fa; padding: 1px 4px; border-radius: 2px; font-size: 11px; border: 1px solid #e8e8e8; }
-
-    /* NEW标签 */
-    .new-badge {
-      display: inline-block; background: #ff4d4f; color: #fff; font-size: 10px; font-weight: 700;
-      padding: 0 6px; border-radius: 8px; line-height: 16px; margin-left: 6px; vertical-align: middle;
-    }
-
-    /* 预览Alert */
-    .alert-tip {
-      padding: 8px 16px; border-radius: 4px; font-size: 13px; margin-bottom: 16px;
-    }
-    .alert-tip.info { background: #e6f7ff; border: 1px solid #91d5ff; color: rgba(0,0,0,0.65); }
-    .alert-tip.success { background: #f6ffed; border: 1px solid #b7eb8f; color: rgba(0,0,0,0.65); }
-    .alert-tip.warning { background: #fffbe6; border: 1px solid #ffe58f; color: rgba(0,0,0,0.65); }
   </style>
 </head>
 <body>
@@ -246,17 +232,15 @@
 <script src="react.js"></script>
 <script src="react-dom.js"></script>
 <script>
-const { useState, useRef, useEffect, Fragment, createElement: h } = React;
+const { useState, Fragment, createElement: h } = React;
 
-// ===== 数据 =====
 const PLATFORMS = [
   { code: 8, name: 'Instagram', cls: 'ig', domains: ['instagram.com', 'instagr.am'] },
   { code: 9, name: 'YouTube', cls: 'yt', domains: ['youtube.com', 'youtu.be'] },
   { code: 10, name: 'TikTok', cls: 'tt', domains: ['tiktok.com', 'douyin.com'] },
 ];
 
-// ===== Tab导航 =====
-const REQUIREMENTS = [
+const REQS = [
   { id: 1, label: '需求1 URL自动识别' },
   { id: 2, label: '需求2 无负责人搜索' },
   { id: 3, label: '需求3 跨系统交接' },
@@ -266,63 +250,46 @@ const REQUIREMENTS = [
 
 const ReqTabs = ({ active, onChange }) =>
   h('div', { className: 'req-tabs' },
-    REQUIREMENTS.map(r =>
-      h('button', {
-        key: r.id, className: `req-tab${active === r.id ? ' active' : ''}`,
-        onClick: () => onChange(r.id),
-      }, r.label)
-    )
+    REQS.map(r => h('button', { key: r.id, className: `req-tab${active === r.id ? ' active' : ''}`, onClick: () => onChange(r.id) }, r.label))
   );
 
-// ===== 需求1: URL自动识别 =====
-function Requirement1() {
-  return h(Fragment, null,
-
-    // 页面上下文
-    h('div', { className: 'alert-tip info', style: { marginBottom: 16 } },
-      h('strong', null, '涉及页面：'), '新建达人弹窗（TalentInfoForm/config.tsx）、新建线索弹窗（CreateThreadModal/schema.tsx）',
-      h('br' ),
-      h('strong', null, '改动文件：'), 'config.tsx (:20-40 新增映射表, :402-404 改 onBlurHandle) | schema.tsx (:20-40 新增映射表, :168-170 改 onBlurHandle)'
+/* ===== 需求1: URL自动识别 ===== */
+const Req1 = () =>
+  h(Fragment, null,
+    h('div', { className: 'goal-banner' },
+      h('div', { className: 'goal-label' }, '需求目标'),
+      h('div', { className: 'goal-title' }, '入库时自动识别平台最简 URL 并解析（IG / YT / TT）'),
+      h('div', { className: 'goal-desc' },
+        '用户在新建达人 / 新建线索时粘贴链接，系统前端先识别平台类型，再调 API 获取详情。不支持的平台直接提示，减少无效请求。',
+        h('br' ),
+        '涉及页面：新建达人弹窗（', h('code', null, 'config.tsx'), '）、新建线索弹窗（', h('code', null, 'schema.tsx'), '）'
+      ),
     ),
 
-    // 改动点卡片
     h('div', { className: 'page-card' },
-      h('div', { className: 'card-head' },
-        h('span', { className: 'head-title' }, '新建达人弹窗 - URL 输入区域'),
-        h('span', { className: 'change-badge' }, '改动')
-      ),
+      h('div', { className: 'card-head' }, h('span', { className: 'head-title' }, '新建达人弹窗 · URL 输入区域')),
       h('div', { className: 'card-body' },
-        // 模拟弹窗内容
-        h('div', { style: { border: '1px solid #f0f0f0', borderRadius: 4, padding: 24, maxWidth: 560 } },
-          // 表单示例
-          h('div', { className: 'form-item-row' },
-            h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '平台'),
-            h('div', { className: 'form-control' },
-              h('div', { className: 'dm-cascader', style: { width: 260 } }, '请选择平台'),
-            ),
-          ),
+        h('div', { className: 'highlight-area', style: { padding: 20, maxWidth: 560 } },
+          h('div', { style: { position: 'absolute', top: -12, left: 16 } }, h('span', { className: 'highlight-tag' }, '新增前端预识别')),
           h('div', { className: 'form-item-row' },
             h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), 'URL'),
             h('div', { className: 'form-control' },
-              h('span', { className: 'ant-input-affix-wrapper', style: { width: '100%' } },
-                h('input', { className: 'ant-input', placeholder: '请粘贴达人主页链接（支持 Instagram / YouTube / TikTok）', style: { paddingLeft: 12 }, value: 'https://www.instagram.com/nike/' })
+              h('span', { className: 'ant-input-affix-wrapper' },
+                h('input', { className: 'ant-input', placeholder: '请粘贴达人主页链接（Instagram / YouTube / TikTok）', value: 'https://www.instagram.com/nike/' }),
               ),
               h('div', { style: { marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' } },
-                PLATFORMS.map(p =>
-                  h('span', { className: `platform-tag ${p.cls}`, key: p.name }, p.name)
-                ),
-                h('span', { style: { fontSize: 12, color: 'rgba(0,0,0,0.45)', lineHeight: '22px', marginLeft: 4 } }, 'URL 格式自动识别')
+                PLATFORMS.map(p => h('span', { className: `platform-tag ${p.cls}`, key: p.name }, p.name)),
+                h('span', { className: 'text-muted', style: { lineHeight: '22px', marginLeft: 4 } }, 'URL 格式自动识别'),
               ),
-              // 识别结果展示
               h('div', { style: { marginTop: 12, background: '#f6ffed', border: '1px solid #b7eb8f', borderRadius: 4, padding: 12 } },
-                h('div', { className: 'flex-center', style: { marginBottom: 8 } },
-                  h('span', { className: 'anticon anticon-check-circle', style: { color: '#52c41a' } }, '✓'),
+                h('div', { className: 'flex-center', style: { marginBottom: 6 } },
+                  h('span', { style: { color: '#52c41a', fontWeight: 700 } }, '✓'),
                   h('span', { style: { fontWeight: 500 } }, '已识别：'),
-                  h('span', { className: 'platform-tag ig', style: { marginLeft: 4 } }, 'Instagram'),
+                  h('span', { className: 'platform-tag ig' }, 'Instagram'),
                 ),
-                h('div', { style: { display: 'flex', gap: 24, fontSize: 13 } },
-                  h('div', null, h('span', { style: { color: 'rgba(0,0,0,0.45)' } }, '账号 '), h('strong', null, 'nike')),
-                  h('div', null, h('span', { style: { color: 'rgba(0,0,0,0.45)' } }, '标准化链接 '), h('code', { style: { color: '#1890ff' } }, 'https://www.instagram.com/nike/')),
+                h('div', { style: { fontSize: 13, display: 'flex', gap: 24 } },
+                  h('span', null, h('span', { className: 'text-muted' }, '账号 '), h('strong', null, 'nike')),
+                  h('span', null, h('span', { className: 'text-muted' }, '标准化 '), h('code', { style: { color: '#1890ff' } }, 'https://www.instagram.com/nike/')),
                 ),
               ),
             ),
@@ -331,18 +298,12 @@ function Requirement1() {
       ),
     ),
 
-    // URL格式对照表
     h('div', { className: 'page-card' },
-      h('div', { className: 'card-head' },
-        h('span', { className: 'head-title' }, '新增：URL 格式映射表（PLATFORM_URL_RULES）')
-      ),
+      h('div', { className: 'card-head' }, h('span', { className: 'head-title' }, '新增 URL 格式映射表（PLATFORM_URL_RULES）')),
       h('div', { className: 'card-body' },
         h('table', { className: 'url-pattern-table' },
           h('thead', null, h('tr', null,
-            h('th', null, '平台'),
-            h('th', null, '识别域名'),
-            h('th', null, 'code'),
-            h('th', null, '支持格式'),
+            h('th', null, '平台'), h('th', null, '识别域名'), h('th', null, 'code'), h('th', null, '支持格式'),
           )),
           h('tbody', null,
             h('tr', null,
@@ -368,121 +329,78 @@ function Requirement1() {
       ),
     ),
 
-    // 代码改动
-    h('div', { className: 'change-area' },
-      h('div', { className: 'change-title' }, '代码改动说明'),
-      h('div', { className: 'change-desc' },
-        '两处弹窗（config.tsx 和 schema.tsx）做相同的改动：文件顶部新增 PLATFORM_URL_RULES 映射表，onBlurHandle 中增加前端 URL 预识别校验。'
-      ),
+    h('div', { style: { background: '#f6f8fa', border: '1px solid #e8e8e8', borderRadius: 4, padding: 20 } },
+      h('div', { style: { fontWeight: 600, marginBottom: 12, fontSize: 14 } }, '代码改动'),
       h('div', { className: 'code-diff' },
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '1'), '// config.tsx :20 新增——URL 格式自动识别规则'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'const PLATFORM_URL_RULES = ['),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { code: 8, name: "Instagram",  domains: ["instagram.com", "instagr.am"] },'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { code: 9, name: "YouTube",    domains: ["youtube.com", "youtu.be"] },'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { code: 10, name: "TikTok",    domains: ["tiktok.com", "douyin.com"] },'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '];'),
-        h('div', {}, h('span', { className: 'line-num' }, '5'), ''),
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '6'), '// onBlurHandle (:402-404) 改为：'),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 1'), '// config.tsx :20 新增 + schema.tsx :20 新增'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'const PLATFORM_URL_RULES = [{code:8,name:"Instagram",domains:["instagram.com","instagr.am"]},...];'),
+        h('div', {}, h('span', { className: 'line-num' }, ' 2'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 3'), '// config.tsx :402 onBlurHandle 中新增前端预校验'),
         h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'const onBlurHandle = () => {'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  const url = getFieldValue(["data", index, "url"]);'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  const url = getFieldValue(["data","index","url"]);'),
         h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  if (!url || !isUrl(url)) return;'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  const matched = PLATFORM_URL_RULES.find(rule =>'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    rule.domains.some(domain => url.includes(domain))'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  );'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  if (!matched) {'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    message.warning("暂不支持此平台链接。支持：IG/YT/TT");'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    return;'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  }'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  const matched = PLATFORM_URL_RULES.find(r => r.domains.some(d => url.includes(d)));'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  if (!matched) { message.warning("暂不支持此平台链接"); return; }'),
         h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  setTalentInfo();'),
         h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '};'),
       ),
     ),
   );
-}
 
-// ===== 需求2: 无负责人搜索 =====
-function Requirement2() {
-  return h(Fragment, null,
-
-    h('div', { className: 'alert-tip info', style: { marginBottom: 16 } },
-      h('strong', null, '涉及页面：'), '达人库列表',
-      h('br' ),
-      h('strong', null, '改动文件：'), 'tableSchema.tsx (新增「负责人状态」搜索项) | TalentTreeList.tsx (:147-148 处理参数) | 后端 /crmV2/agentList (加 has_agent 参数)'
+/* ===== 需求2: 无负责人搜索 ===== */
+const Req2 = () =>
+  h(Fragment, null,
+    h('div', { className: 'goal-banner' },
+      h('div', { className: 'goal-label' }, '需求目标'),
+      h('div', { className: 'goal-title' }, '达人库列表支持搜索无负责人的数据'),
+      h('div', { className: 'goal-desc' },
+        '在达人库搜索区新增「负责人状态」筛选项（全部 / 有负责人 / 无负责人），方便定位无归属达人进行分配。',
+        h('br' ),
+        '改动文件：', h('code', null, 'TalentTree/tableSchema.tsx'), '（新增 search item） + ', h('code', null, 'TalentTreeList.tsx'), '（参数处理）'
+      ),
     ),
 
-    // 系统原有搜索栏
     h('div', { className: 'page-card' },
-      h('div', { className: 'card-head' },
-        h('span', { className: 'head-title' }, '达人库 - 搜索区'),
-        h('span', { className: 'change-badge' }, '新增')
-      ),
+      h('div', { className: 'card-head' }, h('span', { className: 'head-title' }, '达人库列表 · 搜索区')),
       h('div', { className: 'card-body' },
         h('div', { className: 'search-bar', style: { margin: '-24px -24px 0 -24px', borderBottom: '1px solid #f0f0f0' } },
-          // 达人ID搜索
+          // 仅保留负责人状态筛选
           h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
-            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '达人ID'),
-            h('span', { className: 'ant-input-affix-wrapper', style: { width: 160 } },
-              h('input', { className: 'ant-input', placeholder: '达人ID', style: { paddingLeft: 12 } }),
-            ),
-          ),
-          // 平台账号搜索
-          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
-            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '平台账号'),
-            h('span', { className: 'ant-input-affix-wrapper', style: { width: 160 } },
-              h('input', { className: 'ant-input', placeholder: '平台账号', style: { paddingLeft: 12 } }),
-            ),
-          ),
-          // 负责人搜索 (原有)
-          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
-            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '负责人'),
-            h('div', { className: 'dm-cascader', style: { width: 140 } }, '请选择负责人'),
-          ),
-          // ★ 新增：负责人状态
-          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
-            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } },
-              '负责人状态', h('span', { className: 'new-badge' }, 'NEW')
-            ),
+            h('span', { style: { fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' } }, '负责人状态'),
             h('div', { className: 'radio-group-custom' },
               h('span', { className: 'radio-btn active' }, '全部'),
               h('span', { className: 'radio-btn' }, '有负责人'),
               h('span', { className: 'radio-btn' }, '无负责人'),
             ),
+            h('span', { className: 'highlight-tag', style: { marginLeft: 8 } }, '新增'),
           ),
-          h('button', { className: 'ant-btn ant-btn-primary', style: { marginLeft: 8 } }, '搜索'),
-          h('button', { className: 'ant-btn', style: { marginLeft: 8 } }, '重置'),
+          h('button', { className: 'ant-btn ant-btn-primary' }, '搜索'),
+          h('button', { className: 'ant-btn' }, '重置'),
         ),
-
-        // 表格
         h('table', { className: 'mock-table', style: { marginTop: 16 } },
-          h('thead', null,
-            h('tr', null,
-              h('th', { style: { width: 32 } }, h('input', { type: 'checkbox' })),
-              h('th', null, '达人ID'),
-              h('th', null, '昵称'),
-              h('th', null, '平台'),
-              h('th', null, '粉丝数'),
-              h('th', { className: 'highlight-col' }, '负责人状态'),
-              h('th', null, '操作'),
-            ),
-          ),
+          h('thead', null, h('tr', null,
+            h('th', { style: { width: 32 } }, h('input', { type: 'checkbox' })),
+            h('th', null, '达人ID'),
+            h('th', null, '昵称'),
+            h('th', null, '平台'),
+            h('th', null, '粉丝数'),
+            h('th', null, '负责人'),
+            h('th', null, '操作'),
+          )),
           h('tbody', null,
             [
-              { id: 'TA1001', nick: 'fashion_queen', platform: 'Instagram', fans: '245K', owner: '张三', noOwner: false },
-              { id: 'TA1002', nick: 'tech_guru', platform: 'YouTube', fans: '1.2M', owner: null, noOwner: true },
-              { id: 'TA1003', nick: 'beauty_star', platform: 'TikTok', fans: '890K', owner: '李四', noOwner: false },
-              { id: 'TA1004', nick: 'travel_vlogger', platform: 'YouTube', fans: '560K', owner: null, noOwner: true },
-            ].map((row, i) =>
+              { id: 'TA1001', nick: 'fashion_queen', plat: 'Instagram', fans: '245K', owner: '张三' },
+              { id: 'TA1002', nick: 'tech_guru', plat: 'YouTube', fans: '1.2M', owner: null },
+              { id: 'TA1003', nick: 'beauty_star', plat: 'TikTok', fans: '890K', owner: '李四' },
+              { id: 'TA1004', nick: 'travel_vlogger', plat: 'YouTube', fans: '560K', owner: null },
+            ].map((r, i) =>
               h('tr', { key: i },
                 h('td', null, h('input', { type: 'checkbox' })),
-                h('td', null, row.id),
-                h('td', null, row.nick),
-                h('td', null, h('span', { className: `platform-tag ${row.platform === 'Instagram' ? 'ig' : row.platform === 'YouTube' ? 'yt' : 'tt'}` }, row.platform)),
-                h('td', null, row.fans),
-                h('td', { className: 'highlight-col' },
-                  row.noOwner
-                    ? h('span', { className: 'tag-custom red' }, '无负责人')
-                    : h('span', { className: 'tag-custom green' }, row.owner)
-                ),
+                h('td', null, r.id),
+                h('td', null, r.nick),
+                h('td', null, h('span', { className: `platform-tag ${r.plat==='Instagram'?'ig':r.plat==='YouTube'?'yt':'tt'}` }, r.plat)),
+                h('td', null, r.fans),
+                h('td', null, r.owner ? h('span', { className: 'tag-custom geekblue' }, r.owner) : h('span', { className: 'tag-custom red' }, '无负责人')),
                 h('td', null, h('a', { style: { marginRight: 8 } }, '编辑'), h('a', null, '交接')),
               )
             ),
@@ -491,291 +409,178 @@ function Requirement2() {
       ),
     ),
 
-    // 代码改动
-    h('div', { className: 'change-area' },
-      h('div', { className: 'change-title' }, '代码改动说明'),
-      h('div', { className: 'change-desc' },
-        '在 tableSchema.tsx 现有搜索项末尾新增「负责人状态」独立搜索项，使用 Radio.Group 组件。TalentTreeList.tsx 中处理 has_agent 参数传递。'
-      ),
+    h('div', { style: { background: '#f6f8fa', border: '1px solid #e8e8e8', borderRadius: 4, padding: 20 } },
+      h('div', { style: { fontWeight: 600, marginBottom: 12, fontSize: 14 } }, '代码改动'),
       h('div', { className: 'code-diff' },
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '1'), '// tableSchema.tsx :1008 后新增'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '{'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  title: "负责人状态",'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  hideInTable: true,'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  key: "agent_status",'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  registerToSearch: true,'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  renderFormItem: () => <Radio.Group>...<Radio value="">全部</Radio>...</Radio.Group>,'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  search: {'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    transform: (value) => {'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '      if (value === "none") return { agent_id: "", agent_type: undefined };'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '      if (value === "has") return { has_agent: "1" };'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '      return {};'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    },'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  },'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '};'),
-        h('div', {}, h('span', { className: 'line-num' }, '12'), ''),
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '13'), '// 后端 /crmV2/agentList 新增参数'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'has_agent=1  // 过滤有负责人'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'agent_id=""  // 空串过滤无负责人 (传递空字符串)'),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 1'), '// tableSchema.tsx 末尾新增搜索项'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '{ title:"负责人状态", key:"agent_status", hideInTable:true, registerToSearch:true,'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  renderFormItem:()=><Radio.Group><Radio value="">全部</Radio>...</Radio.Group>,'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  search:{ transform:(v)=>v==="none"?{agent_id:"",agent_type:undefined}:v==="has"?{has_agent:"1"}:{} }'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '}'),
+        h('div', {}, h('span', { className: 'line-num' }, ' 2'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 3'), '// TalentTreeList.tsx :147 参数处理'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'if (params.has_agent==="1") { /* 已有 */ }'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'else if (params.agent_id==="") { /* 无负责人 */ }'),
       ),
     ),
   );
-}
 
-// ===== 需求3: 跨系统交接 =====
-function Requirement3() {
-  const [showModal, setShowModal] = useState(false);
+/* ===== 需求3: 跨系统交接 ===== */
+const Req3 = () => {
+  const [show, setShow] = useState(false);
   return h(Fragment, null,
-
-    h('div', { className: 'alert-tip info', style: { marginBottom: 16 } },
-      h('strong', null, '涉及页面：'), '达人库、达人线索、社群库、网站媒体',
-      h('br' ),
-      h('strong', null, '改动文件：'), 'DistributeThreadModal.tsx (新增目标系统选择) | 后端 POST /crmV2/transferTalent (加 target_system)'
+    h('div', { className: 'goal-banner' },
+      h('div', { className: 'goal-label' }, '需求目标'),
+      h('div', { className: 'goal-title' }, '达人库/线索库/社群/网站媒体支持跨系统交接负责人'),
+      h('div', { className: 'goal-desc' },
+        '交接时选择目标系统（DM/KN/LKB），再选择该系统的负责人。交接功能已有，只需扩展目标系统选项。',
+        h('br' ),
+        '改动文件：', h('code', null, 'DistributeThreadModal.tsx'), '（新增 target_system） + 后端 ', h('code', null, '/crmV2/transferTalent'), '（扩展参数）'
+      ),
     ),
 
-    // 达人库列表 + 批量交接按钮
     h('div', { className: 'page-card' },
-      h('div', { className: 'card-head' },
-        h('span', { className: 'head-title' }, '达人库 - 批量操作区')
-      ),
+      h('div', { className: 'card-head' }, h('span', { className: 'head-title' }, '达人库 · 批量操作区')),
       h('div', { className: 'card-body' },
-        h('div', { style: { marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 } },
-          h('button', { className: 'ant-btn', disabled: true }, '批量更新达人信息'),
-          h('button', { className: 'ant-btn', disabled: true }, '导入交接数据'),
-          h('div', { className: 'ant-dropdown-trigger', style: { display: 'inline-flex', alignItems: 'center' } },
-            h('button', { className: 'ant-btn ant-btn-primary', onClick: () => setShowModal(true) },
-              '批量交接',
-              h('span', { style: { marginLeft: 6, fontSize: 11 } }, '▼')
-            ),
-          ),
+        h('div', { style: { marginBottom: 16, display: 'flex', gap: 12 } },
+          h('button', { className: 'ant-btn ant-btn-primary', onClick: () => setShow(true) }, '批量交接'),
         ),
-
-        // 操作说明
-        h('div', { style: { background: '#fafafa', border: '1px solid #f0f0f0', borderRadius: 4, padding: 16 } },
-          h('div', { style: { fontSize: 13, fontWeight: 600, marginBottom: 8 } }, '交接流程说明'),
-          h('div', { style: { fontSize: 13, lineHeight: 1.8, color: 'rgba(0,0,0,0.65)' } },
-            h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '步骤1'), '选择要交接的达人'),
-            h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '步骤2'), '点击"批量交接"'),
-            h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '步骤3'), '选择目标系统 + 目标负责人'),
-            h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '步骤4'), '确认交接'),
-          ),
+        h('div', { style: { background: '#fafafa', border: '1px solid #f0f0f0', borderRadius: 4, padding: 16, fontSize: 13, lineHeight: 1.8 } },
+          h('strong', null, '操作步骤：'),
+          h('div', { className: 'flex-center mt-8' }, h('span', { className: 'tag-custom geekblue' }, '1'), '勾选达人 → 点击"批量交接"'),
+          h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '2'), '选择目标系统（DM / KN / LKB）'),
+          h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '3'), '选择该系统的负责人'),
+          h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '4'), '确认交接'),
         ),
       ),
     ),
 
-    // 弹窗模拟
-    showModal && h('div', { className: 'modal-overlay', onClick: () => setShowModal(false) },
+    show && h('div', { className: 'modal-overlay', onClick: () => setShow(false) },
       h('div', { className: 'modal-box', onClick: e => e.stopPropagation() },
-        h('div', { className: 'modal-head' },
-          h('span', null, '批量交接'),
-          h('span', { style: { cursor: 'pointer' }, onClick: () => setShowModal(false) }, '✖')
-        ),
+        h('div', { className: 'modal-head' }, h('span', null, '批量交接'), h('span', { style: { cursor: 'pointer' }, onClick: () => setShow(false) }, '✖')),
         h('div', { className: 'modal-body' },
-          // 已选择达人(原有的)
           h('div', { className: 'form-item-row' },
             h('div', { className: 'form-label' }, '已选择达人'),
-            h('div', { className: 'form-control', style: { fontSize: 13 } },
-              'fashion_queen | 张三',
-              h('br' ),
-              'tech_guru | 李四',
-            ),
+            h('div', { className: 'form-control', style: { fontSize: 13 } }, 'fashion_queen | 张三', h('br'), 'tech_guru | 李四'),
           ),
-          // 目标负责人(原有的)
-          h('div', { className: 'form-item-row' },
-            h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '负责人'),
-            h('div', { className: 'form-control' },
-              h('div', { className: 'dm-cascader', style: { width: 300 } }, '请选择负责人'),
-            ),
-          ),
-          // ★ 新增：目标系统
+          // ★ 目标系统优先
           h('div', { className: 'form-item-row' },
             h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '目标系统'),
             h('div', { className: 'form-control' },
-              h('div', { className: 'radio-group-custom' },
-                h('span', { className: 'radio-btn active' }, 'DM（多麦联盟）'),
-                h('span', { className: 'radio-btn' }, 'KN（KreatorNow）'),
-                h('span', { className: 'radio-btn' }, 'LKB（Linkbest）'),
-                h('span', { style: { display: 'inline-block', marginLeft: 8 } },
-                  h('span', { className: 'new-badge' }, 'NEW')
+              h('div', { className: 'highlight-area', style: { padding: 12, display: 'inline-block' } },
+                h('div', { style: { position: 'absolute', top: -12, left: 12 } }, h('span', { className: 'highlight-tag' }, '新增')),
+                h('div', { className: 'radio-group-custom' },
+                  h('span', { className: 'radio-btn active' }, 'DM（多麦联盟）'),
+                  h('span', { className: 'radio-btn' }, 'KN（KreatorNow）'),
+                  h('span', { className: 'radio-btn' }, 'LKB（Linkbest）'),
                 ),
               ),
             ),
           ),
+          // 负责人（在目标系统之后）
+          h('div', { className: 'form-item-row' },
+            h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '负责人'),
+            h('div', { className: 'form-control' }, h('div', { className: 'dm-cascader', style: { width: 300 } }, '请选择该系统的负责人')),
+          ),
         ),
         h('div', { className: 'modal-foot' },
-          h('button', { className: 'ant-btn', onClick: () => setShowModal(false) }, '取消'),
-          h('button', { className: 'ant-btn ant-btn-primary', onClick: () => setShowModal(false) }, '确认交接'),
+          h('button', { className: 'ant-btn', onClick: () => setShow(false) }, '取消'),
+          h('button', { className: 'ant-btn ant-btn-primary', onClick: () => setShow(false) }, '确认交接'),
         ),
       ),
     ),
 
-    // 代码改动
-    h('div', { className: 'change-area' },
-      h('div', { className: 'change-title' }, '代码改动说明'),
-      h('div', { className: 'change-desc' },
-        'DistributeThreadModal.tsx 中新增 target_system 选择字段，提交参数增加 target_system。后端 /crmV2/transferTalent 根据 target_system 分发到不同系统的写入 API。'
-      ),
+    h('div', { style: { background: '#f6f8fa', border: '1px solid #e8e8e8', borderRadius: 4, padding: 20 } },
+      h('div', { style: { fontWeight: 600, marginBottom: 12, fontSize: 14 } }, '代码改动'),
       h('div', { className: 'code-diff' },
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '1'), '// DistributeThreadModal.tsx 新增'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'const TARGET_SYSTEMS = ['),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { value: "dm", label: "DM（多麦联盟）" },'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { value: "kn", label: "KN（KreatorNow）" },'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  { value: "lkb", label: "LKB（Linkbest）" },'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '];'),
-        h('div', {}, h('span', { className: 'line-num' }, '6'), ''),
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '7'), '// form 中新增'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '<Form.Item label="目标系统" name="target_system" rules={[{required:true}]}>'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  <Radio.Group options={TARGET_SYSTEMS} />'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '</Form.Item>'),
-        h('div', {}, h('span', { className: 'line-num' }, '11'), ''),
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '12'), '// 提交参数增加'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'target_system  // 新增字段'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'source_system: "talent_tree"  // 来源标识'),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 1'), '// DistributeThreadModal.tsx 新增目标系统常量'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'const TARGET_SYSTEMS = [{value:"dm",label:"DM（多麦联盟）"},{value:"kn",label:"KN（KreatorNow）"},{value:"lkb",label:"LKB（Linkbest）"}];'),
+        h('div', {}, h('span', { className: 'line-num' }, ' 2'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 3'), '// config 中 target_system 放在 agent_id 之前'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '{ name:"target_system", label:"目标系统", type:"radio", options: TARGET_SYSTEMS, required:true },'),
+        h('div', {}, h('span', { className: 'line-num' }, ' 4'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 5'), '// 提交参数增加'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'target_system, source_system: "talent_tree"'),
       ),
     ),
   );
-}
+};
 
-// ===== 需求4+6: 招募任务进度 =====
-const STATUS_MAP = [
-  { code: 10, label: '待初审', phase: '提报', pct: 10 },
-  { code: 12, label: '初审通过', phase: '提报', pct: 15 },
+/* ===== 需求4+6: 招募任务进度 ===== */
+const STATUSES = [
   { code: 20, label: '待提报审批', phase: '提报', pct: 20 },
-  { code: 22, label: '待报价', phase: '提报', pct: 25 },
-  { code: 30, label: '待报价审批', phase: '报价', pct: 35 },
-  { code: 32, label: '报价通过', phase: '报价', pct: 40 },
-  { code: 40, label: '待确认合作', phase: '确认合作', pct: 50 },
-  { code: 50, label: '待执行', phase: '执行', pct: 60 },
-  { code: 51, label: '执行中', phase: '执行', pct: 80 },
-  { code: 52, label: '已完结', phase: '完结', pct: 100 },
+  { code: 22, label: '待报价',      phase: '提报', pct: 25 },
+  { code: 30, label: '待报价审批',  phase: '报价', pct: 35 },
+  { code: 32, label: '报价通过',    phase: '报价', pct: 40 },
+  { code: 40, label: '待确认合作',  phase: '确认合作', pct: 50 },
+  { code: 50, label: '待执行',      phase: '执行', pct: 60 },
+  { code: 51, label: '执行中',      phase: '执行', pct: 80 },
+  { code: 52, label: '已完结',      phase: '完结', pct: 100 },
 ];
+const calcPct = c => { const s = STATUSES.find(s => s.code === c); return s ? s.pct : 0; };
+const pctColor = p => p >= 100 ? '#52c41a' : p >= 50 ? '#1890ff' : p > 0 ? '#faad14' : '#d9d9d9';
+const findStatus = c => STATUSES.find(s => s.code === c) || { label: '未知' };
 
-function calcPct(code) {
-  if (code >= 52) return 100;
-  if (code >= 51) return 80;
-  if (code >= 50) return 60;
-  if (code >= 40) return 50;
-  if (code >= 32) return 40;
-  if (code >= 30) return 35;
-  if (code >= 22) return 25;
-  if (code >= 20) return 20;
-  if (code >= 12) return 15;
-  if (code >= 10) return 10;
-  return 0;
-}
-
-const progressColor = (p) => p >= 100 ? '#52c41a' : p >= 50 ? '#1890ff' : p > 0 ? '#faad14' : '#d9d9d9';
-
-function RecruitTaskDemo() {
-  const tasks = [
-    { task_name: '618美妆达人招募', business_line_name: '美妆', submit_status: 52 },
-    { task_name: '夏季服饰推广', business_line_name: '服饰', submit_status: 30 },
-    { task_name: '新品牌种草计划', business_line_name: '快消', submit_status: 10 },
-  ];
-
-  return h(Fragment, null,
-    // 提报弹窗中的招募任务展示
-    h('div', { className: 'page-card' },
-      h('div', { className: 'card-head' },
-        h('span', { className: 'head-title' }, '我的达人库 - 提报弹窗（PutForwardModal）'),
-        h('span', { className: 'change-badge' }, '新增')
-      ),
-      h('div', { className: 'card-body' },
-        // 模拟Alert
-        h('div', { style: { background: '#fffbe6', border: '1px solid #ffe58f', borderRadius: 4, padding: 12, marginBottom: 16 } },
-          h('div', { className: 'flex-center', style: { marginBottom: 8 } },
-            h('span', { style: { color: '#faad14', fontWeight: 700 } }, '⚠'),
-            h('span', { style: { fontWeight: 600, fontSize: 13 } }, '该达人已有相关联的招募任务'),
-          ),
-          // 表格展示招募任务进度
-          h('table', { className: 'mock-table', style: { fontSize: 12 } },
-            h('thead', null,
-              h('tr', null,
-                h('th', null, '招募任务'),
-                h('th', null, '业务线'),
-                h('th', null, '合作状态/进度'),
-              ),
-            ),
-            h('tbody', null,
-              tasks.map((t, i) => {
-                const p = calcPct(t.submit_status);
-                const s = STATUS_MAP.find(s => s.code === t.submit_status) || { label: '未知', phase: '未知' };
-                return h('tr', { key: i },
-                  h('td', null, h('strong', null, t.task_name)),
-                  h('td', null, h('span', { className: 'tag-custom geekblue' }, t.business_line_name)),
-                  h('td', null,
-                    h('div', { className: 'progress-wrap' },
-                      h('div', { className: 'progress-bar' },
-                        h('div', { className: 'progress-fill', style: { width: p + '%', background: progressColor(p) } })
-                      ),
-                      h('span', { className: `tag-custom ${p >= 100 ? 'green' : p >= 50 ? 'geekblue' : p > 0 ? 'orange' : 'default'}`, style: { fontSize: 11 } }, s.label),
-                      h('span', { className: 'text-muted' }, p + '%'),
-                    ),
-                  ),
-                );
-              }),
-            ),
-          ),
-        ),
-
-        // 原有提报表单(简化示意)
-        h('div', { style: { borderTop: '1px dashed #f0f0f0', paddingTop: 16 } },
-          h('div', { className: 'form-item-row' },
-            h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '项目'),
-            h('div', { className: 'form-control' },
-              h('div', { className: 'dm-cascader', style: { width: 300 } }, '请选择项目'),
-            ),
-          ),
-        ),
+const Req4 = () =>
+  h(Fragment, null,
+    h('div', { className: 'goal-banner' },
+      h('div', { className: 'goal-label' }, '需求目标'),
+      h('div', { className: 'goal-title' }, '达人库列表透出招募任务进度'),
+      h('div', { className: 'goal-desc' },
+        '在达人库列表中新增「当前所在的招募任务」列，展示该达人参与的招募任务名称、业务线、当前状态及进度。',
+        h('br' ),
+        '改动文件：', h('code', null, 'TalentTree/tableSchema.tsx'), '（新增列） + ', h('code', null, 'TalentTreeList.tsx'), '（批量查询）'
       ),
     ),
 
-    // 达人库列表新增列
     h('div', { className: 'page-card' },
       h('div', { className: 'card-head' },
-        h('span', { className: 'head-title' }, '达人库列表 - 「招募任务」列'),
-        h('span', { className: 'change-badge' }, '新增')
+        h('span', { className: 'head-title' }, '达人库列表'),
+        h('span', { className: 'highlight-tag', style: { marginLeft: 12 } }, '新增列'),
       ),
       h('div', { className: 'card-body' },
         h('table', { className: 'mock-table' },
-          h('thead', null,
-            h('tr', null,
-              h('th', null, '达人昵称'),
-              h('th', null, '平台'),
-              h('th', null, '粉丝'),
-              h('th', { className: 'highlight-col', style: { width: 320 } }, '招募任务 ' + h('span', { className: 'new-badge' }, 'NEW')),
-              h('th', null, '操作'),
+          h('thead', null, h('tr', null,
+            h('th', null, '达人昵称'),
+            h('th', null, '平台'),
+            h('th', null, '粉丝数'),
+            h('th', { style: { width: 340, background: '#fffbe6' } },
+              '当前所在的招募任务 ',
+              h('span', { className: 'highlight-tag' }, '新增'),
             ),
-          ),
+            h('th', null, '负责人'),
+            h('th', null, '操作'),
+          )),
           h('tbody', null,
             [
-              { nick: 'fashion_queen', plat: 'Instagram', fans: '245K', tasks: [{ name: '618美妆达人招募', biz: '美妆', status: 52 }, { name: '夏季服饰推广', biz: '服饰', status: 30 }] },
-              { nick: 'tech_guru', plat: 'YouTube', fans: '1.2M', tasks: [{ name: '新品牌种草计划', biz: '快消', status: 10 }] },
-              { nick: 'beauty_star', plat: 'TikTok', fans: '890K', tasks: [] },
-            ].map((row, i) =>
+              { nick: 'beauty_diary', plat: 'Instagram', fans: '125K', tasks: [{ name: '618美妆达人招募', biz: '美妆', status: 52 }], owner: '张三' },
+              { nick: 'tech_review', plat: 'YouTube', fans: '2.3M', tasks: [{ name: '数码新品评测', biz: '3C', status: 30 }, { name: '618美妆达人招募', biz: '美妆', status: 10 }], owner: '李四' },
+            ].map((r, i) =>
               h('tr', { key: i },
-                h('td', null, row.nick),
-                h('td', null, h('span', { className: `platform-tag ${row.plat === 'Instagram' ? 'ig' : row.plat === 'YouTube' ? 'yt' : 'tt'}` }, row.plat)),
-                h('td', null, row.fans),
-                h('td', { className: 'highlight-col' },
-                  row.tasks.length === 0 ? h('span', { className: 'text-muted' }, '-') :
-                  row.tasks.map((t, j) => {
+                h('td', null, r.nick),
+                h('td', null, h('span', { className: `platform-tag ${r.plat==='Instagram'?'ig':'yt'}` }, r.plat)),
+                h('td', null, r.fans),
+                h('td', { style: { background: '#fffbe6' } },
+                  r.tasks.length === 0 ? h('span', { className: 'text-muted' }, '-') :
+                  r.tasks.map((t, j) => {
                     const p = calcPct(t.status);
-                    const s = STATUS_MAP.find(s => s.code === t.status) || {};
-                    return h('div', { key: j, style: { padding: '6px 0', borderBottom: j < row.tasks.length - 1 ? '1px dashed #f0f0f0' : 'none' } },
+                    const s = findStatus(t.status);
+                    return h('div', { key: j, style: { padding: '6px 0', borderBottom: j < r.tasks.length-1 ? '1px dashed #f0f0f0' : 'none' } },
                       h('div', { style: { fontWeight: 500, fontSize: 13, marginBottom: 4 } },
                         t.name,
                         h('span', { style: { marginLeft: 8, fontSize: 12, color: 'rgba(0,0,0,0.45)' } }, t.biz),
                       ),
                       h('div', { className: 'progress-wrap' },
                         h('div', { className: 'progress-bar', style: { width: 120 } },
-                          h('div', { className: 'progress-fill', style: { width: p + '%', background: progressColor(p) } })
+                          h('div', { className: 'progress-fill', style: { width: p+'%', background: pctColor(p) } }),
                         ),
-                        h('span', { className: `tag-custom ${p >= 100 ? 'green' : p >= 50 ? 'geekblue' : p > 0 ? 'orange' : 'default'}`, style: { fontSize: 11 } }, s.label || '未知'),
+                        h('span', { className: `tag-custom ${p>=100?'green':p>=50?'geekblue':'orange'}`, style: { fontSize: 11 } }, s.label),
+                        h('span', { className: 'text-muted' }, p+'%'),
                       ),
                     );
                   })
                 ),
+                h('td', null, r.owner ? h('span', { className: 'tag-custom geekblue' }, r.owner) : '-'),
                 h('td', null, h('a', null, '编辑')),
               )
             ),
@@ -784,24 +589,15 @@ function RecruitTaskDemo() {
       ),
     ),
 
-    // 状态流转表
     h('div', { className: 'page-card' },
-      h('div', { className: 'card-head' },
-        h('span', { className: 'head-title' }, '招募任务状态流转图')
-      ),
+      h('div', { className: 'card-head' }, h('span', { className: 'head-title' }, '招募任务状态 · 完整流转')),
       h('div', { className: 'card-body' },
         h('table', { className: 'url-pattern-table' },
-          h('thead', null,
-            h('tr', null,
-              h('th', null, '阶段'),
-              h('th', null, '状态码'),
-              h('th', null, '说明'),
-              h('th', null, '进度'),
-              h('th', null, '状态颜色'),
-            ),
-          ),
+          h('thead', null, h('tr', null,
+            h('th', null, '阶段'), h('th', null, '状态码'), h('th', null, '说明'), h('th', null, '进度'),
+          )),
           h('tbody', null,
-            STATUS_MAP.map(s =>
+            STATUSES.map(s =>
               h('tr', { key: s.code },
                 h('td', null, h('strong', { style: { fontSize: 11 } }, s.phase)),
                 h('td', null, h('code', null, s.code)),
@@ -809,75 +605,62 @@ function RecruitTaskDemo() {
                 h('td', null,
                   h('div', { className: 'progress-wrap' },
                     h('div', { className: 'progress-bar', style: { width: 80 } },
-                      h('div', { className: 'progress-fill', style: { width: s.pct + '%', background: progressColor(s.pct) } })
+                      h('div', { className: 'progress-fill', style: { width: s.pct+'%', background: pctColor(s.pct) } }),
                     ),
-                    h('span', { className: 'text-muted' }, s.pct + '%'),
+                    h('span', { className: 'text-muted' }, s.pct+'%'),
                   ),
                 ),
-                h('td', null, h('span', { style: { display: 'inline-block', width: 10, height: 10, borderRadius: '50%', background: progressColor(s.pct) } })),
               )
             ),
           ),
         ),
+        h('div', { className: 'text-muted', style: { marginTop: 12 } }),
       ),
     ),
 
-    // 代码改动
-    h('div', { className: 'change-area' },
-      h('div', { className: 'change-title' }, '代码改动说明'),
-      h('div', { className: 'change-desc' },
-        'PutForwardModal.tsx 打开时获取该达人关联的招募任务+业务线+合作状态，弹窗顶部新增 Alert 展示区域。',
-        h('br' ),
-        'TalentTree/tableSchema.tsx 和 ThreadedTree/tableSchema.tsx 新增「招募任务」列（hideInSearch: true, 仅展示）。',
-        h('br' ),
-        'TalentTreeList.tsx listRequest 中在 /crmV2/agentList 返回后，批量查询 /crmV2/batchRecruitmentTasks 补充 recruitment_tasks 数据。'
-      ),
+    h('div', { style: { background: '#f6f8fa', border: '1px solid #e8e8e8', borderRadius: 4, padding: 20 } },
+      h('div', { style: { fontWeight: 600, marginBottom: 12, fontSize: 14 } }, '代码改动'),
       h('div', { className: 'code-diff' },
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '1'), '// 后端新增接口'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'GET /crmV2/talentRecruitmentTaskStatus'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  params: raw_talent_id'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  return: [{task_name, business_line_name, submit_status}]'),
-        h('div', {}, h('span', { className: 'line-num' }, '5'), ''),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'GET /crmV2/batchRecruitmentTasks'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  params: talent_ids(逗号分隔), type(talent/clue)'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  return: Map<talent_id, Array<{task_name, business_line_name, submit_status}>>'),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 1'), '// tableSchema.tsx 新增列'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '{ title:"当前所在的招募任务", dataIndex:"recruitment_tasks", width:320, hideInSearch:true,'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  render:(_,r)=>r.recruitment_tasks?.map(t=>', h('span', { style: { color: 'rgba(0,0,0,0.45)' } }, '...进度条...'), ') || "-"'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '}'),
+        h('div', {}, h('span', { className: 'line-num' }, ' 2'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 3'), '// TalentTreeList.tsx listRequest 中批量查询'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'const taskRes = await request("/crmV2/batchRecruitmentTasks", { params: { talent_ids, type:"talent" } });'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '// 挂载到每条数据的 recruitment_tasks 上'),
       ),
     ),
   );
-}
 
-// ===== 需求7: 跟进人筛选 =====
-function Requirement7() {
-  return h(Fragment, null,
-
-    h('div', { className: 'alert-tip info', style: { marginBottom: 16 } },
-      h('strong', null, '涉及页面：'), '全部线索（ThreadedTree）',
-      h('br' ),
-      h('strong', null, '改动文件：'), 'ThreadedTree/tableSchema.tsx - schemaTableProps 中「跟进人」列（:692-697）加上 registerToSearch + renderFormItem + search.transform'
+/* ===== 需求7: 跟进人筛选 ===== */
+const Req7 = () =>
+  h(Fragment, null,
+    h('div', { className: 'goal-banner' },
+      h('div', { className: 'goal-label' }, '需求目标'),
+      h('div', { className: 'goal-title' }, '全部线索页面增加「跟进人」筛选项'),
+      h('div', { className: 'goal-desc' },
+        '全部线索搜索区新增「跟进人」筛选器，使用系统标准的 DmCascader 组件（同 ThreadedTreeColumns 中已有的配置），按组织架构选择跟进人。',
+        h('br' ),
+        '改动文件：', h('code', null), 'ThreadedTree/tableSchema.tsx', h('code', null), '（schemaTableProps 中补全 search 配置）'
+      ),
     ),
 
     h('div', { className: 'page-card' },
-      h('div', { className: 'card-head' },
-        h('span', { className: 'head-title' }, '全部线索 - 搜索区')
-      ),
+      h('div', { className: 'card-head' }, h('span', { className: 'head-title' }, '全部线索 · 搜索区')),
       h('div', { className: 'card-body' },
-        // 搜索栏
         h('div', { className: 'search-bar', style: { margin: '-24px -24px 0 -24px', borderBottom: '1px solid #f0f0f0' } },
           h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
-            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '线索ID'),
-            h('span', { className: 'ant-input-affix-wrapper', style: { width: 140 } },
-              h('input', { className: 'ant-input', placeholder: '线索ID', style: { paddingLeft: 12 } }),
-            ),
+            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap' } }, '线索ID'),
+            h('span', { className: 'ant-input-affix-wrapper', style: { width: 140 } }, h('input', { className: 'ant-input', placeholder: '线索ID' })),
           ),
           h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
-            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '平台'),
+            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap' } }, '平台'),
             h('div', { className: 'dm-cascader', style: { width: 120 } }, '请选择平台'),
           ),
-          // ★ 新增：跟进人
-          h('div', { style: { display: 'flex', alignItems: 'center', gap: 6 } },
-            h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } },
-              '跟进人', h('span', { className: 'new-badge' }, 'NEW')
-            ),
+          h('div', { className: 'highlight-area', style: { display: 'flex', alignItems: 'center', gap: 6, padding: 8 } },
+            h('div', { style: { position: 'absolute', top: -12, left: 12 } }, h('span', { className: 'highlight-tag' }, '新增')),
+            h('span', { style: { fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap' } }, '跟进人'),
             h('div', { className: 'dm-cascader', style: { width: 160 } },
               h('span', { style: { color: 'rgba(0,0,0,0.25)', fontSize: 13 } }, '请选择跟进人'),
               h('span', { style: { marginLeft: 'auto' } }, '▼'),
@@ -886,36 +669,23 @@ function Requirement7() {
           h('button', { className: 'ant-btn ant-btn-primary' }, '搜索'),
           h('button', { className: 'ant-btn' }, '重置'),
         ),
-
-        // 线索列表
         h('table', { className: 'mock-table', style: { marginTop: 16 } },
-          h('thead', null,
-            h('tr', null,
-              h('th', null, '线索ID'),
-              h('th', null, '昵称'),
-              h('th', null, '平台'),
-              h('th', null, '粉丝数'),
-              h('th', { className: 'highlight-col' }, '跟进人'),
-              h('th', null, '状态'),
-            ),
-          ),
+          h('thead', null, h('tr', null,
+            h('th', null, '线索ID'), h('th', null, '昵称'), h('th', null, '平台'),
+            h('th', { style: { background: '#fffbe6' } }, '跟进人'), h('th', null, '状态'),
+          )),
           h('tbody', null,
             [
-              { id: 'CL1001', nick: 'skincare_pro', plat: 'Instagram', fans: '125K', follower: '张三', status: '待跟进' },
-              { id: 'CL1002', nick: 'game_champion', plat: 'YouTube', fans: '5.2M', follower: '李四', status: '跟进中' },
-              { id: 'CL1003', nick: 'dance_star', plat: 'TikTok', fans: '2.1M', follower: null, status: '待跟进' },
-            ].map((row, i) =>
+              { id: 'CL1001', nick: 'skincare_pro', plat: 'Instagram', follower: '张三', status: '待跟进' },
+              { id: 'CL1002', nick: 'game_champion', plat: 'YouTube', follower: '李四', status: '跟进中' },
+              { id: 'CL1003', nick: 'dance_star', plat: 'TikTok', follower: null, status: '待跟进' },
+            ].map((r, i) =>
               h('tr', { key: i },
-                h('td', null, row.id),
-                h('td', null, row.nick),
-                h('td', null, h('span', { className: `platform-tag ${row.plat === 'Instagram' ? 'ig' : row.plat === 'YouTube' ? 'yt' : 'tt'}` }, row.plat)),
-                h('td', null, row.fans),
-                h('td', { className: 'highlight-col' },
-                  row.follower
-                    ? h('span', { className: 'tag-custom geekblue' }, row.follower)
-                    : h('span', { className: 'text-muted' }, '-'),
-                ),
-                h('td', null, row.status),
+                h('td', null, r.id),
+                h('td', null, r.nick),
+                h('td', null, h('span', { className: `platform-tag ${r.plat==='Instagram'?'ig':r.plat==='YouTube'?'yt':'tt'}` }, r.plat)),
+                h('td', { style: { background: '#fffbe6' } }, r.follower ? h('span', { className: 'tag-custom geekblue' }, r.follower) : h('span', { className: 'text-muted' }, '-')),
+                h('td', null, r.status),
               )
             ),
           ),
@@ -923,82 +693,44 @@ function Requirement7() {
       ),
     ),
 
-    // 代码改动
-    h('div', { className: 'change-area' },
-      h('div', { className: 'change-title' }, '代码改动说明'),
-      h('div', { className: 'change-desc' },
-        'ThreadedTree/tableSchema.tsx 的 schemaTableProps 中「跟进人」列目前只有 dataIndex，缺少 registerToSearch。',
-        h('br' ),
-        '复用 ThreadedTreeColumns（:326-360）中已有的 DmCascader 搜索配置，替换 schemaTableProps 中的列配置即可。',
-        h('br' ),
-        '后端无需改动，API /crmV2/list 已支持 follow_up_person_id 和 follow_up_person_type 参数。'
-      ),
+    h('div', { style: { background: '#f6f8fa', border: '1px solid #e8e8e8', borderRadius: 4, padding: 20 } },
+      h('div', { style: { fontWeight: 600, marginBottom: 12, fontSize: 14 } }, '代码改动'),
       h('div', { className: 'code-diff' },
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '1'), '// schemaTableProps 中 :692-697 原代码：'),
-        h('div', { className: 'diff-del' }, h('span', { className: 'line-num' }, '-'), '{ title: "跟进人", dataIndex: "follow_up_person_name", width: 100, key: "follow_up_person_name" }'),
-        h('div', {}, h('span', { className: 'line-num' }, '3'), ''),
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, '4'), '// 改为（复用 ThreadedTreeColumns 配置）：'),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 1'), '// ThreadedTree/tableSchema.tsx schemaTableProps 中 :692-697'),
+        h('div', { className: 'diff-del' }, h('span', { className: 'line-num' }, '-'), '{ title:"跟进人", dataIndex:"follow_up_person_name", width:100, key:"follow_up_person_name" }'),
+        h('div', {}, h('span', { className: 'line-num' }, ' 2'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 3'), '// 改为（复用 ThreadedTreeColumns 中的完整配置 :326-360）：'),
         h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '{'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  title: "跟进人", dataIndex: "follow_up_person_name", width: 100, key: "follow_up_person_name",'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  title:"跟进人", dataIndex:"follow_up_person_name", width:100, key:"follow_up_person_name",'),
         h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  registerToSearch: true,'),
         h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  renderFormItem: () => <DmCascader searchUrl="/department/medium" ... />,'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  search: {'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    transform: (value) => ({'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '      follow_up_person_id: value?.id,'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '      follow_up_person_type: value?.type,'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '    }),'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  },'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '};'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '  search: { transform: (v) => ({ follow_up_person_id: v?.id, follow_up_person_type: v?.type }) }'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '}'),
       ),
     ),
   );
-}
 
-// ============ App ============
+/* ===== App ===== */
 function App() {
-  const [activeReq, setActiveReq] = useState(1);
-
-  const content = {
-    1: h(Requirement1),
-    2: h(Requirement2),
-    3: h(Requirement3),
-    4: h(RecruitTaskDemo),
-    7: h(Requirement7),
-  };
+  const [tab, setTab] = useState(1);
+  const pages = { 1: h(Req1), 2: h(Req2), 3: h(Req3), 4: h(Req4), 7: h(Req7) };
 
   return h('div', { className: 'app-layout' },
-    // 顶部导航
     h('div', { className: 'top-nav' },
-      h('div', { className: 'logo-area' },
-        h('div', { className: 'logo-icon' }, 'M'),
-        h('span', { className: 'logo-text' }, '多麦营销系统'),
-      ),
-      h('div', { className: 'nav-menu' },
-        h('a', { className: 'nav-item active' }, '👥 达人管理'),
-        h('a', { className: 'nav-item' }, '📋 广告管理'),
-        h('a', { className: 'nav-item' }, '📊 数据报告'),
-      ),
+      h('div', { className: 'logo-area' }, h('div', { className: 'logo-icon' }, 'M'), h('span', { className: 'logo-text' }, '多麦营销系统')),
+      h('div', { className: 'nav-menu' }, h('a', { className: 'nav-item active' }, '👥 达人管理'), h('a', { className: 'nav-item' }, '📋 广告管理'), h('a', { className: 'nav-item' }, '📊 数据报告')),
     ),
-    // 主体
     h('div', { className: 'main-area' },
-      // 侧边栏
       h('div', { className: 'sidebar' },
         h('div', { className: 'sub-title' }, '达人管理'),
         h('a', { className: 'menu-item active', style: { cursor: 'default' } }, '🏷 达人库'),
         h('a', { className: 'menu-item', style: { cursor: 'default' } }, '🔍 全部线索'),
         h('a', { className: 'menu-item', style: { cursor: 'default' } }, '🌟 我的达人库'),
       ),
-      // 内容区
       h('div', { className: 'content-area' },
-        // 页面标题
-        h('div', { className: 'page-header' },
-          h('h2', null, '达人管理需求改动原型'),
-          h('div', { className: 'breadcrumb' }, '达人管理 / ', h('span', null, '需求改动方案')),
-        ),
-        // 需求切换 Tab
-        h(ReqTabs, { active: activeReq, onChange: setActiveReq }),
-        // 需求内容
-        content[activeReq] || h('div', null, '选中一个需求查看'),
+        h('div', { className: 'page-header' }, h('h2', null, '达人管理需求改动原型'), h('div', { className: 'breadcrumb' }, '达人管理 / ', h('span', null, '需求改动方案'))),
+        h(ReqTabs, { active: tab, onChange: setTab }),
+        pages[tab] || null,
       ),
     ),
   );
