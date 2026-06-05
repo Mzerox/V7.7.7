@@ -12,57 +12,12 @@
       background: #f0f2f5;
       color: rgba(0,0,0,0.85);
       font-size: 14px;
+      padding: 24px;
     }
-
-    /* ===== 顶部导航 ===== */
-    .top-nav {
-      height: 48px;
-      background: #fff;
-      border-bottom: 1px solid #f0f0f0;
-      display: flex;
-      align-items: center;
-      padding: 0 24px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-    }
-    .top-nav .logo-area { display: flex; align-items: center; gap: 10px; margin-right: 32px; }
-    .top-nav .logo-icon { width: 24px; height: 24px; background: #1890ff; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 700; }
-    .top-nav .logo-text { font-size: 16px; font-weight: 600; color: rgba(0,0,0,0.85); }
-    .top-nav .nav-menu { display: flex; gap: 0; flex: 1; }
-    .top-nav .nav-item {
-      padding: 14px 16px; font-size: 14px; color: rgba(0,0,0,0.65); cursor: pointer;
-      border-bottom: 2px solid transparent; text-decoration: none; white-space: nowrap;
-    }
-    .top-nav .nav-item:hover { color: #1890ff; }
-    .top-nav .nav-item.active { color: #1890ff; border-bottom-color: #1890ff; font-weight: 500; }
-
-    /* ===== 侧边栏 ===== */
-    .sidebar {
-      width: 232px;
-      background: #fff;
-      border-right: 1px solid #f0f0f0;
-      padding: 8px 0;
-      flex-shrink: 0;
-    }
-    .sidebar .sub-title { padding: 12px 16px 4px; font-size: 12px; color: rgba(0,0,0,0.45); font-weight: 500; }
-    .sidebar .menu-item {
-      display: flex; align-items: center; gap: 8px; padding: 8px 16px 8px 24px;
-      font-size: 14px; color: rgba(0,0,0,0.65); cursor: pointer; text-decoration: none;
-      border-right: 3px solid transparent;
-    }
-    .sidebar .menu-item:hover { color: #1890ff; background: #f5f5f5; }
-    .sidebar .menu-item.active { color: #1890ff; background: #e6f7ff; border-right-color: #1890ff; font-weight: 500; }
-
-    .app-layout { display: flex; flex-direction: column; min-height: 100vh; }
-    .main-area { display: flex; flex: 1; }
-    .content-area { flex: 1; padding: 24px; min-width: 0; overflow-x: auto; }
 
     .page-header { margin-bottom: 16px; }
     .page-header h2 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
     .page-header .breadcrumb { font-size: 13px; color: rgba(0,0,0,0.45); }
-    .page-header .breadcrumb span { color: rgba(0,0,0,0.65); }
 
     /* ===== 需求导航 ===== */
     .req-tabs {
@@ -792,24 +747,10 @@ function App() {
   const [tab, setTab] = useState(1);
   const pages = { 1: h(Req1), 2: h(Req2), 3: h(Req3), 4: h(Req4), 7: h(Req7) };
 
-  return h('div', { className: 'app-layout' },
-    h('div', { className: 'top-nav' },
-      h('div', { className: 'logo-area' }, h('div', { className: 'logo-icon' }, 'M'), h('span', { className: 'logo-text' }, '多麦营销系统')),
-      h('div', { className: 'nav-menu' }, h('a', { className: 'nav-item active' }, '👥 达人管理'), h('a', { className: 'nav-item' }, '📋 广告管理'), h('a', { className: 'nav-item' }, '📊 数据报告')),
-    ),
-    h('div', { className: 'main-area' },
-      h('div', { className: 'sidebar' },
-        h('div', { className: 'sub-title' }, '达人管理'),
-        h('a', { className: 'menu-item active', style: { cursor: 'default' } }, '🏷 达人库'),
-        h('a', { className: 'menu-item', style: { cursor: 'default' } }, '🔍 全部线索'),
-        h('a', { className: 'menu-item', style: { cursor: 'default' } }, '🌟 我的达人库'),
-      ),
-      h('div', { className: 'content-area' },
-        h('div', { className: 'page-header' }, h('h2', null, '达人管理需求改动原型'), h('div', { className: 'breadcrumb' }, '达人管理 / ', h('span', null, '需求改动方案'))),
-        h(ReqTabs, { active: tab, onChange: setTab }),
-        pages[tab] || null,
-      ),
-    ),
+  return h('div', { style: { padding: 24, maxWidth: 1000, margin: '0 auto' } },
+    h('div', { className: 'page-header' }, h('h2', null, '达人管理需求改动原型'), h('div', { className: 'breadcrumb' }, '需求改动方案')),
+    h(ReqTabs, { active: tab, onChange: setTab }),
+    pages[tab] || null,
   );
 }
 
