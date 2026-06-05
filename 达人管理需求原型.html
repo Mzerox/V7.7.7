@@ -254,8 +254,43 @@ const ReqTabs = ({ active, onChange }) =>
   );
 
 /* ===== 需求1: URL自动识别 ===== */
-const Req1 = () =>
-  h(Fragment, null,
+const Req1 = () => {
+  const [url, setUrl] = useState('');
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState('');
+
+  const parseUrl = (input) => {
+    setError('');
+    if (!input.trim()) { setResult(null); return; }
+    try {
+      const u = new URL(input);
+      const host = u.hostname.replace(/^www\./, '').toLowerCase();
+      const parts = u.pathname.replace(/\/$/, '').split('/').filter(Boolean);
+
+      if (host.includes('instagram.com') || host.includes('instagr.am')) {
+        if (parts[0] === 'reel' || parts[0] === 'p') return setResult({ platform: 'Instagram', code: 8, username: parts[1] || '-', url: `https://www.instagram.com/${parts[1]}/` });
+        return setResult({ platform: 'Instagram', code: 8, username: parts[0] || '-', url: `https://www.instagram.com/${parts[0]}/` });
+      }
+      if (host.includes('youtube.com') || host.includes('youtu.be')) {
+        if (host.includes('youtu.be')) return setResult({ platform: 'YouTube', code: 9, username: '@' + (parts[0] || ''), url: `https://www.youtube.com/@${parts[0]}` });
+        if (parts[0] === 'channel') return setResult({ platform: 'YouTube', code: 9, username: parts[1] || '', url: `https://www.youtube.com/channel/${parts[1]}` });
+        if (parts[0] === 'c') return setResult({ platform: 'YouTube', code: 9, username: parts[1] || '', url: `https://www.youtube.com/c/${parts[1]}` });
+        if (parts[0].startsWith('@')) return setResult({ platform: 'YouTube', code: 9, username: parts[0], url: `https://www.youtube.com/${parts[0]}` });
+        return setResult({ platform: 'YouTube', code: 9, username: parts[0] || '', url: `https://www.youtube.com/@${parts[0]}` });
+      }
+      if (host.includes('tiktok.com') || host.includes('douyin.com')) {
+        if (parts[0]?.startsWith('@')) return setResult({ platform: 'TikTok', code: 10, username: parts[0], url: `https://www.tiktok.com/${parts[0]}` });
+        return setResult({ platform: 'TikTok', code: 10, username: '@' + (parts[0] || ''), url: `https://www.tiktok.com/@${parts[0]}` });
+      }
+      setError('暂不支持此平台链接。当前支持：Instagram、YouTube、TikTok');
+      setResult(null);
+    } catch (e) {
+      setError('请输入有效的 URL 链接');
+      setResult(null);
+    }
+  };
+
+  return h(Fragment, null,
     h('div', { className: 'goal-banner' },
       h('div', { className: 'goal-label' }, '需求目标'),
       h('div', { className: 'goal-title' }, '入库时自动识别平台最简 URL 并解析（IG / YT / TT）'),
@@ -275,21 +310,35 @@ const Req1 = () =>
             h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), 'URL'),
             h('div', { className: 'form-control' },
               h('span', { className: 'ant-input-affix-wrapper' },
-                h('input', { className: 'ant-input', placeholder: '请粘贴达人主页链接（Instagram / YouTube / TikTok）', value: 'https://www.instagram.com/nike/' }),
+                h('input', {
+                  className: 'ant-input',
+                  placeholder: '请粘贴达人主页链接（Instagram / YouTube / TikTok）',
+                  value: url,
+                  onChange: e => { setUrl(e.target.value); parseUrl(e.target.value); },
+                }),
               ),
               h('div', { style: { marginTop: 8, display: 'flex', gap: 6, flexWrap: 'wrap' } },
                 PLATFORMS.map(p => h('span', { className: `platform-tag ${p.cls}`, key: p.name }, p.name)),
                 h('span', { className: 'text-muted', style: { lineHeight: '22px', marginLeft: 4 } }, 'URL 格式自动识别'),
               ),
-              h('div', { style: { marginTop: 12, background: '#f6ffed', border: '1px solid #b7eb8f', borderRadius: 4, padding: 12 } },
+              error && h('div', { style: { marginTop: 8, color: '#ff4d4f', fontSize: 13, padding: '6px 12px', background: '#fff2f0', borderRadius: 2 } }, error),
+              result && h('div', { style: { marginTop: 12, background: '#f6ffed', border: '1px solid #b7eb8f', borderRadius: 4, padding: 12 } },
                 h('div', { className: 'flex-center', style: { marginBottom: 6 } },
                   h('span', { style: { color: '#52c41a', fontWeight: 700 } }, '✓'),
                   h('span', { style: { fontWeight: 500 } }, '已识别：'),
-                  h('span', { className: 'platform-tag ig' }, 'Instagram'),
+                  h('span', { className: `platform-tag ${result.platform === 'Instagram' ? 'ig' : result.platform === 'YouTube' ? 'yt' : 'tt'}` }, result.platform),
                 ),
                 h('div', { style: { fontSize: 13, display: 'flex', gap: 24 } },
-                  h('span', null, h('span', { className: 'text-muted' }, '账号 '), h('strong', null, 'nike')),
-                  h('span', null, h('span', { className: 'text-muted' }, '标准化 '), h('code', { style: { color: '#1890ff' } }, 'https://www.instagram.com/nike/')),
+                  h('span', null, h('span', { className: 'text-muted' }, '账号 '), h('strong', null, result.username)),
+                  h('span', null, h('span', { className: 'text-muted' }, '标准化 '), h('code', { style: { color: '#1890ff' } }, result.url)),
+                ),
+              ),
+              h('div', { className: 'test-btns', style: { marginTop: 12, display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' } },
+                h('span', { className: 'text-muted', style: { fontSize: 12 } }, '快速测试：'),
+                ['https://www.instagram.com/nike/', 'https://youtu.be/dQw4w9WgXcQ', 'https://www.tiktok.com/@nike'].map(u =>
+                  h('button', { key: u, className: 'ant-btn ant-btn-sm', style: { fontSize: 11 }, onClick: () => { setUrl(u); parseUrl(u); } },
+                    u.split('//')[1].slice(0, 20) + '…'
+                  )
                 ),
               ),
             ),
@@ -346,6 +395,7 @@ const Req1 = () =>
       ),
     ),
   );
+};
 
 /* ===== 需求2: 无负责人搜索 ===== */
 const Req2 = () =>
@@ -381,12 +431,13 @@ const Req2 = () =>
             h('span', { style: { fontSize: 13, whiteSpace: 'nowrap', color: 'rgba(0,0,0,0.85)' } }, '负责人状态'),
             h('select', {
               style: { width: 140, height: 32, padding: '0 12px', borderRadius: 2, border: '1px solid #d9d9d9', outline: 'none', background: '#fff', fontSize: 13 },
-              value: '', onChange: () => {},
+              value: '',
             },
               h('option', { value: '' }, '全部'),
               h('option', { value: 'has' }, '有负责人'),
               h('option', { value: 'none' }, '无负责人'),
             ),
+            h('span', { className: 'text-muted', style: { fontSize: 12 } }, '默认"全部"，筛选后点击搜索生效'),
           ),
           // SchemaPage 统一渲染的搜索/重置按钮（右下角）
           h('div', { style: { position: 'absolute', bottom: 12, right: 16, display: 'flex', gap: 8 } },
