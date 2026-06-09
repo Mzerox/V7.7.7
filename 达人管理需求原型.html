@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>达人管理需求改动原型</title>
+  <title>后台管理V7.7.7版本改动原型</title>
   <link rel="stylesheet" href="antd.css" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1680,7 +1680,7 @@ function App() {
   const pages = { 0: h(Req0), 1: h(Req1), 2: h(Req2), 3: h(Req3), 4: h(Req4), 5: h(Req5), 7: h(Req7) };
 
   return h('div', { style: { padding: 24, maxWidth: 1200, margin: '0 auto' } },
-    h('div', { className: 'page-header' }, h('h2', null, '达人管理需求改动原型'), h('div', { className: 'breadcrumb' }, '需求改动方案')),
+    h('div', { className: 'page-header' }, h('h2', null, '后台管理V7.7.7版本改动原型'), h('div', { className: 'breadcrumb' }, '需求改动方案')),
     h(ReqTabs, { active: tab, onChange: setTab }),
     pages[tab] || null,
   );
