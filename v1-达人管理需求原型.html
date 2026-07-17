@@ -412,18 +412,18 @@ const ReqTabs = ({ active, onChange }) =>
 
 /* ===== 标注数据 ===== */
 const NOTES = {
-  'req1-1': { type:'event', title:'事件', text:'切换平台时自动清除已有识别结果，URL文本保留' },
-  'req1-2': { type:'event', title:'事件', text:'输入即识别（onChange触发），无需失焦操作' },
+  'req1-1': { type:'event', title:'事件', text:'失焦时生成建议格式URL展示在输入框下方，非直接加工解析' },
+  'req1-2': { type:'event', title:'事件', text:'点击「一键应用」→ 将建议格式URL回填至输入框 → 开始解析' },
   'req1-3': { type:'state', title:'状态', text:'API调用期间输入框禁用 + Spin加载，防止重复提交' },
   'req1-4': { type:'rule', title:'规则', text:'URL解析成功后自动填充平台字段 + 标准化链接' },
   'req1-5': { type:'state', title:'状态', text:'输入框为空时，不触发任何校验，不展示任何提示' },
-  'req1-6': { type:'permission', title:'权限', text:'所有有新建入口的用户可用，无特殊权限限制' },
-  'req1-c': { type:'rule', title:'规则', text:'④ URL解析成功后自动填充平台字段 + 标准化链接\n⑤ 输入框为空时，不触发任何校验，不展示任何提示\n⑥ 所有有新建入口的用户可用，无特殊权限限制' },
+  'req1-6': { type:'event', title:'事件', text:'点击「一键应用」→ 将建议格式URL回填至输入框并开始解析' },
+  'req1-c': { type:'rule', title:'规则', text:'④ 失焦生成建议格式URL展示在输入框下方\n⑤ 点击「一键应用」回填后开始解析\n⑥ 所有有新建入口的用户可用，无特殊权限限制' },
   'req2-1': { type:'event', title:'事件', text:'选择后不立即搜索，需点击「搜索」按钮生效（SchemaPage标准行为）' },
   'req2-2': { type:'rule', title:'规则', text:'默认「全部」，查询时不带has_agent参数' },
   'req2-3': { type:'event', title:'事件', text:'点击重置 → Select恢复「全部」，同时清空其他搜索条件' },
   'req2-4': { type:'permission', title:'权限', text:'所有达人库用户均可使用此筛选器' },
-  'req3-1': { type:'event', title:'事件', text:'切换目标系统 → 负责人Cascader联动加载对应系统负责人列表' },
+  'req3-1': { type:'rule', title:'规则', text:'跨系统交接需在目标系统操作：\n例：DM系统的达人交接给KN的媒介 → 在KN系统操作交接\n例：KN系统的达人交接给LKB的媒介 → 在LKB系统操作交接\n\n跨系统时默认交接至当前系统，无需选择目标系统选项' },
   'req3-2': { type:'event', title:'事件', text:'确认 → 按钮进入loading态 → 成功关闭弹窗+刷新列表 / 失败保留弹窗展示原因' },
   'req3-3': { type:'rule', title:'规则', text:'点击遮罩 / 取消按钮 / ✖ 均可关闭弹窗' },
   'req3-4': { type:'rule', title:'规则', text:'已选达人只读展示，不可在弹窗内修改勾选' },
@@ -539,7 +539,7 @@ const Req0 = () =>
         h('tr', null,
           h('td', null, h('span', { className: 'overview-tag', style: { fontSize: 11 } }, '需求3')),
           h('td', null, '达人库批量操作 → 交接'),
-          h('td', null, '交接弹窗新增「目标系统」选择（DM / KN / LKB）'),
+          h('td', null, '在目标系统操作交接，默认交接至当前系统，无需选目标系统'),
         ),
         h('tr', null,
           h('td', null, h('span', { className: 'overview-tag', style: { fontSize: 11 } }, '需求4+6')),
@@ -560,7 +560,7 @@ const Req0 = () =>
     ),
 
     h('div', { style: { marginTop: 8, marginBottom: 4, fontSize: 13, color: 'rgba(0,0,0,0.45)' } },
-      '需求5（达人入库5个月无合作自动掉公海）为后端定时任务，前后端配合完成。'
+      '需求5（达人近5个月无合作自动掉公海，国内平台不掉公海）为后端定时任务，前后端配合完成。'
     ),
 
     h('div', { className: 'overview-grid' },
@@ -585,7 +585,8 @@ const Req0 = () =>
             h('span', { className: 'overview-section-title' }, '核心改动'),
             h('ul', null,
               h('li', null, '新增 PLATFORM_URL_RULES 前端规则表（hostname 精确匹配 + paths 正则校验）'),
-              h('li', null, 'onBlurHandle 改为三级校验：URL 格式 → 平台识别 + 路径校验 → API 获取'),
+              h('li', null, 'URL输入后失焦 → 生成建议格式URL展示在输入框下方 +「一键应用」按钮'),
+              h('li', null, '点击「一键应用」→ 回填建议格式URL至输入框 → 开始解析（平台识别 + 路径校验 + API 获取）'),
               h('li', null, '4 类错误提示 + 平台冲突自动切换 + 识别成功反馈'),
             ),
           ),
@@ -657,7 +658,7 @@ const Req0 = () =>
         ),
         h('div', { className: 'overview-scenario' }, '达人库 · 社群库 · 线索库 → 批量操作 → 交接'),
         h('div', { className: 'overview-body' },
-          h('p', null, '交接弹窗新增「目标系统」选择（DM/KN/LKB），选完目标系统再选负责人。'),
+          h('p', null, '跨系统交接时需在目标系统操作（例如 DM→KN 需在 KN 系统操作），同系统交接沿用现有功能，无需修改弹窗。'),
           h('div', { className: 'review-note interact', style: { marginBottom: 12 } },
             h('span', { className: 'review-note-icon' }, 'i'),
             h('div', { className: 'review-note-content' },
@@ -669,28 +670,30 @@ const Req0 = () =>
           h('div', { className: 'overview-section' },
             h('span', { className: 'overview-section-title' }, '核心改动'),
             h('ul', null,
-              h('li', null, 'DistributeThreadModal 表单新增 target_system Radio'),
-              h('li', null, '提交参数增加 target_system、source_system'),
-              h('li', null, '交接记录入库以便追溯'),
+              h('li', null, '跨系统交接需在目标系统操作，前端无需修改 DistributeThreadModal'),
+              h('li', null, '后端增加 source_system 校验，确保操作人属于当前系统'),
+              h('li', null, '交接记录增加 source_system 字段'),
             ),
           ),
           h('div', { className: 'overview-section' },
             h('span', { className: 'overview-section-title' }, '改动文件'),
-            h('code', { className: 'overview-file' }, 'DistributeThreadModal.tsx'),
+            h('code', { className: 'overview-file' }, '无（前端无需修改）'),
           ),
           h('div', { className: 'overview-section' },
             h('span', { className: 'overview-section-title' }, '后端'),
-            h('span', { className: 'overview-text' }, 'POST /crmV2/transferTalent 新增 target_system'),
+            h('span', { className: 'overview-text' }, 'POST /crmV2/transferTalent 增加 source_system 权限校验'),
           ),
-          h('div', { className: 'review-note risk' },
+          h('div', { className: 'review-note warn' },
             h('span', { className: 'review-note-icon' }, '!'),
             h('div', { className: 'review-note-content' },
-              h('strong', null, '风险提示：跨系统事务一致性', ' ', h('span', { className: 'demo-marker' }, '原型演示')),
+              h('strong', null, '注意事项', ' ', h('span', { className: 'demo-marker' }, '原型演示')),
               h('ul', null,
-                h('li', null, '交接操作为「标记已交接 + 写入目标系统」两步，需保证事务性：目标系统写入失败时应回滚交接状态'),
-                h('li', null, '要求目标系统（KN/LKB）提供幂等 API，支持重复调用不产生重复数据'),
-                h('li', null, '建议记录完整的交接流水日志（', h('code', null, 'transfer_logs'), '），字段包括：source_system、target_system、talent_id、operator、result、error_msg'),
-                h('li', null, '需与 KN/LKB 方协调 API 对接排期，涉及跨团队联调'),
+                h('li', null, '跨系统交接时，操作人必须在目标系统操作，前端不做目标系统选项界面'),
+                h('li', null, '同系统交接完全沿用现有功能，无需修改 DistributeThreadModal.tsx'),
+                h('li', null, '后端需增加 source_system 校验，确保操作人属于当前系统'),
+              ),
+            ),
+          ),
               ),
             ),
           ),
@@ -848,9 +851,43 @@ const PLATFORM_URL_RULES = [
 const Req1 = () => {
   const [openNote, renderNotes] = useNoteOpener();
   const [url, setUrl] = useState('');
+  const [suggestion, setSuggestion] = useState(null); // { normalizedUrl }
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
   const [userPlatform, setUserPlatform] = useState('');
+
+  // 失焦时生成建议格式，不直接加工
+  const suggestUrlFormat = (input) => {
+    setSuggestion(null);
+    setResult(null);
+    setError('');
+    if (!input.trim()) return;
+
+    let u;
+    try {
+      u = new URL(input);
+    } catch (e) {
+      try {
+        u = new URL('https://' + input);
+      } catch (e2) {
+        setError({ type: 1, msg: 'URL 格式错误，请输入以 http:// 或 https:// 开头的链接' });
+        return;
+      }
+    }
+
+    const hostname = u.hostname.toLowerCase();
+    const pathname = u.pathname.replace(/\/$/, '') || '/';
+    const normalizedUrl = `https://${hostname}${pathname}`;
+    setSuggestion({ normalizedUrl });
+  };
+
+  // 一键应用：回填建议格式URL并开始解析
+  const applySuggestion = () => {
+    if (!suggestion) return;
+    setUrl(suggestion.normalizedUrl);
+    setSuggestion(null);
+    parseUrl(suggestion.normalizedUrl);
+  };
 
   const parseUrl = (input) => {
     setError('');
@@ -917,9 +954,11 @@ const Req1 = () => {
   return h(Fragment, null,
     h('div', { className: 'goal-banner' },
       h('div', { className: 'goal-label' }, '需求目标'),
-      h('div', { className: 'goal-title' }, '入库时自动识别平台最简 URL 并解析（IG / YT / TT）'),
+      h('div', { className: 'goal-title' }, '入库时URL粗加工处理，支持多平台识别（IG / YT / TT）'),
       h('div', { className: 'goal-desc' },
-        '用户在新建达人 / 新建线索时粘贴链接，系统前端先识别平台类型，再校验链接格式是否支持，最后调 API 获取详情。',
+        'URL输入后不再直接加工用户录入的URL，改为在输入框下方提示「建议格式」+ 标准化后的URL +「一键应用」。',
+        h('br' ),
+        '用户点击「一键应用」后将建议格式的URL回填至输入框并开始解析（粗加工 + 大数据引擎）。',
         h('br' ),
         '涉及页面：新建达人弹窗（', h('code', null, 'config.tsx'), '）、新建线索弹窗（', h('code', null, 'schema.tsx'), '）',
         h('br' ),
@@ -931,7 +970,7 @@ const Req1 = () => {
       h('div', { className: 'card-head' }, h('span', { className: 'head-title' }, '新建达人弹窗 · URL 输入区域（效果演示）')),
       h('div', { className: 'card-body' },
         h('div', { className: 'highlight-area', style: { padding: 20, maxWidth: 560 } },
-          h('div', { style: { position: 'absolute', top: -12, left: 16 } }, h('span', { className: 'highlight-tag' }, '三级校验：域名→路径→API')),
+          h('div', { style: { position: 'absolute', top: -12, left: 16 } }, h('span', { className: 'highlight-tag' }, '失焦提示建议格式 + 一键应用')),
           h('div', { className: 'form-item-row' },
             h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '平台'),
             h('div', { className: 'form-control' },
@@ -954,11 +993,23 @@ const Req1 = () => {
                       className: 'ant-input',
                       placeholder: '请粘贴达人主页或作品链接（Instagram / YouTube / TikTok）',
                       value: url,
-                      onChange: e => { setUrl(e.target.value); parseUrl(e.target.value); },
+                      onChange: e => { setUrl(e.target.value); setResult(null); setError(''); },
+                      onBlur: e => suggestUrlFormat(e.target.value),
                     }),
                     h('span', { className: 'ax-marker event', onClick: (e) => openNote('req1-2', e) }, '②'),
                   ),
               ),
+                // 建议格式提示 + 一键应用（新增）
+                suggestion && !result && !error && h('div', { style: { marginTop: 8, display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px', background: '#f0f5ff', borderRadius: 4, border: '1px solid #c6e2ff' } },
+                  h('span', { style: { fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap' } }, '建议格式：'),
+                  h('code', { style: { fontSize: 13, color: '#165dff', flex: 1, wordBreak: 'break-all' } }, suggestion.normalizedUrl),
+                  h('button', {
+                    className: 'ant-btn ant-btn-sm',
+                    style: { background: '#165dff', color: '#fff', border: 'none', padding: '3px 12px', borderRadius: 4, cursor: 'pointer', fontSize: 12, fontWeight: 500, whiteSpace: 'nowrap' },
+                    onClick: applySuggestion,
+                  }, '一键应用'),
+                  h('span', { className: 'ax-marker rule', onClick: (e) => openNote('req1-6', e) }, '⑥'),
+                ),
               // 错误提示（区分4类）
               error && error.type > 0 && h('div', {
                 style: {
@@ -1002,7 +1053,7 @@ const Req1 = () => {
                   { label: '不支持路径', url: 'https://www.instagram.com/explore/' },
                   { label: '不支持平台', url: 'https://www.facebook.com/test' },
                 ].map(t =>
-                  h('button', { key: t.label, className: 'ant-btn ant-btn-sm', style: { fontSize: 11 }, onClick: () => { setUrl(t.url); parseUrl(t.url); } }, t.label)
+                  h('button', { key: t.label, className: 'ant-btn ant-btn-sm', style: { fontSize: 11 }, onClick: () => { setUrl(t.url); setResult(null); setError(''); setSuggestion(null); setTimeout(() => suggestUrlFormat(t.url), 50); } }, t.label)
                 ),
               ),
             ),
@@ -1196,9 +1247,9 @@ const Req3 = () => {
       h('div', { className: 'goal-label' }, '需求目标'),
       h('div', { className: 'goal-title' }, '达人库/线索库/社群/网站媒体支持跨系统交接负责人'),
       h('div', { className: 'goal-desc' },
-        '交接时选择目标系统（DM/KN/LKB），再选择该系统的负责人。交接功能已有，只需扩展目标系统选项。',
+        '跨系统交接时，需在目标系统操作。例如 DM 的达人交接给 KN 的媒介 → 在 KN 系统操作。交接至本系统时沿用现有逻辑，无需选择目标系统选项。',
         h('br' ),
-        '改动文件：', h('code', null, 'DistributeThreadModal.tsx'), '（新增 target_system） + 后端 ', h('code', null, '/crmV2/transferTalent'), '（扩展参数）'
+        '改动文件：操作流程调整（在目标系统操作），后端 ', h('code', null, '/crmV2/transferTalent'), '（增加系统来源校验）'
       ),
     ),
 
@@ -1212,9 +1263,8 @@ const Req3 = () => {
         h('div', { style: { background: '#fafafa', border: '1px solid #f0f0f0', borderRadius: 4, padding: 16, fontSize: 13, lineHeight: 1.8 } },
           h('strong', null, '操作步骤：', ' ', h('span', { className: 'demo-marker' }, '原型演示')),
           h('div', { className: 'flex-center mt-8' }, h('span', { className: 'tag-custom geekblue' }, '1'), '勾选达人 → 点击"批量交接"'),
-          h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '2'), '选择目标系统（DM / KN / LKB）'),
-          h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '3'), '选择该系统的负责人'),
-          h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '4'), '确认交接'),
+          h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '2'), '选择负责人（默认交接至当前系统）'),
+          h('div', { className: 'flex-center' }, h('span', { className: 'tag-custom geekblue' }, '3'), '确认交接'),
           h('div', { className: 'flex-center', style: { marginTop: 8 } },
             h('span', { className: 'ax-marker state', onClick: (e) => openNote('req3-6', e) }, '⑥'),
             h('span', { style: { fontSize: 12, color: 'rgba(0,0,0,0.65)' } }, '交接后达人变为只可提报，不可操作其他功能'),
@@ -1233,22 +1283,7 @@ const Req3 = () => {
               h('span', { className: 'ax-marker rule', onClick: (e) => openNote('req3-4', e) }, '④'),
             ),
           ),
-          // ★ 目标系统优先
-          h('div', { className: 'form-item-row' },
-            h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '目标系统'),
-            h('div', { className: 'form-control' },
-              h('div', { className: 'highlight-area', style: { padding: 12, display: 'inline-block' } },
-                  h('span', { className: 'ax-marker event', onClick: (e) => openNote('req3-1', e) }, '①'),
-                h('div', { style: { position: 'absolute', top: -12, left: 12 } }, h('span', { className: 'highlight-tag' }, '新增')),
-                h('div', { className: 'radio-group-custom' },
-                  h('span', { className: 'radio-btn active' }, 'DM（多麦联盟）'),
-                  h('span', { className: 'radio-btn' }, 'KN（KreatorNow）'),
-                  h('span', { className: 'radio-btn' }, 'LKB（Linkbest）'),
-                ),
-              ),
-            ),
-          ),
-          // 负责人（在目标系统之后）
+          // 负责人
           h('div', { className: 'form-item-row' },
             h('div', { className: 'form-label' }, h('span', { className: 'required' }, '*'), '负责人'),
             h('div', { className: 'form-control' },
@@ -1271,28 +1306,28 @@ const Req3 = () => {
     ),
 
     h('div', { style: { background: '#f6f8fa', border: '1px solid #e8e8e8', borderRadius: 4, padding: 20 } },
-      h('div', { style: { fontWeight: 600, marginBottom: 12, fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 } }, '代码改动', h('span', { className: 'demo-marker' }, '原型演示')),
+      h('div', { style: { fontWeight: 600, marginBottom: 12, fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 } }, '注意事项', h('span', { className: 'demo-marker' }, '原型演示')),
       h('div', { className: 'code-diff' },
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 1'), '// DistributeThreadModal.tsx 新增目标系统常量'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'const TARGET_SYSTEMS = [{value:"dm",label:"DM（多麦联盟）"},{value:"kn",label:"KN（KreatorNow）"},{value:"lkb",label:"LKB（Linkbest）"}];'),
-        h('div', {}, h('span', { className: 'line-num' }, ' 2'), ''),
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 3'), '// config 中 target_system 放在 agent_id 之前'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '{ name:"target_system", label:"目标系统", type:"radio", options: TARGET_SYSTEMS, required:true },'),
-        h('div', {}, h('span', { className: 'line-num' }, ' 4'), ''),
-        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 5'), '// 提交参数增加'),
-        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), 'target_system, source_system: "talent_tree"'),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 1'), '// 跨系统交接：不需要修改前端弹窗'),
+        h('div', {}, h('span', { className: 'line-num' }, ' 2'), '// 交接逻辑说明：'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '同系统交接 → 沿用现有逻辑（DistributeThreadModal.tsx），负责人选择不变'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '跨系统交接 → 在目标系统操作，交接至本系统（不需要选择目标系统）'),
+        h('div', {}, h('span', { className: 'line-num' }, ' 3'), ''),
+        h('div', { className: 'diff-info' }, h('span', { className: 'line-num' }, ' 4'), '// 后端增加 source_system 校验'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '// /crmV2/transferTalent 增加 source_system 参数，'),
+        h('div', { className: 'diff-new' }, h('span', { className: 'line-num' }, '+'), '// 校验操作人是否属于当前系统，防止跨系统误操作'),
       ),
     ),
 
-    h('div', { className: 'review-note risk' },
+    h('div', { className: 'review-note warn' },
       h('span', { className: 'review-note-icon' }, '!'),
       h('div', { className: 'review-note-content' },
-        h('strong', null, '风险提示：跨系统事务一致性与联调依赖', ' ', h('span', { className: 'demo-marker' }, '原型演示')),
+        h('strong', null, '注意事项', ' ', h('span', { className: 'demo-marker' }, '原型演示')),
         h('ul', null,
-          h('li', null, '交接本质是「标记已交接 + 写入目标系统」两步操作，必须保证事务性：若目标系统写入失败，交接状态应回滚'),
-          h('li', null, '需与 KN/LKB 方确认 API 规范：要求目标系统提供幂等接口（', h('code', null, 'idempotent_key'), '），支持重复调用不产生重复数据'),
-          h('li', null, '建议新增 ', h('code', null, 'transfer_logs'), ' 表记录交接流水，字段：id, source_system, target_system, talent_id, operator_id, result(success/fail), error_msg, created_at，用于对账排查'),
-          h('li', null, '对接涉及跨团队协调（DM ↔ KN 团队、DM ↔ LKB 团队），需提前沟通排期和联调计划'),
+          h('li', null, '跨系统交接时，操作人必须在目标系统操作，前端不做「目标系统」选项界面'),
+          h('li', null, '同系统交接完全沿用现有功能，无需修改 DistributeThreadModal.tsx'),
+          h('li', null, '后端需增加 ', h('code', null, 'source_system'), ' 校验逻辑，确保操作人属于当前系统'),
+          h('li', null, '交接记录可复用现有交接日志表，增加 ', h('code', null, 'source_system'), ' 字段标识来源'),
         ),
       ),
     ),
